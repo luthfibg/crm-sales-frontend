@@ -1,0 +1,27 @@
+
+input[type="date"]::-webkit-datetime-edit-text-field:not([aria-valuenow]),
+input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]),
+input[type="date"]::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+input[type="date"]::-webkit-datetime-edit-year-field:not([aria-valuenow]) {
+    color: transparent !important;
+}
+
+
+.MuiFormControl-root.MuiContainer-maxWidthMd {
+    padding: 0px 2px !important;
+}
+
+.MuiTextField-root {
+    padding: 0px 0px !important;
+}
+
+/* .MuiBox-root div {
+    padding: 0px 0px !important;
+    
+} */
+
+@media (max-width: 799px) {
+    .MuiTextField-root {
+        width: 90ch;
+    }
+}

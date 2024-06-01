@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import darkTheme from './styles/darkTheme';
+import CssBaseline from '@mui/material/CssBaseline';
+import Dashboard from './pages/Dashboard';
+import AddContact from './pages/AddContact';
+import AddLead from './pages/AddLead';
+import UpdateContact from './pages/UpdateContact';
+import UpdateLead from './pages/UpdateLead';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Dashboard/>}/>
+          <Route path="/add_contact" element={<AddContact/>}/>
+          <Route path="/add_lead" element={<AddLead/>}/>
+          <Route path="/update_contact" element={<UpdateContact/>}/>
+          <Route path="/update_lead" element={<UpdateLead/>}/>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
