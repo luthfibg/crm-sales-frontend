@@ -5,6 +5,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/formCustom.css';
+import { BrowserRouter } from "react-router-dom";
 
 
 const AddContact = () => {
@@ -52,14 +53,16 @@ const AddContact = () => {
     const handleChange = (e) => {
         setContact((prev) => ({...prev, [e.target.name]: e.target.value}));
     };
+
     const handleOnclickSave = async e => {
-        e.preventDefault();
+        e.preventDefault()
         console.log('Contact data being sent:', contact); // logging passed
         try {
-            await axios.post("http://localhost:2999/data/contacts", contact);
-            navigate('/');    
+            await axios.post("http://localhost:2999/data/contacts", contact)
+            navigate('/');
         } catch (err) {
             console.log(err);
+            console.error(err.response.data)
         }
     };
 
@@ -119,6 +122,7 @@ const AddContact = () => {
                     label="Status Kontak"
                     name="status"
                     defaultValue="Masuk"
+                    inputProps={{ "data-testid": "status-input" }}
                     helperText="Pilih Status"
                     >
                     {status.map((option) => (
