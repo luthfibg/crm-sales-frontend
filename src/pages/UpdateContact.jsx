@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, FormControl, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import axios from "axios";
 import React from "react";
@@ -13,7 +13,7 @@ const UpdateContact = () => {
     const location = useLocation();
     const contactId = location.pathname.split('/')[2];
     console.log(contactId);
-    
+
     const [contacts, setContacts] = useState({
         person:"",
         person_address:"",
@@ -25,7 +25,7 @@ const UpdateContact = () => {
         phone:"",
         phone2:"",
         socmed_link:"",
-        status:"",
+        status: "Masuk" | "Follow Up" | "Menganggur" | "Gagal" | "Deal",
         descriptions:""
     });
 
@@ -77,7 +77,7 @@ const UpdateContact = () => {
         phone:"",
         phone2:"",
         socmed_link:"",
-        status:"",
+        status: 'Masuk' | 'Follow Up' | 'Menganggur' | 'Gagal' | 'Deal',
         descriptions:""
     });
 
@@ -106,47 +106,48 @@ const UpdateContact = () => {
         }}
         noValidate
         autoComplete="off">
-            <Typography sx={{ display:'flex', justifyContent:'center', mb:'2rem' }} variant="h5">Daftarkan Kontak Baru</Typography>
+            <Typography sx={{ display:'flex', justifyContent:'center', mb:'2rem' }} variant="h5">Update Kontak</Typography>
             <div>
                 <TextField onChange={handleChange} name="person"
-                id="outlined-required"
+                id="outlined-person"
                 label="Nama Customer"
                 defaultValue={contacts.person}
+                autoComplete="off"
                 />
                 <TextField onChange={handleChange} name="person_address"
-                id="outlined-disabled"
+                id="outlined-person-address"
                 label="Alamat"
                 type="text"
-                defaultChecked={contacts.person_address}
+                defaultValue={contacts.person_address}
+                autoComplete="off"
                 />
                 <TextField onChange={handleChange} name="institution"
-                id="outlined-password-input"
+                id="outlined-institution"
                 label="Nama Institusi"
                 type="text"
                 defaultValue={contacts.institution}
-                autoComplete="current-password"
                 />
                 <TextField onChange={handleChange} name="position"
-                id="outlined-position-input"
+                id="outlined-position"
                 label="Jabatan"
                 defaultValue={contacts.position}
                 />
                 <TextField onChange={handleChange} name="institution_address"
-                id="outlined-number"
+                id="outlined-institution-address"
                 label="Alamat Institusi"
                 type="text"
                 defaultValue={contacts.institution_address}
                 />
-                <TextField onChange={handleChange} name="email_address" id="outlined-email" label="Email" type="email" />
-                <TextField onChange={handleChange} name="email_address2" id="outlined-email2" label="Email 2" type="email" />
+                <TextField onChange={handleChange} name="email_address" id="outlined-email" defaultValue={contacts.email_address} label="Email" type="email" />
+                <TextField onChange={handleChange} name="email_address2" id="outlined-email2" defaultValue={contacts.email_address2} label="Email 2" type="email" />
                 <TextField onChange={handleChange} name="phone"
-                id="outlined-helperText"
+                id="outlined-phone"
                 label="Telepon"
                 defaultValue={contacts.phone}
                 helperText="Nomor Telepon Whatsapp"
                 />
                 <TextField onChange={handleChange} name="phone2"
-                id="outlined-helperText"
+                id="outlined-phone2"
                 label="Telepon 2"
                 defaultValue={contacts.phone2}
                 helperText="Nomor Telepon Alternatif"
@@ -155,9 +156,9 @@ const UpdateContact = () => {
                 <TextField
                     id="outlined-select-status"
                     select
-                    label="Status Kontak"
+                    label="Status"
                     name="status"
-                    defaultValue={contacts.status}
+                    defaultValue=""
                     inputProps={{ "data-testid": "status-input" }}
                     helperText="Pilih Status"
                     >
