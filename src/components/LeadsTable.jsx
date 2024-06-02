@@ -91,9 +91,12 @@ export default function LeadsTable() {
                 sx={{ textTransform: 'none' }}
                 variant="outlined"
                 disabled={rowSelectionModel.length !== 1}
-                onClick={handleEditClick}>
+                onClick={handleEditClick}
+                component={Link}
+                to={`/update_lead/${rowSelectionModel[0]}`}>
                 <EditIcon />&nbsp;
-                Edit Lead
+                <EditIcon />&nbsp;
+                Update Lead
             </Button>
             <Button
                 sx={{ textTransform: 'none' }}

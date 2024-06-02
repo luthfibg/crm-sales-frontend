@@ -17,8 +17,8 @@ function App() {
           <Route path="/" element={<Dashboard/>}/>
           <Route path="/add_contact" element={<AddContact/>}/>
           <Route path="/add_lead" element={<AddLead/>}/>
-          <Route path="/update_contact" element={<UpdateContact/>}/>
-          <Route path="/update_lead" element={<UpdateLead/>}/>
+          <Route path="/update_contact/:id" element={<UpdateContact/>}/>
+          <Route path="/update_lead/:id" element={<UpdateLead/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

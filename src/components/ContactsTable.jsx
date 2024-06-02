@@ -86,9 +86,11 @@ export default function ContactsTable() {
                 sx={{ textTransform: 'none' }}
                 variant="outlined"
                 disabled={rowSelectionModel.length !== 1}
-                onClick={handleEditClick}>
+                onClick={handleEditClick}
+                component={Link}
+                to={`/update_contact/${rowSelectionModel[0]}`}>
                 <EditIcon />&nbsp;
-                Edit Kontak
+                Update Kontak
             </Button>
             <Button
                 sx={{ textTransform: 'none' }}
