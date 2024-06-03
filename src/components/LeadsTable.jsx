@@ -6,8 +6,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, IconButton, Stack } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
+import darkTheme from '../styles/darkTheme';
 import '../styles/init.css';
 
 export default function LeadsTable() {
@@ -29,18 +30,18 @@ export default function LeadsTable() {
     }, []);
 
     const leadColumns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'invoice_date', headerName: 'Invoice', width: 130, editable: true },
-        { field: 'lead_title', headerName: 'Nama Lead', width: 150, editable: true },
-        { field: 'sales_name', headerName: 'Nama Sales', width: 150, editable: true },
-        { field: 'person', headerName: 'Pelanggan', width: 150 },
-        { field: 'institution', headerName: 'Institusi', width: 150 },
-        { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true },
-        { field: 'trade_value', headerName: 'Value', width: 100, editable: true },
-        { field: 'lead_stage', headerName: 'Tahap Lead', width: 150, editable: true },
-        { field: 'lead_status', headerName: 'Status Lead', width: 150, editable: true },
-        { field: 'notes', headerName: 'Catatan', width: 200, editable: true },
-        { field: 'deal_date', headerName: 'Tanggal Deal', width: 150, editable: true },
+        { field: 'id', headerName: 'ID', width: 70, headerClassName: 'super-app-theme--header' },
+        { field: 'invoice_date', headerName: 'Invoice', width: 130, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'lead_title', headerName: 'Nama Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'sales_name', headerName: 'Nama Sales', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'person', headerName: 'Pelanggan', width: 150, headerClassName: 'super-app-theme--header' },
+        { field: 'institution', headerName: 'Institusi', width: 150, headerClassName: 'super-app-theme--header' },
+        { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'trade_value', headerName: 'Value', width: 100, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'lead_stage', headerName: 'Tahap Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'lead_status', headerName: 'Status Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'deal_date', headerName: 'Tanggal Deal', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
     ];
 
     const handleEditClick = () => {
@@ -68,7 +69,13 @@ export default function LeadsTable() {
 
     return (
         <>
-        <Box sx={{ height: 400, width: '100%', mb: '2rem' }}>
+        <Box sx={{
+            height: 400,
+            width: '100%',
+            mb: '1rem',
+            '& .super-app-theme--header': {
+                backgroundColor: 'rgba(33, 45, 51, 1.0)',
+            }, }} bgcolor={darkTheme.palette.background.paper2}>
             <DataGrid
                 rows={leads.map((lead, index) => ({ id: index + 1, ...lead }))}
                 columns={leadColumns}
@@ -81,35 +88,53 @@ export default function LeadsTable() {
                 rowSelectionModel={rowSelectionModel}
             />
         </Box>
-        <Stack direction="row" spacing={2}>
-            <Button sx={{ textTransform: 'none' }} variant="outlined" component={Link} to="/add_lead">
-                <AddIcon />&nbsp;
-                Lead Baru
-            </Button>
+        <Stack 
+        direction="row"
+        width={'100%'}
+        spacing={2}
+        bgcolor={darkTheme.palette.background.paper2}
+        sx={{ 
+            justifyContent: 'flex-end',
+            p: '0.5rem',
+            borderRadius: '0.2rem',
+        }}>
+            <IconButton 
+            sx={{ textTransform: 'none' }} 
+            color='primary'
+            LinkComponent={Link}
+            to="/add_lead"
+            onClick={() => navigate('/add_lead')}
+            cursor={'pointer'}>
+                <AddIcon fontSize='small'/>
+            </IconButton>
             
-            <Button
-                sx={{ textTransform: 'none' }}
+            <IconButton
+                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                size='small'
                 variant="outlined"
                 disabled={rowSelectionModel.length !== 1}
+                color='primary'
+                LinkComponent={Link}
+                to={`/update_lead/${rowSelectionModel[0]}`}
                 onClick={handleEditClick}
-                component={Link}
-                to={`/update_lead/${rowSelectionModel[0]}`}>
-                <EditIcon />&nbsp;
-                Update Lead
-            </Button>
-            <Button
-                sx={{ textTransform: 'none' }}
+                cursor={'pointer'}>
+                <EditIcon fontSize='small'/>
+            </IconButton>
+            <IconButton
+                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                size='small'
                 variant="outlined"
                 color="error"
                 disabled={rowSelectionModel < 1}
                 onClick={handleDelete}>
-                <RemoveCircleOutlineIcon />&nbsp;
-                Hapus Lead
-            </Button>
-            <Button sx={{ textTransform: 'none' }} variant="outlined" href="#text-buttons">
-                <FormatListNumberedRtlOutlinedIcon />&nbsp;
-                Lihat Semua
-            </Button>
+                <RemoveCircleOutlineIcon fontSize='small'/>
+            </IconButton>
+            <IconButton
+            sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+            size='small'
+            color='primary'>
+                <FormatListNumberedRtlOutlinedIcon fontSize='small' />
+            </IconButton>
         </Stack>
         </>
     )

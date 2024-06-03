@@ -10,8 +10,6 @@ import { Box, IconButton, Stack } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/init.css';
 import darkTheme from '../styles/darkTheme';
-
-// custom datagrid header
   
 
 export default function ContactsTable() {
@@ -33,6 +31,7 @@ export default function ContactsTable() {
     }, []);
 
     const contactColumns = [
+        // with custom datagrid header
         { field: 'id', headerName: 'ID', width: 70 , headerClassName: 'super-app-theme--header'},
         { field: 'person', headerName: 'Nama', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'person_address', headerName: 'Alamat', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
@@ -131,16 +130,6 @@ export default function ContactsTable() {
             cursor={'pointer'}>
                 <RemoveCircleOutlineIcon fontSize='small'/>
             </IconButton>
-            {/* <Button
-                sx={{ textTransform: 'none' }}
-                variant="outlined"
-                color="error"
-                disabled={rowSelectionModel.length < 1}
-                onClick={handleDelete}>
-                <RemoveCircleOutlineIcon />&nbsp;
-                Hapus Kontak
-            </Button>
-            */}
             <IconButton
             sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
             size='small'
