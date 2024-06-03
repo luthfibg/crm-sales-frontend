@@ -50,8 +50,8 @@ const AddLead = () => {
         institution:"",
         descriptions:"",
         trade_value:null,
-        lead_stage:"",
-        lead_status:"",
+        lead_stage: leadStage[0].value,
+        lead_status: leadStatus[0].value,
         notes:"",
         deal_date:"",
     })

@@ -45,7 +45,7 @@ export default function LeadsTable() {
 
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
-            navigate(`/edit_contact/${rowSelectionModel[0]}`);
+            navigate(`/update_lead/${rowSelectionModel[0]}`);
         }
     };
 
@@ -94,7 +94,6 @@ export default function LeadsTable() {
                 onClick={handleEditClick}
                 component={Link}
                 to={`/update_lead/${rowSelectionModel[0]}`}>
-                <EditIcon />&nbsp;
                 <EditIcon />&nbsp;
                 Update Lead
             </Button>
