@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import axios from "axios";
 import React from "react";
@@ -89,7 +89,7 @@ const UpdateContact = () => {
         e.preventDefault()
         console.log('Contact data being sent:', contact); // logging passed
         try {
-            await axios.post(`http://localhost:2999/data/contacts/${contactId}`, contact)
+            await axios.put(`http://localhost:2999/data/contacts/${contactId}`, contact)
             navigate('/');
         } catch (err) {
             console.log(err);

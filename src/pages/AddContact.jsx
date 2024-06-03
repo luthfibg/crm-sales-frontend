@@ -45,7 +45,7 @@ const AddContact = () => {
         phone:"",
         phone2:"",
         socmed_link:"",
-        status:"",
+        status: status[0].value,
         descriptions:""
     });
 
@@ -57,11 +57,12 @@ const AddContact = () => {
         e.preventDefault()
         console.log('Contact data being sent:', contact); // logging passed
         try {
-            await axios.post("http://localhost:2999/data/contacts", contact)
+            await axios.post("http://localhost:2999/data/contacts", contact);
+            // alert("Contact created successfully!");
             navigate('/');
         } catch (err) {
             console.log(err);
-            console.error(err.response.data)
+            console.error(err.response.data);
         }
     };
 

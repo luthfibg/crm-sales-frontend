@@ -11,6 +11,7 @@ const config = {
   // Stop running tests after `n` failures
   bail: 1,
 
+
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "C:\\Users\\LENOVO\\AppData\\Local\\Temp\\jest",
 
@@ -195,4 +196,12 @@ const config = {
   // watchman: true,
 };
 
-module.exports = config;
+// module.exports = config;
+module.exports = {
+  ...config,
+  testEnvironmentOptions: {
+    ...config.testEnvironmentOptions,
+    url: "http://localhost:3000"
+  },
+  "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"]
+}

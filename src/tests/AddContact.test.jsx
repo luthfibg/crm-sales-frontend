@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom'; // assuming you're using react-router-dom
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
-import AddContact from '../pages/AddContact'; // replace with your actual path
+import AddContact from '../pages/AddContact'; // adjust the import path as needed
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -16,7 +16,7 @@ describe('AddContact', () => {
 
   beforeEach(() => {
     jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(mockedNavigate);
-    jest.spyOn(axios, 'post').mockResolvedValue();
+    axios.post.mockResolvedValue({});
   });
 
   afterEach(() => {
@@ -29,6 +29,8 @@ describe('AddContact', () => {
         <AddContact />
       </MemoryRouter>
     );
+
+    expect(screen.getByText('Daftarkan Kontak Baru')).toBeInTheDocument();
   });
 
   it('calls handleOnclickSave correctly', async () => {
@@ -38,60 +40,38 @@ describe('AddContact', () => {
       </MemoryRouter>
     );
 
-    const personNameInput = screen.getByLabelText('Nama Customer');
-    fireEvent.change(personNameInput, { target: { value: 'John Doe' } });
+    fireEvent.change(screen.getByLabelText('Nama Customer'), { target: { value: 'John Doe' } });
+    fireEvent.change(screen.getByLabelText('Alamat'), { target: { value: '123 Main St' } });
+    fireEvent.change(screen.getByLabelText('Nama Institusi'), { target: { value: 'Acme Corp' } });
+    fireEvent.change(screen.getByLabelText('Jabatan'), { target: { value: 'Manager' } });
+    fireEvent.change(screen.getByLabelText('Alamat Institusi'), { target: { value: '456 Oak St' } });
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'qYqgZ@example.com' } });
+    fireEvent.change(screen.getByLabelText('Email 2'), { target: { value: 'qYfgDfr@example.com' } });
+    fireEvent.change(screen.getByLabelText('Telepon'), { target: { value: '555-1234' } });
+    fireEvent.change(screen.getByLabelText('Telepon 2'), { target: { value: '768-1234' } });
+    fireEvent.change(screen.getByLabelText('Link Media Sosial'), { target: { value: '' } });
+    fireEvent.change(screen.getByTestId('status-input'), { target: { value: 'Follow Up' } });
+    fireEvent.change(screen.getByLabelText('Deskripsi'), { target: { value: 'Lorem ipsum dolor sit amet' } });
 
-    const personAddressInput = screen.getByLabelText('Alamat');
-    fireEvent.change(personAddressInput, { target: { value: '123 Main St' } });
+    fireEvent.click(screen.getByText('Simpan'));
 
-    const institutionInput = screen.getByLabelText('Nama Institusi');
-    fireEvent.change(institutionInput, { target: { value: 'Acme Corp' } });
-
-    const positionInput = screen.getByLabelText('Jabatan');
-    fireEvent.change(positionInput, { target: { value: 'Manager' } });
-
-    const institutionAddressInput = screen.getByLabelText('Alamat Institusi');
-    fireEvent.change(institutionAddressInput, { target: { value: '456 Oak St' } });
-
-    const emailInput = screen.getByLabelText('Email');
-    fireEvent.change(emailInput, { target: { value: 'qYqgZ@example.com' } });
-
-    const emailInput2 = screen.getByLabelText('Email 2');
-    fireEvent.change(emailInput2, { target: { value: 'qYfgDfr@example.com' } });
-
-    const phoneInput = screen.getByLabelText('Telepon');
-    fireEvent.change(phoneInput, { target: { value: '555-1234' } });
-
-    const phoneInput2 = screen.getByLabelText('Telepon 2');
-    fireEvent.change(phoneInput2, { target: { value: '768-1234' } });
-
-    const socmedLinkInput = screen.getByLabelText('Link Media Sosial');
-    fireEvent.change(socmedLinkInput, { target: { value: 'https://example.com' } });
-
-    const statusInput = screen.getByTestId('status-input');
-    fireEvent.change(statusInput, { target: { value: 'Follow Up' } });
-
-    const descriptionsInput = screen.getByLabelText('Deskripsi');
-    fireEvent.change(descriptionsInput, { target: { value: 'Lorem ipsum dolor sit amet' } });
-
-    const saveButton = screen.getByText('Simpan');
-    fireEvent.click(saveButton);
-
-    await screen.findByText('Some confirmation message'); // Adjust this to wait for some indication that the form submission was successful
-
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:2999/data/contacts', {
-      person: 'John Doe',
-      person_address: '123 Main St',
-      institution: 'Acme Corp',
-      position: 'Manager',
-      institution_address: '456 Oak St',
-      email_address: 'qYqgZ@example.com',
-      email_address2: 'qYfgDfr@example.com',
-      phone: '555-1234',
-      phone2: '768-1234',
-      socmed_link: 'https://example.com',
-      status: 'Follow Up',
-      descriptions: 'Lorem ipsum dolor sit amet'
+    await waitFor(() => {
+      expect(axios.post).toHaveBeenCalledWith('http://localhost:2999/data/contacts', {
+        person: 'John Doe',
+        person_address: '123 Main St',
+        institution: 'Acme Corp',
+        position: 'Manager',
+        institution_address: '456 Oak St',
+        email_address: 'qYqgZ@example.com',
+        email_address2: 'qYfgDfr@example.com',
+        phone: '555-1234',
+        phone2: '768-1234',
+        socmed_link: '',
+        status: 'Follow Up',
+        descriptions: 'Lorem ipsum dolor sit amet',
+      });
     });
+
+    expect(mockedNavigate).toHaveBeenCalledWith('/');
   });
 });
