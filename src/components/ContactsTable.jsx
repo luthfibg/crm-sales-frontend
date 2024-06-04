@@ -76,7 +76,9 @@ export default function ContactsTable() {
             mb: '1rem',
             '& .super-app-theme--header': {
                 backgroundColor: 'rgba(33, 45, 51, 1.0)',
-            }, }} bgcolor={darkTheme.palette.background.paper2}>
+            },
+             }}
+            bgcolor={darkTheme.palette.background.paper2}>
             <DataGrid
                 rows={contacts.map((contact, index) => ({ id: index + 1, ...contact }))}
                 columns={contactColumns}
@@ -92,7 +94,7 @@ export default function ContactsTable() {
         <Stack 
         direction="row"
         width={'100%'}
-        spacing={2}
+        spacing={0.5}
         bgcolor={darkTheme.palette.background.paper2}
         // boxShadow={'0 0.1rem 0.3rem 0 rgba(198, 48, 192, 0.3)'}
         sx={{ 

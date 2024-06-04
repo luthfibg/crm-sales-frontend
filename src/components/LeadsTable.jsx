@@ -91,7 +91,7 @@ export default function LeadsTable() {
         <Stack 
         direction="row"
         width={'100%'}
-        spacing={2}
+        spacing={0.5}
         bgcolor={darkTheme.palette.background.paper2}
         sx={{ 
             justifyContent: 'flex-end',
