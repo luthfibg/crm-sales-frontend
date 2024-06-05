@@ -121,6 +121,8 @@ const AddContact = () => {
                     select
                     label="Status Kontak"
                     name="status"
+                    value={contact.status}
+                    onChange={handleChange}
                     // defaultValue="Masuk"
                     inputProps={{ "data-testid": "status-input" }}
                     helperText="Pilih Status"

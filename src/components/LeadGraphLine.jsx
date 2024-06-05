@@ -12,7 +12,6 @@ export default function LeadGraphLine() {
                 justifyContent: "center",
                 alignItems: "center",
                 bgcolor: darkTheme.palette.background.paper,
-                mb: "1rem",
             }}
         >
             <Typography>Line Chart</Typography>

@@ -1,0 +1,71 @@
+[33mcommit 0d927b38d95321cf26deac3dcf7506a7e4a7fd85[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Wed Jun 5 09:23:32 2024 +0700
+
+    #11 fixing pagination number on contact & lead table
+
+[33mcommit 0608f0f3bb39f8440327ef01e6e2a4a8315fb7d0[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Tue Jun 4 15:52:05 2024 +0700
+
+    #10 update grid statistic for lead
+
+[33mcommit 86079ce52245591ac9fa459d1233182db3ad4ac8[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Tue Jun 4 14:40:26 2024 +0700
+
+    #9 update contact stats components
+
+[33mcommit f916f76613b73bfa8f9796dbc8bb9500bbb8a35d[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Tue Jun 4 09:57:57 2024 +0700
+
+    #8 update contact UI - add stats grid [undone]
+
+[33mcommit 2a4e7b869721d001fa2079f3efba863b092e8b76[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Mon Jun 3 17:22:03 2024 +0700
+
+    #7 styling lead table
+
+[33mcommit e028ae4d79e7662ed98d17e3aee4eb98f9a0fd35[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Mon Jun 3 17:00:19 2024 +0700
+
+    #6 styling contact table
+
+[33mcommit 9205410800f1fbf37fb105b9ad43505f9647d4cb[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Mon Jun 3 14:12:20 2024 +0700
+
+    #5 fixed post request -> contacts [done]
+
+[33mcommit a844196ae3821cd7ae8d22afd92f327726169197[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Sun Jun 2 12:20:08 2024 +0700
+
+    #4 fixing update contact form [undone]
+
+[33mcommit c46baaf0e2bd1a1f8fefa6297a21ffab7ec19e65[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Sun Jun 2 11:35:06 2024 +0700
+
+    #3 navigate update button to update page based id
+
+[33mcommit fddcae5bd8afcbf30e293e418dbfe809e0d78346[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Sun Jun 2 09:42:19 2024 +0700
+
+    2# setup jest test
+
+[33mcommit 78698e506c06f6f9b6f56a153812eaa5bbd4142d[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Sat Jun 1 11:54:49 2024 +0700
+
+    1# First upload frontend module
+
+[33mcommit 2eb731b53525262fd115b16afdd8d4d14bf729f6[m
+Author: luthfibg <luthfinewzoneonline@gmail.com>
+Date:   Wed May 29 15:04:04 2024 +0700
+
+    Initialize project using Create React App
