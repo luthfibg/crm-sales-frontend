@@ -2,6 +2,8 @@ import { Box, IconButton, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 import darkTheme from '../styles/darkTheme';
 import ReplayIcon from '@mui/icons-material/Replay';
+import ContactStatLeftTable from "./ContactStatLeftTable";
+
 
 export default function ContactStatLeft() {
     return (
@@ -33,7 +35,8 @@ export default function ContactStatLeft() {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                <Typography>Leading List Table</Typography>
+                {/* <Typography>Leading List Table</Typography> */}
+                <ContactStatLeftTable/>
             </Paper>
             </>
         </Box>
