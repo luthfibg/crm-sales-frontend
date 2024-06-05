@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import darkTheme from "../styles/darkTheme";
 
 export default function LeadGraphSub() {

@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridPagination } from '@mui/x-data-grid';
 import { Box, IconButton, Stack } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/init.css';
@@ -15,6 +15,7 @@ import darkTheme from '../styles/darkTheme';
 export default function ContactsTable() {
     const [contacts, setContacts] = useState([]);
     const [rowSelectionModel, setRowSelectionModel] = useState([]);
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -67,6 +68,9 @@ export default function ContactsTable() {
         }
     };
     
+    const handlePaginationModelChange = (newPaginationModel) => {
+        setPaginationModel(newPaginationModel);
+    };
 
     return (
         <>
@@ -82,8 +86,11 @@ export default function ContactsTable() {
             <DataGrid
                 rows={contacts.map((contact, index) => ({ id: index + 1, ...contact }))}
                 columns={contactColumns}
-                pageSize={5}
-                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                pagination
+                initialState={{ pagination: { paginationModel: { pageSize: 5 } } }}
+                paginationModel={paginationModel}
+                onPaginationModelChange={handlePaginationModelChange}
+                pageSizeOptions={[ 5, 10, 50 ]}
                 checkboxSelection
                 onRowSelectionModelChange={(newRowSelectionModel) => {
                     setRowSelectionModel(newRowSelectionModel);

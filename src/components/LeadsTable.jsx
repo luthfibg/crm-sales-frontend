@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Button, IconButton, Stack } from '@mui/material';
+import { Box, IconButton, Stack } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import darkTheme from '../styles/darkTheme';
 import '../styles/init.css';
@@ -14,6 +14,7 @@ import '../styles/init.css';
 export default function LeadsTable() {
     const [leads, setLeads] = useState([]);
     const [rowSelectionModel, setRowSelectionModel] = useState([]);
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -67,6 +68,10 @@ export default function LeadsTable() {
         }
     };
 
+    const handlePaginationModelChange = (newPaginationModel) => {
+        setPaginationModel(newPaginationModel);
+    };
+
     return (
         <>
         <Box sx={{
@@ -79,8 +84,10 @@ export default function LeadsTable() {
             <DataGrid
                 rows={leads.map((lead, index) => ({ id: index + 1, ...lead }))}
                 columns={leadColumns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
+                pagination
+                paginationModel={paginationModel}
+                onPaginationModelChange={handlePaginationModelChange}
+                pageSizeOptions={[5, 10, 25, 50, 100]}
                 checkboxSelection
                 onRowSelectionModelChange={(newRowSelectionModel) => {
                     setRowSelectionModel(newRowSelectionModel);

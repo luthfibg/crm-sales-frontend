@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import React from "react";
 import darkTheme from "../styles/darkTheme";
 
