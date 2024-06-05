@@ -1,7 +1,7 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/formCustom.css';
@@ -42,6 +42,7 @@ const leadStatus = [
 
 const AddLead = () => {
 
+    const [contact, setContact] = useState([]);
     const [lead, setLead] = useState({
         invoice_date:"",
         lead_title:"",
@@ -54,13 +55,25 @@ const AddLead = () => {
         lead_status: leadStatus[0].value,
         notes:"",
         deal_date:"",
-    })
+    });
+
+    useEffect(() => {
+        const fetchContacts = async () => {
+            try {
+                const res = await axios.get('http://localhost:2999/data/contacts');
+                setContact(res.data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchContacts();
+    }, []);
 
     const navigate = useNavigate();
     const handleChange = (e) => {
         setLead((prev) => ({...prev, [e.target.name]: e.target.value}));
     }
-    console.log(lead);
+
     const handleOnclickSave = async e => {
         e.preventDefault();
         try {
@@ -98,15 +111,34 @@ const AddLead = () => {
                 label="Nama Sales"
                 type="text"
                 />
-                <TextField onChange={handleChange} name="person"
+                <TextField
+                select
+                onChange={handleChange}
+                name="person"
                 id="outlined-person"
                 label="Nama Customer"
-                />
-                <TextField onChange={handleChange} name="institution"
+                value={lead.person}
+            >
+                {contact.map((contact) => (
+                    <MenuItem key={contact.id} value={contact.person}>
+                        {contact.person}
+                    </MenuItem>
+                ))}
+                </TextField>
+                <TextField
+                select
+                onChange={handleChange}
+                name="institution"
                 id="outlined-institution"
                 label="Nama Institusi"
-                type="text"
-                />
+                value={lead.institution}
+            >
+                {contact.map((contact) => (
+                    <MenuItem key={contact.id} value={contact.institution}>
+                        {contact.institution}
+                    </MenuItem>
+                ))}
+                </TextField>
                 <TextField onChange={handleChange} name="descriptions"
                 id="outlined-multiline-static"
                 label="Keterangan"
@@ -118,6 +150,8 @@ const AddLead = () => {
                 <TextField
                     id="outlined-select-lead-stage"
                     select
+                    value={lead.lead_stage}
+                    onChange={handleChange}
                     label="Tahap Lead"
                     defaultValue="Baru"
                     helperText="Pilih Tahap Lead"
@@ -132,6 +166,8 @@ const AddLead = () => {
                 <TextField
                     id="outlined-select-lead-status"
                     select
+                    value={lead.lead_status}
+                    onChange={handleChange}
                     label="Status Lead"
                     defaultValue="Unqualified"
                     helperText="Pilih Status Lead"
