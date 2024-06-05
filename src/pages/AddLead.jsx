@@ -7,10 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import '../styles/formCustom.css';
 
 const leadStage = [
-    {
-        value:'Baru',
-        label:'Baru'
-    },
+    { value:'Baru', label:'Baru'},
     {
         value:'Bekerja',
         label:'Bekerja'
@@ -48,7 +45,7 @@ const AddLead = () => {
         lead_title:"",
         sales_name:"",
         person:"",
-        institution:"",
+        institution:'PT. JSRS',
         descriptions:"",
         trade_value:null,
         lead_stage: leadStage[0].value,
@@ -71,7 +68,15 @@ const AddLead = () => {
 
     const navigate = useNavigate();
     const handleChange = (e) => {
+        const { name, value } = e.target;
         setLead((prev) => ({...prev, [e.target.name]: e.target.value}));
+
+        if (name === 'person') {
+            const selectedContact = contact.find(contact => contact.person === value);
+            if (selectedContact) {
+                setLead((prev) => ({ ...prev, institution: selectedContact.institution }));
+            }
+        }
     }
 
     const handleOnclickSave = async e => {
@@ -126,19 +131,14 @@ const AddLead = () => {
                 ))}
                 </TextField>
                 <TextField
-                select
-                onChange={handleChange}
-                name="institution"
-                id="outlined-institution"
+                id="outlined-select-institution"
                 label="Nama Institusi"
+                name="institution"
                 value={lead.institution}
-            >
-                {contact.map((contact) => (
-                    <MenuItem key={contact.id} value={contact.institution}>
-                        {contact.institution}
-                    </MenuItem>
-                ))}
-                </TextField>
+                onChange={handleChange}
+                helperText="Nama Institusi akan otomatis terisi"
+                disabled
+                />
                 <TextField onChange={handleChange} name="descriptions"
                 id="outlined-multiline-static"
                 label="Keterangan"
