@@ -83,18 +83,18 @@ export default function ContactStatRight() {
                 <Stack spacing={1} direction={"row"} width={'100%'}>
                     <Typography width={'40%'} textAlign={'center'}>Horizontal Statistical Lines</Typography>
                     <Divider variant="middle" orientation="vertical" flexItem/>
-                    <PieChart width={260} height={200}>
+                    <PieChart width={350} height={200}>
                         <Pie
                             data={getStatusCount()}
-                            cx={140}
-                            cy={110}
+                            cx={170}
+                            cy={100}
                             innerRadius={50}
                             outerRadius={70}
                             fill="#8884d8"
                             paddingAngle={5}
                             dataKey="value"
-                            legendType="circle"
-                            // label={({ name, value }) => `${name}: ${value}`}
+                            // legendType="circle"
+                            label={({ name, value }) => `${name}: ${value}`}
                             >
                             {
                                 getStatusCount().map((entry, index) => (
@@ -103,7 +103,7 @@ export default function ContactStatRight() {
                             }
                         </Pie>
                         <Tooltip />
-                        <Legend content={<CustomLegend />} />
+                        {/* <Legend /> */}
                     </PieChart>
                 </Stack>
             </Paper>
