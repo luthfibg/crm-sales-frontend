@@ -32,6 +32,7 @@ export default function ContactStatLeft() {
                     width: '100%',
                     height: '17rem',
                     display: 'flex',
+                    flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
