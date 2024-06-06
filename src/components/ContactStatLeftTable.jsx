@@ -3,46 +3,19 @@ import axios from 'axios';
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 
 const columns = [
-<<<<<<< HEAD
     { id: 'person', label: 'Name', minWidth: 170 },
     { id: 'institution', label: 'Institusi', minWidth: 170 },
     { id: 'position',label: 'Posisi', minWidth: 170 },
     { id: 'trade_value',
       label: 'Nilai Trading',
-=======
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-    {
-      id: 'population',
-      label: 'Population',
->>>>>>> 5a3b8324a91cc5bf1a2bddb3c9fbfb20c827e6a2
       minWidth: 170,
       align: 'right',
       format: (value) => value.toLocaleString('en-US'),
     },
-<<<<<<< HEAD
     { id: 'lead_stage', label: 'Tahap', minWidth: 170 },
     { id: 'lead_status', label: 'Status', minWidth: 170 },
   ];
     
-=======
-    {
-      id: 'size',
-      label: 'Size\u00a0(km\u00b2)',
-      minWidth: 170,
-      align: 'right',
-      format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-      id: 'density',
-      label: 'Density',
-      minWidth: 170,
-      align: 'right',
-      format: (value) => value.toFixed(2),
-    },
-  ];
-  
->>>>>>> 5a3b8324a91cc5bf1a2bddb3c9fbfb20c827e6a2
 export default function ContactStatLeftTable() {
 
   const [page, setPage] = useState(0);
@@ -100,7 +73,7 @@ export default function ContactStatLeftTable() {
       '&::-webkit-scrollbar':{
           width:0,
       }
-    }, }} >
+    },}} >
       <TableHead>
         <TableRow>
           {columns.map((column) => (
