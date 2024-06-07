@@ -21,9 +21,9 @@ export default function Dashboard() {
                         marginY: '0.5rem',
                         marginLeft:'1rem',
                         fontSize:'1.3rem',
-                        color: darkTheme.palette.primary,
+                        color: darkTheme.palette.text.disabled,
                         '@media (min-width: 1200px)': { 
-                            fontSize: '1.1rem'
+                            fontSize: '1rem'
                         }
                     }}>
                         Personal Statistik
@@ -34,9 +34,9 @@ export default function Dashboard() {
                     <Typography sx={{ 
                         marginY: '0.5rem', 
                         fontSize:'1.3rem', 
-                        color: darkTheme.palette.primary,
+                        color: darkTheme.palette.text.disabled,
                         '@media (min-width: 1200px)': { 
-                            fontSize: '1.1rem'
+                            fontSize: '1rem'
                         }
                     }}>
                         Daftar Kontak
@@ -48,9 +48,9 @@ export default function Dashboard() {
                     <Typography sx={{ 
                         marginY: '0.5rem',
                         fontSize:'1.3rem',
-                        color: darkTheme.palette.primary,
+                        color: darkTheme.palette.text.disabled,
                         '@media (min-width: 1200px)': { 
-                            fontSize: '1.1rem'
+                            fontSize: '1rem'
                     }
                 }}>
                         Daftar Lead

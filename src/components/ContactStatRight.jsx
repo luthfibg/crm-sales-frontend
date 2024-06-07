@@ -112,7 +112,7 @@ export default function ContactStatRight() {
         }}>
             <>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingY:'0.5rem' }}>
-                <Typography sx={{ marginLeft:'0.5rem', fontSize:'0.7rem' }}>Contact Resume</Typography>
+                <Typography sx={{ marginLeft:'0.5rem', fontSize:'0.7rem', color: darkTheme.palette.text.disabled }}>Contact Resume</Typography>
                 <Stack direction="row" spacing={1} sx={{ marginLeft: 'auto', marginRight: '0.5rem' }}>
                     <IconButton size="small" sx={{ width: '1.2rem', height: '1.2rem' }}>
                         <ReplayIcon fontSize="small" color="primary"/>
