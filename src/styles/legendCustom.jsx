@@ -2,10 +2,10 @@ import React from 'react';
 
 const CustomLegend = ({ payload }) => {
     return (
-        <ul style={{ listStyleType: 'none', margin: 0, padding: 0, fontSize: '11px' }}>
+        <ul style={{ listStyle: 'none', padding: 0, marginBottom: 80 }}>
             {payload.map((entry, index) => (
-                <li key={`item-${index}`} style={{ color: entry.color }}>
-                    {entry.value}
+                <li key={`item-${index}`} style={{ marginBottom: 1 }}>
+                    <span style={{ color: entry.color, fontSize: '12px' }}>{entry.value}</span>
                 </li>
             ))}
         </ul>

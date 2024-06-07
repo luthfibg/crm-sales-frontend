@@ -1,16 +1,23 @@
-import { Box, Paper, Typography, Stack, IconButton, Divider } from "@mui/material";
+import { Box, Paper, Typography, Stack, IconButton, Divider, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import darkTheme from "../styles/darkTheme";
 import ReplayIcon from '@mui/icons-material/Replay';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-import CustomLegend from "../styles/legendCustom";
+import { styled } from '@mui/material/styles';
+// import CustomLegend from "../styles/legendCustom";
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6384'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6384', '#E469ED'];
 
 export default function ContactStatRight() {
 
     const [contactData, setContactData] = useState([]);
+    const theme = useTheme();
+    const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+    const isSm = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+    const isMd = useMediaQuery(theme.breakpoints.between('md', 'lg'));
+    const isLg = useMediaQuery(theme.breakpoints.between('lg', 'xl'));
+    const isXl = useMediaQuery(theme.breakpoints.up('xl'));
 
     // fetch contacts
     useEffect(() => {
@@ -37,7 +44,9 @@ export default function ContactStatRight() {
         };
 
         contactData.forEach(contact => {
-            statusCount[contact.status] += 1;
+            if (statusCount.hasOwnProperty(contact.status)) {
+                statusCount[contact.status] += 1;
+            }
         });
 
         return Object.keys(statusCount).map(key => ({
@@ -45,6 +54,46 @@ export default function ContactStatRight() {
             value: statusCount[key]
         }));
     };
+
+    const renderCustomizedLabel = (props) => {
+        const { cx, cy, midAngle, innerRadius, outerRadius, percent, index } = props;
+        const RADIAN = Math.PI / 180;
+        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+        const outerX = cx + (outerRadius + 20) * Math.cos(-midAngle * RADIAN);
+        const outerY = cy + (outerRadius + 20) * Math.sin(-midAngle * RADIAN);
+
+        return (
+            <>
+                <line x1={outerX} y1={outerY} x2={x} y2={y} stroke={COLORS[index % COLORS.length]} strokeWidth={1} />
+                <text
+                    x={outerX}
+                    y={outerY}
+                    fill={COLORS[index % COLORS.length]}
+                    textAnchor={outerX > cx ? 'start' : 'end'}
+                    dominantBaseline="central"
+                    fontSize={14} // Set the desired font size here
+                >
+                    {`${getStatusCount()[index].name}: ${getStatusCount()[index].value}`}
+                </text>
+            </>
+        );
+    };
+
+    let chartSize = { width: 200, height: 200 };
+    if (isXs) {
+        chartSize = { width: 150, height: 150 };
+    } else if (isSm) {
+        chartSize = { width: 250, height: 250 };
+    } else if (isMd) {
+        chartSize = { width: 350, height: 350 };
+    } else if (isLg) {
+        chartSize = { width: 450, height: 450 };
+    } else if (isXl) {
+        chartSize = { width: 550, height: 550 };
+    }
 
     return (
         <Box 
@@ -80,21 +129,21 @@ export default function ContactStatRight() {
                     m:'0 px',
                     px: '0.5rem',
                 }}>
-                <Stack spacing={1} direction={"row"} width={'100%'}>
-                    <Typography width={'40%'} textAlign={'center'}>Horizontal Statistical Lines</Typography>
+                <Stack spacing={1} direction={"row"} width={'100%'} alignItems={"center"}>
+                    <Typography width={'50%'} height={50} textAlign={'center'}>Horizontal Statistical Lines</Typography>
                     <Divider variant="middle" orientation="vertical" flexItem/>
-                    <PieChart width={350} height={200}>
+                    <PieChart width={chartSize.width} height={chartSize.height} title="Status Kontak">
                         <Pie
                             data={getStatusCount()}
-                            cx={170}
-                            cy={100}
-                            innerRadius={50}
-                            outerRadius={70}
+                            cx={chartSize.width / 2}
+                            cy={chartSize.height / 2}
+                            innerRadius={chartSize.width / 6}
+                            outerRadius={chartSize.width / 4}
                             fill="#8884d8"
-                            paddingAngle={5}
+                            paddingAngle={4}
                             dataKey="value"
-                            // legendType="circle"
-                            label={({ name, value }) => `${name}: ${value}`}
+                            label={renderCustomizedLabel}
+                            
                             >
                             {
                                 getStatusCount().map((entry, index) => (
@@ -103,7 +152,7 @@ export default function ContactStatRight() {
                             }
                         </Pie>
                         <Tooltip />
-                        {/* <Legend /> */}
+                        {/* <Legend content={<CustomLegend />} /> */}
                     </PieChart>
                 </Stack>
             </Paper>
