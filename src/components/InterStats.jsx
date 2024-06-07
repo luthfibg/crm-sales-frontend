@@ -5,8 +5,8 @@ import { CircularProgress } from "@mui/material";
 
 export default function InterStats() {
     return (
-        <Paper sx={{ width: "100%", bgcolor: darkTheme.palette.background.paper, height: "8rem", margin:'0px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box sx={{  width:'6rem', height:'6rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
+        <Paper sx={{ width: "100%", bgcolor: darkTheme.palette.background.paper, height: "8rem", margin:'0px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'scroll' }}>
+            <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
                     <CircularProgress variant="determinate" value={45} size={100} thickness={4} style={{ width: '70px', height: '70px' }} />
                     <Box
@@ -26,9 +26,9 @@ export default function InterStats() {
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Leading" size="small" color="secondary" />
+                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Leading" size="small" color="default" />
             </Box>
-            <Box sx={{  width:'6rem', height:'6rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
+            <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
                     <CircularProgress variant="determinate" value={28} size={100} thickness={4} style={{ width: '70px', height: '70px' }} />
                     <Box
@@ -48,9 +48,9 @@ export default function InterStats() {
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Deals" size="small" color="secondary" />
+                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Deals" size="small" color="default" />
             </Box>
-            <Box sx={{  width:'6rem', height:'6rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
+            <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
                     <CircularProgress variant="determinate" value={30} size={100} thickness={4} style={{ width: '70px', height: '70px' }} />
                     <Box
@@ -70,9 +70,9 @@ export default function InterStats() {
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Revenue" size="small" color="secondary" />
+                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Revenue" size="small" color="default" />
             </Box>
-            <Box sx={{  width:'6rem', height:'6rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
+            <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
                     <CircularProgress variant="determinate" value={40} size={100} thickness={4} style={{ width: '70px', height: '70px' }} />
                     <Box
@@ -92,9 +92,9 @@ export default function InterStats() {
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Networks" size="small" color="secondary" />
+                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Networks" size="small" color="default" />
             </Box>
-            <Box sx={{  width:'6rem', height:'6rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
+            <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
                     <CircularProgress variant="determinate" value={85} size={100} thickness={4} style={{ width: '70px', height: '70px' }} />
                     <Box
@@ -114,7 +114,7 @@ export default function InterStats() {
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Sales Rate" size="small" color="secondary" />
+                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Sales Rate" size="small" color="default" />
             </Box>
         </Paper>
     )

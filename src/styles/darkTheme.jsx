@@ -33,6 +33,7 @@ const darkTheme = createTheme({
         primary:'#fff',
         secondary:'#e0e0e0',
         disabled:'#9e9e9e',
+        contrastText:'#afafaf'
     }
   },
   typography: {

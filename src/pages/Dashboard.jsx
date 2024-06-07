@@ -20,7 +20,7 @@ export default function Dashboard() {
                     <Typography sx={{ 
                         marginY: '0.5rem',
                         marginLeft:'1rem',
-                        fontSize:'1.3rem',
+                        fontSize:'0.9rem',
                         color: darkTheme.palette.text.disabled,
                         '@media (min-width: 900px)': { 
                             fontSize: '1rem'
@@ -33,7 +33,7 @@ export default function Dashboard() {
                 <Box sx={{ display: 'flex', width: '100%', mb: '1rem', mt:'1rem', paddingX: '1rem', justifyContent: 'start', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem' }}>
                     <Typography sx={{ 
                         marginY: '0.5rem', 
-                        fontSize:'1.3rem', 
+                        fontSize:'0.9rem', 
                         color: darkTheme.palette.text.disabled,
                         '@media (min-width: 900px)': { 
                             fontSize: '1rem'
@@ -47,7 +47,7 @@ export default function Dashboard() {
                 <Box sx={{ display: 'flex', width: '100%', mb: '1rem', mt:'5rem', paddingX: '1rem', justifyContent: 'start', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem' }}>
                     <Typography sx={{ 
                         marginY: '0.5rem',
-                        fontSize:'1.3rem',
+                        fontSize:'0.9rem',
                         color: darkTheme.palette.text.disabled,
                         '@media (min-width: 900px)': { 
                             fontSize: '1rem'
