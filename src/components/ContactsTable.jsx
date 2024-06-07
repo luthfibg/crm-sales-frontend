@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
-import { DataGrid, GridPagination } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { Box, IconButton, Stack } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/init.css';
@@ -22,7 +22,8 @@ export default function ContactsTable() {
         const fetchAllContacts = async () => {
             try {
                 const res = await axios.get('http://localhost:2999/data/contacts');
-                setContacts(res.data);
+                const sortedContacts = sortContactsByStatus(res.data);
+                setContacts(sortedContacts);
             } catch (err) {
                 console.log(err);
             }
@@ -30,6 +31,22 @@ export default function ContactsTable() {
 
         fetchAllContacts();
     }, []);
+
+    const sortContactsByStatus = (contacts) => {
+        const statusOrder = {
+            'follow up': 1,
+            'masuk': 2,
+            'menganggur': 3,
+            'deal': 4,
+            'gagal': 5
+        };
+
+        return contacts.sort((a, b) => {
+            const aStatus = a.status ? a.status.toLowerCase() : '';
+            const bStatus = b.status ? b.status.toLowerCase() : '';
+            return (statusOrder[aStatus] || 6) - (statusOrder[bStatus] || 6);
+        });
+    };
 
     const contactColumns = [
         // with custom datagrid header
@@ -60,7 +77,8 @@ export default function ContactsTable() {
                 }));
                 // Refresh the contacts data after deletion
                 const res = await axios.get('http://localhost:2999/data/contacts');
-                setContacts(res.data);
+                const sortedContacts = sortContactsByStatus(res.data);
+                setContacts(sortedContacts);
                 window.location.reload();
             } catch (err) {
                 console.log(err);
