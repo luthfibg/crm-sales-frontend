@@ -7,7 +7,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { styled } from '@mui/material/styles';
 // import CustomLegend from "../styles/legendCustom";
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6384', '#E469ED'];
+const COLORS = [darkTheme.palette.primary.light, '#E48EB2', '#EA8F8B', '#EF8F63', darkTheme.palette.secondary.dark, '#E469ED'];
 
 export default function ContactStatRight() {
 
