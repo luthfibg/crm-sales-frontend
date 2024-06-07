@@ -115,6 +115,9 @@ export default function ContactsTable() {
                     setRowSelectionModel(newRowSelectionModel);
                 }}
                 rowSelectionModel={rowSelectionModel}
+                sx={{ 
+                    '@media (min-width: 1200px)': {fontSize: 12}
+                }}
             />
         </Box>
         <Stack 

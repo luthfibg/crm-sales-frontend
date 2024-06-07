@@ -72,7 +72,7 @@ export default function ContactStatLeftTable() {
       overflowX:'scroll',
       '&::-webkit-scrollbar':{
           width:0,
-      }
+      },
     },
     size: 'small'}} >
       <TableHead>
@@ -81,7 +81,14 @@ export default function ContactStatLeftTable() {
             <TableCell
               key={column.id}
               align={column.align}
-              style={{ minWidth: column.minWidth, paddingTop: '8px', paddingBottom: '8px' }}
+              style={{ 
+                minWidth: column.minWidth,
+                paddingTop: '8px',
+                paddingBottom: '8px',
+              }}
+              sx={{ 
+                '@media (min-width: 1200px)': { fontSize: 12 }
+              }}
             >
               {column.label}
             </TableCell>
@@ -100,7 +107,10 @@ export default function ContactStatLeftTable() {
                     <TableCell
                      key={column.id}
                      align={column.align}
-                     sx={{ paddingY: '7px' }}>
+                     sx={{ 
+                      paddingY: '7px',
+                      '@media (min-width: 1200px)': { fontSize: 12 } 
+                      }}>
                       {column.format && typeof value === 'number'
                         ? column.format(value)
                         : value}

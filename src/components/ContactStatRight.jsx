@@ -138,7 +138,10 @@ export default function ContactStatRight() {
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <CardContent>
                                 <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>{totalContacts}</Typography>
-                                <Typography sx={{ fontSize: 10 }} color="primary.light" textAlign={'center'}>Total Kontak</Typography>
+                                <Typography sx={{ 
+                                    fontSize: 10,
+                                    '@media(min-width: 1200px)': { fontSize: 12 },
+                                }} color="primary.light" textAlign={'center'}>Total Kontak</Typography>
                             </CardContent>
                             <CardActions>
 
@@ -147,7 +150,10 @@ export default function ContactStatRight() {
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <CardContent>
                                 <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>7</Typography>
-                                <Typography sx={{ fontSize: 10 }} color="primary.light" textAlign={'center'}>Need Reactivate</Typography>
+                                <Typography sx={{ 
+                                    fontSize: 10,
+                                    '@media(min-width: 1200px)': { fontSize: 12 },
+                                }} color="primary.light" textAlign={'center'}>Need Reactivate</Typography>
                             </CardContent>
                             <CardActions>
                             </CardActions>
@@ -155,7 +161,10 @@ export default function ContactStatRight() {
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <CardContent>
                                 <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>---</Typography>
-                                <Typography sx={{ fontSize: 10 }} color="primary.light" textAlign={'center'}>Top RFM Score</Typography>
+                                <Typography sx={{ 
+                                    fontSize: 10,
+                                    '@media(min-width: 1200px)': { fontSize: 12 },
+                                }} color="primary.light" textAlign={'center'}>Top RFM Score</Typography>
                             </CardContent>
                             <CardActions>
 

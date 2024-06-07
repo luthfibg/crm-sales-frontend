@@ -17,20 +17,42 @@ export default function Dashboard() {
             <MyAppBar />
             <Container maxWidth="xl" sx={{ marginBottom: '4rem' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', mb: '1rem', mt:'5rem', justifyContent: 'start', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem' }}>
-                    <Typography sx={{ marginY: '0.5rem', marginLeft:'1rem', fontSize:'1.3rem', color: darkTheme.palette.primary }}>
+                    <Typography sx={{ 
+                        marginY: '0.5rem',
+                        marginLeft:'1rem',
+                        fontSize:'1.3rem',
+                        color: darkTheme.palette.primary,
+                        '@media (min-width: 1200px)': { 
+                            fontSize: '1.1rem'
+                        }
+                    }}>
                         Personal Statistik
                     </Typography>
                     <InterStats/>
                 </Box>
                 <Box sx={{ display: 'flex', width: '100%', mb: '1rem', mt:'1rem', paddingX: '1rem', justifyContent: 'start', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem' }}>
-                    <Typography sx={{ marginY: '0.5rem', fontSize:'1.3rem', color: darkTheme.palette.primary }}>
+                    <Typography sx={{ 
+                        marginY: '0.5rem', 
+                        fontSize:'1.3rem', 
+                        color: darkTheme.palette.primary,
+                        '@media (min-width: 1200px)': { 
+                            fontSize: '1.1rem'
+                        }
+                    }}>
                         Daftar Kontak
                     </Typography>
                 </Box>
                 <ContactStats/>
                 <ContactsTable/>
                 <Box sx={{ display: 'flex', width: '100%', mb: '1rem', mt:'5rem', paddingX: '1rem', justifyContent: 'start', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem' }}>
-                    <Typography sx={{ marginY: '0.5rem', fontSize:'1.3rem', color: darkTheme.palette.primary }}>
+                    <Typography sx={{ 
+                        marginY: '0.5rem',
+                        fontSize:'1.3rem',
+                        color: darkTheme.palette.primary,
+                        '@media (min-width: 1200px)': { 
+                            fontSize: '1.1rem'
+                    }
+                }}>
                         Daftar Lead
                     </Typography>
                 </Box>
