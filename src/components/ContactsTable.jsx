@@ -82,6 +82,7 @@ export default function ContactsTable() {
                 backgroundColor: 'rgba(33, 45, 51, 1.0)',
             },
              }}
+             id="contactsTable"
             bgcolor={darkTheme.palette.background.paper2}>
             <DataGrid
                 rows={contacts.map((contact, index) => ({ id: index + 1, ...contact }))}

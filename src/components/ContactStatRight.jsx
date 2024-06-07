@@ -1,10 +1,11 @@
-import { Box, Paper, Typography, Stack, IconButton, Divider, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Paper, Typography, Stack, IconButton, Divider, useMediaQuery, useTheme, Card, CardContent, CardActions } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import darkTheme from "../styles/darkTheme";
 import ReplayIcon from '@mui/icons-material/Replay';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-import { styled } from '@mui/material/styles';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { Link } from "react-router-dom";
+// import { styled } from '@mui/material/styles';
 // import CustomLegend from "../styles/legendCustom";
 
 const COLORS = [darkTheme.palette.primary.light, '#E48EB2', '#EA8F8B', '#EF8F63', darkTheme.palette.secondary.dark, '#E469ED'];
@@ -128,9 +129,37 @@ export default function ContactStatRight() {
                     alignItems: 'center',
                     m:'0 px',
                     px: '0.5rem',
+                    overflow: 'hidden',
                 }}>
                 <Stack spacing={1} direction={"row"} width={'100%'} alignItems={"center"}>
-                    <Typography width={'50%'} height={50} textAlign={'center'}>Horizontal Statistical Lines</Typography>
+                    <Stack spacing={1} direction={"column"} width={'50%'} alignItems={"center"}>
+                        <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <CardContent>
+                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>65</Typography>
+                                <Typography sx={{ fontSize: 10 }} color="primary.light" textAlign={'center'}>Total Kontak</Typography>
+                            </CardContent>
+                            <CardActions>
+
+                            </CardActions>
+                        </Card>
+                        <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <CardContent>
+                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>7</Typography>
+                                <Typography sx={{ fontSize: 10 }} color="primary.light" textAlign={'center'}>Need Reactivate</Typography>
+                            </CardContent>
+                            <CardActions>
+                            </CardActions>
+                        </Card>
+                        <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <CardContent>
+                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>---</Typography>
+                                <Typography sx={{ fontSize: 10 }} color="primary.light" textAlign={'center'}>Top RFM Score</Typography>
+                            </CardContent>
+                            <CardActions>
+
+                            </CardActions>
+                        </Card>
+                    </Stack>
                     <Divider variant="middle" orientation="vertical" flexItem/>
                     <PieChart width={chartSize.width} height={chartSize.height} title="Status Kontak">
                         <Pie
