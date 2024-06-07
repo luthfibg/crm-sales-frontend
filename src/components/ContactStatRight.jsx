@@ -12,6 +12,7 @@ const COLORS = [darkTheme.palette.primary.light, '#E48EB2', '#EA8F8B', '#EF8F63'
 
 export default function ContactStatRight() {
 
+    const [totalContacts, setTotalContacts] = useState(0); // useState untuk total contacts
     const [contactData, setContactData] = useState([]);
     const theme = useTheme();
     const isXs = useMediaQuery(theme.breakpoints.down('sm'));
@@ -27,6 +28,7 @@ export default function ContactStatRight() {
                 const response = await fetch('http://localhost:2999/data/contacts');
                 const data = await response.json();
                 setContactData(data);
+                setTotalContacts(data.length); // Set total contacts
             } catch (err) {
                 console.log(err);
             }
@@ -135,7 +137,7 @@ export default function ContactStatRight() {
                     <Stack spacing={1} direction={"column"} width={'50%'} alignItems={"center"}>
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>65</Typography>
+                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>{totalContacts}</Typography>
                                 <Typography sx={{ fontSize: 10 }} color="primary.light" textAlign={'center'}>Total Kontak</Typography>
                             </CardContent>
                             <CardActions>
