@@ -22,7 +22,7 @@ export default function Dashboard() {
                         marginLeft:'1rem',
                         fontSize:'1.3rem',
                         color: darkTheme.palette.text.disabled,
-                        '@media (min-width: 1200px)': { 
+                        '@media (min-width: 900px)': { 
                             fontSize: '1rem'
                         }
                     }}>
@@ -35,7 +35,7 @@ export default function Dashboard() {
                         marginY: '0.5rem', 
                         fontSize:'1.3rem', 
                         color: darkTheme.palette.text.disabled,
-                        '@media (min-width: 1200px)': { 
+                        '@media (min-width: 900px)': { 
                             fontSize: '1rem'
                         }
                     }}>
@@ -49,7 +49,7 @@ export default function Dashboard() {
                         marginY: '0.5rem',
                         fontSize:'1.3rem',
                         color: darkTheme.palette.text.disabled,
-                        '@media (min-width: 1200px)': { 
+                        '@media (min-width: 900px)': { 
                             fontSize: '1rem'
                     }
                 }}>
