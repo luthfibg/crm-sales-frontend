@@ -8,6 +8,7 @@ import AddLead from './pages/AddLead';
 import UpdateContact from './pages/UpdateContact';
 import UpdateLead from './pages/UpdateLead';
 import CRMMonitor from './pages/CRMMonitor';
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard/>}/>
+          <Route path="/register" element={<Register/>}/>
           <Route path="/monitor" element={<CRMMonitor/>}/>
           <Route path="/add_contact" element={<AddContact/>}/>
           <Route path="/add_lead" element={<AddLead/>}/>
