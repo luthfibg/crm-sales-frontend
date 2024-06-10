@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 // import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Monitor', 'Laporan', 'Blog'];
@@ -34,6 +35,12 @@ function MyAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const navigate = useNavigate();
+
+  const goToMonitor = () => {
+    navigate('/monitor');
+  }
 
   return (
     <AppBar position="fixed">
@@ -117,7 +124,7 @@ function MyAppBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => page === 'Monitor' ? goToMonitor() : null}
                 sx={{ my: 2, color: 'white', display: 'block', textTransform:'none' }}
               >
                 {page}

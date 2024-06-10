@@ -2,10 +2,27 @@ import { Box, Chip, Paper, Typography } from "@mui/material";
 import React from "react";
 import darkTheme from "../styles/darkTheme";
 import { CircularProgress } from "@mui/material";
+import { useState, useEffect } from "react";
 
 export default function InterStats() {
+
+    const [totalLeads, setTotalLeads] = useState(0); // useState untuk total leads
+
+    useEffect(() => {
+        const fetchLeads = async () => {
+            try {
+                const response = await fetch('http://localhost:2999/data/leads');
+                const data = await response.json();
+                setTotalLeads(data.length); // Set total leads
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchLeads();
+    }, []);
+
     return (
-        <Paper sx={{ width: "100%", bgcolor: darkTheme.palette.background.paper, height: "8rem", margin:'0px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'scroll' }}>
+        <Paper sx={{ width: "100%", bgcolor: darkTheme.palette.background.paper, height: "8rem", margin:'0px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'scroll', '@media (min-width: 900px)': { overflow:'hidden'}, borderRadius: '0.3rem' }}>
             <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
                     <CircularProgress variant="determinate" value={45} size={100} thickness={4} style={{ width: '70px', height: '70px' }} />
@@ -22,7 +39,7 @@ export default function InterStats() {
                         }}
                     >
                         <Typography variant="caption" fontSize={'1rem'} component="div" color={darkTheme.palette.secondary.main}>
-                        5
+                        {totalLeads}
                         </Typography>
                     </Box>
                 </Box>
