@@ -19,6 +19,8 @@ const Login = () => {
             const response = await axios.post("http://localhost:2999/login", sales);
             console.log(response.data.message);
             localStorage.setItem('token', response.data.token); // Save the token to local storage
+            localStorage.setItem('username', sales.username); // Save the username to local storage
+            console.log('Username saved:', sales.username); // Debugging log
             navigate(`/${sales.username}`); // Redirect to the user's dashboard
         } catch (err) {
             console.error(err.response?.data?.error || err.message);

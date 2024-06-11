@@ -13,20 +13,21 @@ import Opening from './pages/Opening';
 import Login from './pages/Login';
 
 function App() {
+  
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline/>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Opening/>}/>
-          <Route path="/:sales" element={<Dashboard/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/monitor" element={<CRMMonitor/>}/>
-          <Route path="/add_contact" element={<AddContact/>}/>
-          <Route path="/add_lead" element={<AddLead/>}/>
-          <Route path="/update_contact/:id" element={<UpdateContact/>}/>
-          <Route path="/update_lead/:id" element={<UpdateLead/>}/>
+          <Route path="/:username" element={<Dashboard/>}/>
+          <Route path="/:username/add_contact" element={<AddContact/>}/>
+          <Route path="/:username/add_lead" element={<AddLead/>}/>
+          <Route path="/:username/update_contact/:id" element={<UpdateContact/>}/>
+          <Route path="/:username/update_lead/:id" element={<UpdateLead/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

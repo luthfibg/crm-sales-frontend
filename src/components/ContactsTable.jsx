@@ -10,6 +10,7 @@ import { Box, IconButton, Stack } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/init.css';
 import darkTheme from '../styles/darkTheme';
+import App from '../App';
   
 
 export default function ContactsTable() {
@@ -62,14 +63,24 @@ export default function ContactsTable() {
 
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
-            navigate(`/update_contact/${rowSelectionModel[0]}`);
+            const username = localStorage.getItem('username'); // get username from localstorage (user login session)
+            if (!username) {
+                console.error('Username is null or undefined');
+                return; // Jangan navigasi jika username tidak tersedia
+            }
+            navigate(`/${username}/update_contact/${rowSelectionModel[0]}`);
             console.log(rowSelectionModel[0]);
         }
     };
 
     const handleDelete = async () => {
         if (rowSelectionModel.length > 0) {
+            const username = localStorage.getItem('username'); // get username from localstorage (user login session)
             try {
+                if (!username) {
+                    console.error('Username is null or undefined');
+                    return; // Jangan lanjutkan jika username tidak tersedia
+                }
                 await Promise.all(rowSelectionModel.map(async (contactId) => {
                     // const contactId = rowSelectionModel[0];
                     await axios.delete("http://localhost:2999/data/contacts/" + contactId);
@@ -130,6 +141,7 @@ export default function ContactsTable() {
             justifyContent: 'flex-end',
             p: '0.5rem',
             borderRadius: '0.2rem',
+            mb: '1rem'
         }}>
             <IconButton
             sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
@@ -146,8 +158,6 @@ export default function ContactsTable() {
             size='small'
             disabled={rowSelectionModel.length !== 1}
             color='primary'
-            LinkComponent={Link}
-            to={`/update_contact/${rowSelectionModel[0]}`}
             onClick={handleEditClick}
             cursor={'pointer'}>
                 <EditIcon fontSize='small'/>

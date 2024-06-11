@@ -1,4 +1,4 @@
-import { Card, Container, Divider, IconButton, Paper, Stack, Typography } from "@mui/material";
+import { Card, Container, Divider, IconButton, Paper, Typography } from "@mui/material";
 import React from "react";
 import FitbitIcon from '@mui/icons-material/Fitbit';
 import LoginIcon from '@mui/icons-material/Login';

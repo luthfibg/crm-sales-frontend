@@ -16,6 +16,7 @@ export default function LeadsTable() {
     const [rowSelectionModel, setRowSelectionModel] = useState([]);
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
     const navigate = useNavigate();
+    const username = localStorage.getItem('username'); // get username from localstorage (user login session)
 
     useEffect(() => {
         const fetchAllLeads = async () => {
@@ -47,7 +48,7 @@ export default function LeadsTable() {
 
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
-            navigate(`/update_lead/${rowSelectionModel[0]}`);
+            navigate(`/${username}/update_lead/${rowSelectionModel[0]}`);
         }
     };
 
@@ -124,8 +125,6 @@ export default function LeadsTable() {
                 variant="outlined"
                 disabled={rowSelectionModel.length !== 1}
                 color='primary'
-                LinkComponent={Link}
-                to={`/update_lead/${rowSelectionModel[0]}`}
                 onClick={handleEditClick}
                 cursor={'pointer'}>
                 <EditIcon fontSize='small'/>
