@@ -9,6 +9,8 @@ import UpdateContact from './pages/UpdateContact';
 import UpdateLead from './pages/UpdateLead';
 import CRMMonitor from './pages/CRMMonitor';
 import Register from './pages/Register';
+import Opening from './pages/Opening';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -16,8 +18,10 @@ function App() {
       <CssBaseline/>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard/>}/>
+          <Route path="/" element={<Opening/>}/>
+          <Route path="/:sales" element={<Dashboard/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/login" element={<Login/>}/>
           <Route path="/monitor" element={<CRMMonitor/>}/>
           <Route path="/add_contact" element={<AddContact/>}/>
           <Route path="/add_lead" element={<AddLead/>}/>
