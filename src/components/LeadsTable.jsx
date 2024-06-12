@@ -7,7 +7,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, IconButton, Stack } from '@mui/material';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import darkTheme from '../styles/darkTheme';
 import '../styles/init.css';
 
@@ -32,15 +32,15 @@ export default function LeadsTable() {
     }, [username]);
 
     const leadColumns = [
-        { field: 'id', headerName: 'ID', width: 70, headerClassName: 'super-app-theme--header' },
-        { field: 'lead_title', headerName: 'Nama Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'person', headerName: 'Pelanggan', width: 150, headerClassName: 'super-app-theme--header' },
-        { field: 'institution', headerName: 'Institusi', width: 150, headerClassName: 'super-app-theme--header' },
+        { field: 'id', headerName: 'ID', width: 30, headerClassName: 'super-app-theme--header' },
+        { field: 'lead_title', headerName: 'Nama Lead', width: 130, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'person', headerName: 'Pelanggan', width: 130, headerClassName: 'super-app-theme--header' },
+        { field: 'institution', headerName: 'Institusi', width: 130, headerClassName: 'super-app-theme--header' },
         { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'trade_value', headerName: 'Value', width: 100, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lead_status', headerName: 'Status Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'lead_status', headerName: 'Status Lead', width: 100, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'unqualified_reason', headerName: 'Alasan Diskualifikasi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lead_age', headerName: 'Umur Lead', width: 70, headerClassName: 'super-app-theme--header' },
+        { field: 'lead_age', headerName: 'Umur Lead', width: 50, headerClassName: 'super-app-theme--header' },
         { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
     ];
 

@@ -83,7 +83,7 @@ export default function ContactsTable() {
                 }
                 await Promise.all(rowSelectionModel.map(async (contactId) => {
                     // const contactId = rowSelectionModel[0];
-                    await axios.delete("http://localhost:2999/data/contacts/" + contactId);
+                    await axios.delete(`http://localhost:2999/${username}/data/contacts/` + contactId);
                     console.log('Check contactId retrieved: '+ contactId); // test passed
                 }));
                 // Refresh the contacts data after deletion

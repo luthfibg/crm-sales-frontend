@@ -6,35 +6,21 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/formCustom.css';
 
-const leadStage = [
-    { value:'Baru', label:'Baru'},
-    {
-        value:'Bekerja',
-        label:'Bekerja'
-    },
-    {
-        value:'Pemeliharaan',
-        label:'Pemeliharaan'
-    },
-    {
-        value:'Dikonversi',
-        label:'Dikonversi'
-    },
+const leadStatus = [
+    { value:'baru', label:'Baru' },
+    { value:'mencoba menghubungi', label:'Mencoba Menghubungi' },
+    { value:'dihubungi', label:'Dihubungi' },
+    { value:'sukses', label:'Sukses' },
+    { value:'diskualifikasi', label:'Diskualifikasi' },
 ];
 
-const leadStatus = [
-    {
-        value:'Unqualified',
-        label:'Unqualified'
-    },
-    {
-        value:'Qualified',
-        label:'Qualified'
-    },
-    {
-        value:'Deleted',
-        label:'Deleted'
-    },
+const unqualifiedReason = [
+    { value:'', label:'' },
+    { value:'tidak responsif', label:'Tidak Responsif' },
+    { value:'budget prospek kurang', label:'Budget Prospek Kurang' },
+    { value:'produk tidak tepat', label:'Produk Tidak Tepat' },
+    { value:'persaingan kompetitor', label:'Persaingan Kompetitor' },
+    { value:'timing buruk', label:'Timing Buruk' },
 ];
 
 const AddLead = () => {
@@ -43,17 +29,15 @@ const AddLead = () => {
 
     const [contact, setContact] = useState([]);
     const [lead, setLead] = useState({
-        invoice_date:"",
         lead_title:"",
         sales_name:`${username}`,
         person:"",
         institution:'PT. JSRS',
         descriptions:"",
         trade_value:null,
-        lead_stage: leadStage[0].value,
         lead_status: leadStatus[0].value,
+        unqualified_reason: unqualifiedReason[0].value,
         notes:"",
-        deal_date:"",
     });
 
     useEffect(() => {
@@ -102,13 +86,13 @@ const AddLead = () => {
         autoComplete="off">
             <Typography sx={{ display:'flex', justifyContent:'center', mb:'2rem' }} variant="h5">Daftarkan Lead Baru</Typography>
             <div>
-                <TextField onChange={handleChange} name="invoice_date" id="outlined-invoice-date"
-                type="date"
-                label="Invoice"
-                InputLabelProps={{ shrink: true }}
-                />
+                {/* input 1 */}
                 <TextField onChange={handleChange} name="lead_title" id="outlined-lead-title" label="Judul Lead" />
+                
+                {/* input 2 */}
                 <TextField onChange={handleChange} name="sales_name" id="outlined-sales-name" label="Nama Sales" hidden disabled value={username}/>
+                
+                {/* input 3 */}
                 <TextField name="person" id="outlined-person"
                 select
                 onChange={handleChange}
@@ -120,41 +104,33 @@ const AddLead = () => {
                     </MenuItem>
                 ))}
                 </TextField>
+
+                {/* input 4 */}
                 <TextField name="institution" id="outlined-select-institution"
                 label="Nama Institusi"
                 value={lead.institution}
                 onChange={handleChange}
                 helperText="Nama Institusi akan otomatis terisi"
-                disabled
-                />
+                disabled/>
+
+                {/* input 5 */}
                 <TextField name="descriptions" id="outlined-multiline-static"
                 onChange={handleChange}
                 label="Keterangan"
                 multiline
                 rows={3}
-                type="text"
-                />
+                type="text"/>
+
+                {/* input 6 */}
                 <TextField onChange={handleChange} name="trade_value" id="outlined-trade-value" label="Nilai Penjualan" type="number" />
-                <TextField name="lead_stage" id="outlined-select-lead-stage"
-                    select
-                    value={lead.lead_stage}
-                    onChange={handleChange}
-                    label="Tahap Lead"
-                    defaultValue="Baru"
-                    helperText="Pilih Tahap Lead"
-                    >
-                    {leadStage.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                
+                {/* input 7 */}
                 <TextField name="lead_status" id="outlined-select-lead-status"
                     select
                     value={lead.lead_status}
                     onChange={handleChange}
                     label="Status Lead"
-                    defaultValue="Unqualified"
+                    defaultValue="Baru"
                     helperText="Pilih Status Lead"
                     >
                     {leadStatus.map((option) => (
@@ -163,11 +139,29 @@ const AddLead = () => {
                         </MenuItem>
                     ))}
                 </TextField>
+
+                {/* input 8 */}
+                <TextField name="unqualified_reason" id="outlined-select-unqualified-reason"
+                    select
+                    value={lead.unqualified_reason}
+                    onChange={handleChange}
+                    label="Alasan Diskualifikasi"
+                    defaultValue=""
+                    helperText="Mengapa Lead Ini Diskualifikasi?">
+                    {unqualifiedReason.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+                {/* input 9 */}
                 <TextField onChange={handleChange} name="notes" id="outlined-notes"
                 label="Catatan"
                 multiline
                 rows={3} />
-                <TextField onChange={handleChange} name="deal_date" InputLabelProps={{ shrink: true }} id="outlined-deal-date" label="Tanggal Deal" type="date" />
+
+                {/* input button */}
                 <Box sx={{ display:'flex', paddingX:'2rem' }}>
                 <Button onClick={handleOnclickSave} sx={{ width:'50%', mr:'1rem' }} variant="outlined">Simpan</Button>
                 <Button sx={{ width:'50%', ml:'1rem' }} variant="outlined" component={Link} to="/">Batal</Button>
