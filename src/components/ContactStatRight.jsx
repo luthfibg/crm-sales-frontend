@@ -14,6 +14,7 @@ export default function ContactStatRight() {
     const [totalContacts, setTotalContacts] = useState(0); // useState untuk total contacts
     const [contactData, setContactData] = useState([]);
     const theme = useTheme();
+    const username = localStorage.getItem('username');
 
     // set screen size for responsive charts
     const isXs = useMediaQuery(theme.breakpoints.down('sm'));
@@ -26,7 +27,7 @@ export default function ContactStatRight() {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await fetch('http://localhost:2999/data/contacts');
+                const response = await fetch(`http://localhost:2999/${username}/data/contacts`);
                 const data = await response.json();
                 setContactData(data);
                 setTotalContacts(data.length); // Set total contacts

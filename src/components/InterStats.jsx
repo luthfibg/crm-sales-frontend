@@ -7,11 +7,12 @@ import { useState, useEffect } from "react";
 export default function InterStats() {
 
     const [totalLeads, setTotalLeads] = useState(0); // useState untuk total leads
+    const username = localStorage.getItem('username');
 
     useEffect(() => {
         const fetchLeads = async () => {
             try {
-                const response = await fetch('http://localhost:2999/data/leads');
+                const response = await fetch(`http://localhost:2999/${username}/data/leads`);
                 const data = await response.json();
                 setTotalLeads(data.length); // Set total leads
             } catch (err) {

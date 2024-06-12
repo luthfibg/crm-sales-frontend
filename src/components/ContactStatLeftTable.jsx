@@ -23,12 +23,13 @@ export default function ContactStatLeftTable() {
   const [contacts, setContacts] = useState([]);
   const [leads, setLeads] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
+  const username = localStorage.getItem('username'); // get username from localstorage (user login session)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const contactResponse = await axios.get('http://localhost:2999/data/contacts');
-        const leadResponse = await axios.get('http://localhost:2999/data/leads');
+        const contactResponse = await axios.get(`http://localhost:2999/${username}/data/contacts`);
+        const leadResponse = await axios.get(`http://localhost:2999/${username}/data/leads`);
         setContacts(contactResponse.data);
         setLeads(leadResponse.data);
       } catch (err) {
