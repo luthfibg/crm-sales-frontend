@@ -12,9 +12,11 @@ const COLORS = [darkTheme.palette.primary.light, '#E48EB2', '#EA8F8B', '#EF8F63'
 export default function ContactStatRight() {
 
     const [totalContacts, setTotalContacts] = useState(0); // useState untuk total contacts
+    const [followUpCount, setfollowUpCount] = useState(0); // useState to count follow up
     const [contactData, setContactData] = useState([]);
     const theme = useTheme();
     const username = localStorage.getItem('username');
+    const top_score_rfm = 0;
 
     // set screen size for responsive charts
     const isXs = useMediaQuery(theme.breakpoints.down('sm'));
@@ -31,6 +33,8 @@ export default function ContactStatRight() {
                 const data = await response.json();
                 setContactData(data);
                 setTotalContacts(data.length); // Set total contacts
+                const followUp = data.filter(contact => contact.status === 'Follow Up');
+                setfollowUpCount(followUp.length);
             } catch (err) {
                 console.log(err);
             }
@@ -47,6 +51,11 @@ export default function ContactStatRight() {
             'Gagal': 0,
             'Deal': 0
         };
+
+        // handle empty data
+        if (!contactData) {
+            return [];
+        }
 
         contactData.forEach(contact => {
             if (statusCount.hasOwnProperty(contact.status)) {
@@ -135,7 +144,7 @@ export default function ContactStatRight() {
                     px: '0.5rem',
                     overflow: 'hidden',
                 }}>
-                <Stack spacing={1} direction={"row"} width={'100%'} alignItems={"center"}>
+                <Stack sx={{ width: '100%', height: '100%' }} spacing={1} direction={"row"} alignItems={"center"}>
                     <Stack spacing={1} direction={"column"} width={'50%'} alignItems={"center"}>
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <CardContent>
@@ -151,18 +160,18 @@ export default function ContactStatRight() {
                         </Card>
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>7</Typography>
+                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>{followUpCount}</Typography>
                                 <Typography sx={{ 
                                     fontSize: 10,
                                     '@media(min-width: 1200px)': { fontSize: 12 },
-                                }} color="primary.light" textAlign={'center'}>Need Reactivate</Typography>
+                                }} color="primary.light" textAlign={'center'}>Follow  Up</Typography>
                             </CardContent>
                             <CardActions>
                             </CardActions>
                         </Card>
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>---</Typography>
+                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>{ top_score_rfm === 0 ? '---' : Math.round(top_score_rfm)}</Typography>
                                 <Typography sx={{ 
                                     fontSize: 10,
                                     '@media(min-width: 1200px)': { fontSize: 12 },
@@ -174,28 +183,32 @@ export default function ContactStatRight() {
                         </Card>
                     </Stack>
                     <Divider variant="middle" orientation="vertical" flexItem/>
-                    <PieChart width={chartSize.width} height={chartSize.height} title="Status Kontak">
-                        <Pie
-                            data={getStatusCount()}
-                            cx={chartSize.width / 2}
-                            cy={chartSize.height / 2}
-                            innerRadius={chartSize.width / 6}
-                            outerRadius={chartSize.width / 4}
-                            fill="#8884d8"
-                            paddingAngle={4}
-                            dataKey="value"
-                            label={renderCustomizedLabel}
-                            
-                            >
-                            {
-                                getStatusCount().map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                ))
-                            }
-                        </Pie>
-                        <Tooltip />
-                        {/* <Legend content={<CustomLegend />} /> */}
-                    </PieChart>
+                    { contactData.length === 0 ? ( <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '50%' }}>
+                        <Typography textAlign={'center'}>No Data</Typography>
+                    </Box>) : (
+                        <PieChart width={chartSize.width} height={chartSize.height} title="Status Kontak">
+                            <Pie
+                                data={getStatusCount()}
+                                cx={chartSize.width / 2}
+                                cy={chartSize.height / 2}
+                                innerRadius={chartSize.width / 6}
+                                outerRadius={chartSize.width / 4}
+                                fill="#8884d8"
+                                paddingAngle={4}
+                                dataKey="value"
+                                label={renderCustomizedLabel}
+                                
+                                >
+                                {
+                                    getStatusCount().map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))
+                                }
+                            </Pie>
+                            <Tooltip />
+                            {/* <Legend content={<CustomLegend />} /> */}
+                        </PieChart>   
+                    )}
                 </Stack>
             </Paper>
             </>

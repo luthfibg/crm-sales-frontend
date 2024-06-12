@@ -33,17 +33,15 @@ export default function LeadsTable() {
 
     const leadColumns = [
         { field: 'id', headerName: 'ID', width: 70, headerClassName: 'super-app-theme--header' },
-        { field: 'invoice_date', headerName: 'Invoice', width: 130, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'lead_title', headerName: 'Nama Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'sales_name', headerName: 'Nama Sales', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'person', headerName: 'Pelanggan', width: 150, headerClassName: 'super-app-theme--header' },
         { field: 'institution', headerName: 'Institusi', width: 150, headerClassName: 'super-app-theme--header' },
         { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'trade_value', headerName: 'Value', width: 100, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lead_stage', headerName: 'Tahap Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'lead_status', headerName: 'Status Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'unqualified_reason', headerName: 'Alasan Diskualifikasi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'lead_age', headerName: 'Umur Lead', width: 70, headerClassName: 'super-app-theme--header' },
         { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'deal_date', headerName: 'Tanggal Deal', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
     ];
 
     const handleEditClick = () => {
@@ -56,8 +54,8 @@ export default function LeadsTable() {
         if (rowSelectionModel.length > 0) {
             try {
                 await Promise.all(rowSelectionModel.map(async (leadId) => {
-                    await axios.delete("http://localhost:2999/data/leads/"+leadId);
                     console.log('Check leadId retrieved: '+leadId); // test passed
+                    await axios.delete(`http://localhost:2999/${username}/data/leads/`+leadId);
                 }));
                 // Refresh the leads data after deletion
                 const res = await axios.get(`http://localhost:2999/${username}/data/leads`);

@@ -101,6 +101,7 @@ export default function ContactStatLeftTable() {
           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           .map((row, index) => {
             return (
+              // eslint-disable-next-line
               <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                 {columns.map((column) => {
                   const value = row[column.id];
