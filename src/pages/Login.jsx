@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Snackbar, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import '../styles/formCustom.css';
 const Login = () => {
     const navigate = useNavigate();
     const [sales, setSales] = useState({ username: "", password: ""});
+    const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         setSales((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -16,6 +17,9 @@ const Login = () => {
         e.preventDefault();
         console.log('Sales data being logged in:', sales); // logging sales sended
         try {
+            if (!sales.username || !sales.password) {
+                throw new Error("Nama Pengguna dan Password wajib diisi.");
+            }
             const response = await axios.post("http://localhost:2999/login", sales);
             console.log(response.data.message);
             localStorage.setItem('token', response.data.token); // Save the token to local storage
@@ -28,8 +32,19 @@ const Login = () => {
         }
     };
 
+    const handleCloseError = () => {
+        setError(null);
+    };
+
     return (
         <Container maxWidth='lg' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+            {error && (
+                <Snackbar
+                open={true}
+                autoHideDuration={3000}
+                onClose={handleCloseError}
+                message={error}></Snackbar>
+            )}
             <Box
                 component="form"
                 sx={{ '& .MuiTextField-root': { m: 1, width: '31ch' } }}

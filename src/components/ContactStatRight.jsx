@@ -4,7 +4,6 @@ import darkTheme from "../styles/darkTheme";
 import ReplayIcon from '@mui/icons-material/Replay';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
-import { Link } from "react-router-dom";
 // import { styled } from '@mui/material/styles';
 // import CustomLegend from "../styles/legendCustom";
 
@@ -15,6 +14,8 @@ export default function ContactStatRight() {
     const [totalContacts, setTotalContacts] = useState(0); // useState untuk total contacts
     const [contactData, setContactData] = useState([]);
     const theme = useTheme();
+
+    // set screen size for responsive charts
     const isXs = useMediaQuery(theme.breakpoints.down('sm'));
     const isSm = useMediaQuery(theme.breakpoints.between('sm', 'md'));
     const isMd = useMediaQuery(theme.breakpoints.between('md', 'lg'));

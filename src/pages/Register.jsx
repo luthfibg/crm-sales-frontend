@@ -18,6 +18,7 @@ const Register = () => {
         bio: "",
         role: "sales",
     });
+    // const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         setSales((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -29,7 +30,7 @@ const Register = () => {
         try {
             const response = await axios.post("http://localhost:2999/register", sales);
             console.log(response.data.message);
-            navigate('/');
+            navigate('/:username');
         } catch (err) {
             console.error(err.response?.data?.error || err.message);
         }
