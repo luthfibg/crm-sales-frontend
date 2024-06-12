@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
 // import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Monitor', 'Laporan', 'Blog'];
@@ -20,6 +22,9 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 function MyAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [fullname, setFullname] = React.useState('');
+
+  const username = localStorage.getItem('username');
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -40,6 +45,31 @@ function MyAppBar() {
 
   const goToMonitor = () => {
     navigate('/monitor');
+  }
+
+  useEffect(() => {
+    const fetchFullname = async () => {
+        try {
+            const response = await axios.get(`http://localhost:2999/${username}/userinfo`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setFullname(response.data.fullname);
+        } catch (error) {
+            console.error('Error fetching fullname:', error);
+        }
+    };
+
+      fetchFullname();
+  }, []);
+
+  const logout = () => {
+    // Remove the JWT token from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    // Redirect the user to the login page
+    window.location.href = '/login';
   }
 
   return (
@@ -131,7 +161,9 @@ function MyAppBar() {
               </Button>
             ))}
           </Box>
-
+          <Box sx={{ flexGrow: 0 }} mr={4}>
+            <Typography color={'secondary'}>{fullname}</Typography>
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -155,7 +187,7 @@ function MyAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => setting === 'Logout' ? logout() : null}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

@@ -6,7 +6,7 @@ import '../styles/formCustom.css';
 
 const Login = () => {
     const navigate = useNavigate();
-    const [sales, setSales] = useState({ username: "", password: "" });
+    const [sales, setSales] = useState({ username: "", password: ""});
 
     const handleChange = (e) => {
         setSales((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -20,6 +20,7 @@ const Login = () => {
             console.log(response.data.message);
             localStorage.setItem('token', response.data.token); // Save the token to local storage
             localStorage.setItem('username', sales.username); // Save the username to local storage
+            localStorage.setItem('fullname', sales.fullname); // Save the fullname to local storage
             console.log('Username saved:', sales.username); // Debugging log
             navigate(`/${sales.username}`); // Redirect to the user's dashboard
         } catch (err) {

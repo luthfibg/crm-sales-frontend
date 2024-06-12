@@ -29,7 +29,7 @@ export default function LeadsTable() {
         };
 
         fetchAllLeads();
-    }, []);
+    }, [username]);
 
     const leadColumns = [
         { field: 'id', headerName: 'ID', width: 70, headerClassName: 'super-app-theme--header' },
