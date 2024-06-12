@@ -10,7 +10,6 @@ import { Box, IconButton, Stack } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/init.css';
 import darkTheme from '../styles/darkTheme';
-import App from '../App';
   
 
 export default function ContactsTable() {
@@ -18,11 +17,12 @@ export default function ContactsTable() {
     const [rowSelectionModel, setRowSelectionModel] = useState([]);
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
     const navigate = useNavigate();
+    const username = localStorage.getItem('username');
 
     useEffect(() => {
         const fetchAllContacts = async () => {
             try {
-                const res = await axios.get('http://localhost:2999/data/contacts');
+                const res = await axios.get(`http://localhost:2999/${username}/data/contacts`);
                 const sortedContacts = sortContactsByStatus(res.data);
                 setContacts(sortedContacts);
             } catch (err) {
@@ -31,7 +31,7 @@ export default function ContactsTable() {
         };
 
         fetchAllContacts();
-    }, []);
+    }, [username]);
 
     const sortContactsByStatus = (contacts) => {
         const statusOrder = {
@@ -87,7 +87,7 @@ export default function ContactsTable() {
                     console.log('Check contactId retrieved: '+ contactId); // test passed
                 }));
                 // Refresh the contacts data after deletion
-                const res = await axios.get('http://localhost:2999/data/contacts');
+                const res = await axios.get(`http://localhost:2999/${username}/data/contacts`);
                 const sortedContacts = sortContactsByStatus(res.data);
                 setContacts(sortedContacts);
                 window.location.reload();
@@ -147,9 +147,9 @@ export default function ContactsTable() {
             sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
             size='small'
             color='primary'
-            LinkComponent={Link}
-            to="/add_contact"
-            onClick={() => navigate('/add_contact')}
+            // LinkComponent={Link}
+            // to="/add_contact"
+            onClick={() => navigate(`/${username}/add_contact`)}
             cursor={'pointer'}>
                 <AddIcon fontSize='small'/>
             </IconButton>

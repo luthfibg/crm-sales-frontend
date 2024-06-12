@@ -8,7 +8,7 @@ import '../styles/formCustom.css';
 
 
 const AddContact = () => {
-
+    const username = localStorage.getItem('username'); // get username from localstorage (user login session)
     const status = [
         {
             value:'Masuk',
@@ -42,6 +42,7 @@ const AddContact = () => {
         institution_address:"",
         email_address:"",
         email_address2:"",
+        sales_name:`${username}`,
         phone:"",
         phone2:"",
         socmed_link:"",
@@ -57,9 +58,14 @@ const AddContact = () => {
         e.preventDefault()
         console.log('Contact data being sent:', contact); // logging passed
         try {
-            await axios.post("http://localhost:2999/data/contacts", contact);
+            if (!username) {
+                alert("Tolong masuk terlebih dahulu!");
+                navigate('/login');
+                return
+            }
+            await axios.post(`http://localhost:2999/${username}/data/contacts`, contact);
             // alert("Contact created successfully!");
-            navigate('/');
+            navigate(`/${username}`);
         } catch (err) {
             console.log(err);
             console.error(err.response.data);
@@ -77,50 +83,28 @@ const AddContact = () => {
         autoComplete="off">
             <Typography sx={{ display:'flex', justifyContent:'center', mb:'2rem' }} variant="h5">Daftarkan Kontak Baru</Typography>
             <div>
-                <TextField onChange={handleChange} name="person"
-                id="outlined-required"
-                label="Nama Customer"
-                />
-                <TextField onChange={handleChange} name="person_address"
-                id="outlined-disabled"
-                label="Alamat"
-                type="text"
-                />
-                <TextField onChange={handleChange} name="institution"
-                id="outlined-password-input"
-                label="Nama Institusi"
-                type="text"
-                autoComplete="current-password"
-                />
-                <TextField onChange={handleChange} name="position"
-                id="outlined-position-input"
-                label="Jabatan"
-                />
-                <TextField onChange={handleChange} name="institution_address"
-                id="outlined-number"
-                label="Alamat Institusi"
-                type="text"
-                />
+                <TextField onChange={handleChange} name="person" id="outlined-person" label="Nama Customer"/>
+                <TextField onChange={handleChange} name="person_address" id="outlined-person-address" label="Alamat"/>
+                <TextField onChange={handleChange} name="institution" id="outlined-institution" label="Nama Institusi"/>
+                <TextField onChange={handleChange} name="position" id="outlined-position" label="Jabatan"/>
+                <TextField onChange={handleChange} name="institution_address" id="outlined-institution-address" label="Alamat Institusi"/>
                 <TextField onChange={handleChange} name="email_address" id="outlined-email" label="Email" type="email" />
                 <TextField onChange={handleChange} name="email_address2" id="outlined-email2" label="Email 2" type="email" />
-                <TextField onChange={handleChange} name="phone"
-                id="outlined-helperText"
+                <TextField onChange={handleChange} name="sales_name" id="outlined-sales-name" label="Nama Sales" hidden value={username}/>
+                <TextField onChange={handleChange} name="phone" id="outlined-phone"
                 label="Telepon"
                 defaultValue="08"
                 helperText="Nomor Telepon Whatsapp"
                 />
-                <TextField onChange={handleChange} name="phone2"
-                id="outlined-helperText"
+                <TextField onChange={handleChange} name="phone2" id="outlined-phone2"
                 label="Telepon 2"
                 defaultValue="08"
                 helperText="Nomor Telepon Alternatif"
                 />
                 <TextField onChange={handleChange} name="socmed_link" id="outlined-socmed" label="Link Media Sosial" type="text" />
-                <TextField
-                    id="outlined-select-status"
+                <TextField name="status" id="outlined-status"
                     select
                     label="Status Kontak"
-                    name="status"
                     value={contact.status}
                     onChange={handleChange}
                     // defaultValue="Masuk"
@@ -133,12 +117,7 @@ const AddContact = () => {
                         </MenuItem>
                     ))}
                 </TextField>
-                <TextField 
-                onChange={handleChange} 
-                name="descriptions" id="outlined-desc" 
-                label="Deskripsi" type="text"
-                multiline
-                rows={4} />
+                <TextField name="descriptions" id="outlined-descriptions" onChange={handleChange} label="Deskripsi" multiline rows={4} />
                 <Box display={"flex"}>
                     <Button onClick={handleOnclickSave} sx={{ width:'30%', mr:'1rem' }} variant="outlined">Simpan</Button>
                     <Button component={Link} to="/"  sx={{ width:'30%', ml:'1rem' }} variant="outlined">Batal</Button>
