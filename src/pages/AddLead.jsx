@@ -39,11 +39,13 @@ const leadStatus = [
 
 const AddLead = () => {
 
+    const username = localStorage.getItem('username'); // get username from localstorage (user login session)
+
     const [contact, setContact] = useState([]);
     const [lead, setLead] = useState({
         invoice_date:"",
         lead_title:"",
-        sales_name:"",
+        sales_name:`${username}`,
         person:"",
         institution:'PT. JSRS',
         descriptions:"",
@@ -57,14 +59,14 @@ const AddLead = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const res = await axios.get('http://localhost:2999/data/contacts');
+                const res = await axios.get(`http://localhost:2999/${username}/data/contacts`);
                 setContact(res.data);
             } catch (err) {
                 console.log(err);
             }
         };
         fetchContacts();
-    }, []);
+    }, [username]);
 
     const navigate = useNavigate();
     const handleChange = (e) => {
@@ -82,8 +84,8 @@ const AddLead = () => {
     const handleOnclickSave = async e => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:2999/data/leads', lead);
-            navigate('/');    
+            await axios.post(`http://localhost:2999/${username}/data/leads`, lead);
+            navigate(`/${username}`);    
         } catch (err) {
             console.log(err);
         }
@@ -100,62 +102,46 @@ const AddLead = () => {
         autoComplete="off">
             <Typography sx={{ display:'flex', justifyContent:'center', mb:'2rem' }} variant="h5">Daftarkan Lead Baru</Typography>
             <div>
-                <TextField onChange={handleChange} name="invoice_date"
-                id="outlined-invoice-date"
+                <TextField onChange={handleChange} name="invoice_date" id="outlined-invoice-date"
                 type="date"
                 label="Invoice"
                 InputLabelProps={{ shrink: true }}
                 />
-                <TextField onChange={handleChange} name="lead_title"
-                id="outlined-lead-title"
-                label="Judul Lead"
-                type="text"
-                />
-                <TextField onChange={handleChange} name="sales_name"
-                id="outlined-sales-name"
-                label="Nama Sales"
-                type="text"
-                />
-                <TextField
+                <TextField onChange={handleChange} name="lead_title" id="outlined-lead-title" label="Judul Lead" />
+                <TextField onChange={handleChange} name="sales_name" id="outlined-sales-name" label="Nama Sales" hidden disabled value={username}/>
+                <TextField name="person" id="outlined-person"
                 select
                 onChange={handleChange}
-                name="person"
-                id="outlined-person"
                 label="Nama Customer"
-                value={lead.person}
-            >
+                value={lead.person}>
                 {contact.map((contact) => (
                     <MenuItem key={contact.id} value={contact.person}>
                         {contact.person}
                     </MenuItem>
                 ))}
                 </TextField>
-                <TextField
-                id="outlined-select-institution"
+                <TextField name="institution" id="outlined-select-institution"
                 label="Nama Institusi"
-                name="institution"
                 value={lead.institution}
                 onChange={handleChange}
                 helperText="Nama Institusi akan otomatis terisi"
                 disabled
                 />
-                <TextField onChange={handleChange} name="descriptions"
-                id="outlined-multiline-static"
+                <TextField name="descriptions" id="outlined-multiline-static"
+                onChange={handleChange}
                 label="Keterangan"
                 multiline
                 rows={3}
                 type="text"
                 />
                 <TextField onChange={handleChange} name="trade_value" id="outlined-trade-value" label="Nilai Penjualan" type="number" />
-                <TextField
-                    id="outlined-select-lead-stage"
+                <TextField name="lead_stage" id="outlined-select-lead-stage"
                     select
                     value={lead.lead_stage}
                     onChange={handleChange}
                     label="Tahap Lead"
                     defaultValue="Baru"
                     helperText="Pilih Tahap Lead"
-                    name="lead_stage"
                     >
                     {leadStage.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -163,15 +149,13 @@ const AddLead = () => {
                         </MenuItem>
                     ))}
                 </TextField>
-                <TextField
-                    id="outlined-select-lead-status"
+                <TextField name="lead_status" id="outlined-select-lead-status"
                     select
                     value={lead.lead_status}
                     onChange={handleChange}
                     label="Status Lead"
                     defaultValue="Unqualified"
                     helperText="Pilih Status Lead"
-                    name="lead_status"
                     >
                     {leadStatus.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -179,8 +163,7 @@ const AddLead = () => {
                         </MenuItem>
                     ))}
                 </TextField>
-                <TextField onChange={handleChange} name="notes"
-                id="outlined-notes"
+                <TextField onChange={handleChange} name="notes" id="outlined-notes"
                 label="Catatan"
                 multiline
                 rows={3} />

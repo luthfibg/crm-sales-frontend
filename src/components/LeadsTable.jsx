@@ -21,7 +21,7 @@ export default function LeadsTable() {
     useEffect(() => {
         const fetchAllLeads = async () => {
             try {
-                const res = await axios.get('http://localhost:2999/data/leads');
+                const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
                 setLeads(res.data);
             } catch (err) {
                 console.log(err);
@@ -60,7 +60,7 @@ export default function LeadsTable() {
                     console.log('Check leadId retrieved: '+leadId); // test passed
                 }));
                 // Refresh the leads data after deletion
-                const res = await axios.get('http://localhost:2999/data/leads');
+                const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
                 setLeads(res.data);
                 window.location.reload();
             } catch (err) {
@@ -112,9 +112,7 @@ export default function LeadsTable() {
             <IconButton 
             sx={{ textTransform: 'none' }} 
             color='primary'
-            LinkComponent={Link}
-            to="/add_lead"
-            onClick={() => navigate('/add_lead')}
+            onClick={() => navigate(`/${username}/add_lead`)}
             cursor={'pointer'}>
                 <AddIcon fontSize='small'/>
             </IconButton>
