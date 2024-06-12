@@ -120,7 +120,7 @@ const AddContact = () => {
                 <TextField name="descriptions" id="outlined-descriptions" onChange={handleChange} label="Deskripsi" multiline rows={4} />
                 <Box display={"flex"}>
                     <Button onClick={handleOnclickSave} sx={{ width:'30%', mr:'1rem' }} variant="outlined">Simpan</Button>
-                    <Button component={Link} to="/"  sx={{ width:'30%', ml:'1rem' }} variant="outlined">Batal</Button>
+                    <Button component={Link} to={`/${username}`}  sx={{ width:'30%', ml:'1rem' }} variant="outlined">Batal</Button>
                 </Box>
             </div>
         </Box>

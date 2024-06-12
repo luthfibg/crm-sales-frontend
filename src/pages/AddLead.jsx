@@ -164,7 +164,7 @@ const AddLead = () => {
                 {/* input button */}
                 <Box sx={{ display:'flex', paddingX:'2rem' }}>
                 <Button onClick={handleOnclickSave} sx={{ width:'50%', mr:'1rem' }} variant="outlined">Simpan</Button>
-                <Button sx={{ width:'50%', ml:'1rem' }} variant="outlined" component={Link} to="/">Batal</Button>
+                <Button sx={{ width:'50%', ml:'1rem' }} variant="outlined" component={Link} to={`/${username}`}>Batal</Button>
                 </Box>
             </div>
         </Box>
