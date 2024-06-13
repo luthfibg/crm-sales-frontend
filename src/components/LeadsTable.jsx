@@ -22,7 +22,9 @@ export default function LeadsTable() {
         const fetchAllLeads = async () => {
             try {
                 const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
-                setLeads(res.data);
+                // Add id property for DataGrid
+                const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
+                setLeads(leadsWithId);
             } catch (err) {
                 console.log(err);
             }
@@ -51,37 +53,34 @@ export default function LeadsTable() {
                 {value: 'diskualifikasi', label: 'Diskualifikasi'}
             ],
             headerClassName: 'super-app-theme--header' },
+        { field: 'response_time', headerName: 'Waktu Respon', width: 30, headerClassName: 'super-app-theme--header' },
+        { field: 'interaction_level', headerName: 'Level Interaksi', width: 30, headerClassName: 'super-app-theme--header' },
+        { field: 'source', headerName: 'Sumber', width: 40, headerClassName: 'super-app-theme--header' },
+        { field: 'converted', headerName: 'Dikonversi?', width: 30, headerClassName: 'super-app-theme--header' },
         { field: 'unqualified_reason', headerName: 'Alasan Diskualifikasi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'lead_age', headerName: 'Umur Lead', width: 50, headerClassName: 'super-app-theme--header' },
         { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
     ];
 
-    const handleCellEditStop = async (params, event) => {
-        const { id, field, value } = params;
-        if (field === 'lead_status' && event.key === 'Enter') {
-            try {
-                const lead = leads.find(row => row.lead_id === id);
-                if (lead) {
-                    const updatedLead = { ...lead, [field]: value };
-
-                    console.log('Check id retrieved: '+id); // test passed
-                    console.log('Check updatedLead retrieved: '+updatedLead); // test passed
-
-                    // Update the lead on the server
-                    const response = await axios.put(`http://localhost:2999/${username}/data/leads/${id}`, updatedLead);
-                    console.log('Server Response:', response.data); 
-
-                    // Update the local state with the updated lead data
-                    setLeads((prevLeads) =>
-                        prevLeads.map((row) => (row.lead_id === id ? updatedLead : row))
-                    );
-                    console.log(response.data);
-                }
-            } catch (error) {
-                console.error('Failed to update:', error);
-            }
+    const processRowUpdate = async (newRow, oldRow) => {
+        try {
+            const response = await axios.put(`http://localhost:2999/${username}/data/leads/${newRow.lead_id}`, newRow);
+            // Update the local state with the updated row data
+            setLeads((prevLeads) =>
+                prevLeads.map((row) => (row.lead_id === newRow.lead_id ? { ...newRow, id: newRow.lead_id } : row))
+            );
+            return newRow;
+        } catch (error) {
+            console.error('Failed to update:', error);
+            // If the update fails, return the old row to revert the changes in the grid
+            return oldRow;
         }
     };
+
+    const handleProcessRowUpdateError = (error) => {
+        console.error('Error processing row update:', error);
+    };
+
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
             navigate(`/${username}/update_lead/${rowSelectionModel[0]}`);
@@ -97,7 +96,9 @@ export default function LeadsTable() {
                 }));
                 // Refresh the leads data after deletion
                 const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
-                setLeads(res.data);
+                // Add id property for DataGrid
+                const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
+                setLeads(leadsWithId);
                 window.location.reload();
             } catch (err) {
                 console.log(err);
@@ -127,7 +128,8 @@ export default function LeadsTable() {
                 pageSizeOptions={[5, 10, 25, 50, 100]}
                 checkboxSelection
                 getRowId={(row) => row.lead_id} // Use lead_id as the unique row ID
-                onCellEditStop={handleCellEditStop}
+                processRowUpdate={processRowUpdate}
+                onProcessRowUpdateError={handleProcessRowUpdateError}
                 onRowSelectionModelChange={(newRowSelectionModel) => {
                     setRowSelectionModel(newRowSelectionModel);
                 }}
@@ -182,6 +184,5 @@ export default function LeadsTable() {
             </IconButton>
         </Stack>
         </>
-    )
-
+    );
 }
