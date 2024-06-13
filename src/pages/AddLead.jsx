@@ -14,6 +14,28 @@ const leadStatus = [
     { value:'diskualifikasi', label:'Diskualifikasi' },
 ];
 
+const interactionLevel = [
+    { value:1, label:'1' },
+    { value:2, label:'2' },
+    { value:3, label:'3' },
+    { value:4, label:'4' },
+    { value:5, label:'5' },
+];
+
+const source = [
+    { value:'email', label:'Email' },
+    { value:'referal', label:'Referal' },
+    { value:'ad', label:'Iklan' },
+    { value:'search engine', label:'Mesin Pencari' },
+    { value:'social media', label:'Media Sosial' },
+    { value:'network', label:'Jaringan' },
+];
+
+const converted = [
+    { value:1, label:'Ya' },
+    { value:0, label:'Tidak' },
+];
+
 const unqualifiedReason = [
     { value:'', label:'' },
     { value:'tidak responsif', label:'Tidak Responsif' },
@@ -36,6 +58,10 @@ const AddLead = () => {
         descriptions:"",
         trade_value:null,
         lead_status: leadStatus[0].value,
+        response_time:null,
+        interaction_level: interactionLevel[0].value,
+        source: source[0].value,
+        converted: converted[0].value,
         unqualified_reason: unqualifiedReason[0].value,
         notes:"",
     });
@@ -90,13 +116,10 @@ const AddLead = () => {
                 <TextField onChange={handleChange} name="lead_title" id="outlined-lead-title" label="Judul Lead" />
                 
                 {/* input 2 */}
-                <TextField onChange={handleChange} name="sales_name" id="outlined-sales-name" label="Nama Sales" hidden disabled value={username}/>
+                <TextField onChange={handleChange} name="sales_name" id="outlined-sales-name" label="Nama Sales" hidden disabled value={username} sx={{ display:'none' }}/>
                 
                 {/* input 3 */}
-                <TextField name="person" id="outlined-person"
-                select
-                onChange={handleChange}
-                label="Nama Customer"
+                <TextField name="person" id="outlined-person" select onChange={handleChange} label="Nama Customer"
                 value={lead.person}>
                 {contact.map((contact) => (
                     <MenuItem key={contact.id} value={contact.person}>
@@ -106,33 +129,24 @@ const AddLead = () => {
                 </TextField>
 
                 {/* input 4 */}
-                <TextField name="institution" id="outlined-select-institution"
-                label="Nama Institusi"
-                value={lead.institution}
+                <TextField name="institution" id="outlined-select-institution" label="Nama Institusi" value={lead.institution}
                 onChange={handleChange}
                 helperText="Nama Institusi akan otomatis terisi"
                 disabled/>
 
                 {/* input 5 */}
-                <TextField name="descriptions" id="outlined-multiline-static"
-                onChange={handleChange}
-                label="Keterangan"
+                <TextField name="descriptions" id="outlined-multiline-static" onChange={handleChange} label="Keterangan"
                 multiline
-                rows={3}
+                rows={1}
                 type="text"/>
 
                 {/* input 6 */}
                 <TextField onChange={handleChange} name="trade_value" id="outlined-trade-value" label="Nilai Penjualan" type="number" />
                 
                 {/* input 7 */}
-                <TextField name="lead_status" id="outlined-select-lead-status"
-                    select
-                    value={lead.lead_status}
-                    onChange={handleChange}
-                    label="Status Lead"
-                    defaultValue="Baru"
-                    helperText="Pilih Status Lead"
-                    >
+                <TextField name="lead_status" id="outlined-select-lead-status" select value={lead.lead_status}
+                    onChange={handleChange} label="Status Lead" defaultValue="baru"
+                    helperText="*Status Lead Saat Ini">
                     {leadStatus.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                         {option.label}
@@ -141,6 +155,41 @@ const AddLead = () => {
                 </TextField>
 
                 {/* input 8 */}
+                <TextField onChange={handleChange} name="response_time" id="outlined-response-time" label="Waktu Respon" type="number"
+                helperText="*Berdasarkan Jam" />
+
+                {/* input 9 */}
+                <TextField name="interaction_level" id="outlined-interaction-level" select value={lead.interaction_level}
+                    onChange={handleChange} label="Level Interaksi" defaultValue="1"
+                    helperText="*Perkiraan Sesuai Pengalaman">
+                    {interactionLevel.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+                {/* input 9 */}
+                <TextField name="source" id="outlined-source" select value={lead.source}
+                    onChange={handleChange} label="Sumber Prospek" defaultValue="email">
+                    {source.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+                {/* input 10 */}
+                <TextField name="converted" id="outlined-converted" select value={lead.converted}
+                    onChange={handleChange} label="Dikonversi?" defaultValue="0">
+                    {converted.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+                {/* input 11 */}
                 <TextField name="unqualified_reason" id="outlined-select-unqualified-reason"
                     select
                     value={lead.unqualified_reason}
@@ -159,7 +208,7 @@ const AddLead = () => {
                 <TextField onChange={handleChange} name="notes" id="outlined-notes"
                 label="Catatan"
                 multiline
-                rows={3} />
+                rows={1} />
 
                 {/* input button */}
                 <Box sx={{ display:'flex', paddingX:'2rem' }}>
