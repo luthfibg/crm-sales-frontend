@@ -2,6 +2,7 @@ import { Box, Grid, Paper, Typography } from "@mui/material";
 import React from "react";
 import darkTheme from "../styles/darkTheme";
 import LiveDataTotalContacts from "../components/LiveDataTotalContacts";
+import LiveDataContactPie from "../components/LiveDataContactPie";
 
 function CRMMonitor() {
 
@@ -19,7 +20,7 @@ function CRMMonitor() {
                         <Grid container columns={{ xs: 4, sm: 8, md: 3, lg: 3, xl: 4 }} height={'100%'}>
                             <Grid item xs={4} sm={8} md={3} lg={3} xl={4}>
                                 <Paper sx={{ display: 'flex', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                                    <Typography>Live Data 1</Typography>
+                                    <LiveDataContactPie/>
                                 </Paper>
                             </Grid>
                             <Grid item xs={4} sm={8} md={3} lg={3} xl={4} mt={0.5}>

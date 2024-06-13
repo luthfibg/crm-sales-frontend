@@ -39,12 +39,12 @@ export default class LiveDataTotalContacts extends PureComponent {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
+              <XAxis dataKey="name" tick={{ fontSize: '11px' }} />
+              <YAxis tick={{ fontSize: '11px' }}/>
               <Tooltip />
-              <Legend />
-              <Bar dataKey="pv" stackId="a" fill="#8884d8" />
-              <Bar dataKey="uv" stackId="a" fill="#82ca9d" />
+              <Legend wrapperStyle={{ fontSize: '11px' }} />
+              <Bar dataKey="pv" stackId="a" fill="#8884d8" barSize={20} />
+              <Bar dataKey="uv" stackId="a" fill="#82ca9d" barSize={20} />
             </BarChart>
           </ResponsiveContainer>
         );

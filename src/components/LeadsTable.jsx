@@ -38,12 +38,50 @@ export default function LeadsTable() {
         { field: 'institution', headerName: 'Institusi', width: 130, headerClassName: 'super-app-theme--header' },
         { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'trade_value', headerName: 'Value', width: 100, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lead_status', headerName: 'Status Lead', width: 100, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'lead_status',
+            headerName: 'Status Lead',
+            width: 100,
+            editable: true,
+            type: 'singleSelect',
+            valueOptions: [
+                {value: 'baru', label: 'Baru'},
+                {value: 'mencoba menghubungi', label: 'Mencoba Menghubungi'},
+                {value: 'dihubungi', label: 'Dihubungi'}, 
+                {value: 'sukses', label: 'Sukses'}, 
+                {value: 'diskualifikasi', label: 'Diskualifikasi'}
+            ],
+            headerClassName: 'super-app-theme--header' },
         { field: 'unqualified_reason', headerName: 'Alasan Diskualifikasi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'lead_age', headerName: 'Umur Lead', width: 50, headerClassName: 'super-app-theme--header' },
         { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
     ];
 
+    const handleCellEditStop = async (params, event) => {
+        const { id, field, value } = params;
+        if (field === 'lead_status' && event.key === 'Enter') {
+            try {
+                const lead = leads.find(row => row.lead_id === id);
+                if (lead) {
+                    const updatedLead = { ...lead, [field]: value };
+
+                    console.log('Check id retrieved: '+id); // test passed
+                    console.log('Check updatedLead retrieved: '+updatedLead); // test passed
+
+                    // Update the lead on the server
+                    const response = await axios.put(`http://localhost:2999/${username}/data/leads/${id}`, updatedLead);
+                    console.log('Server Response:', response.data); 
+
+                    // Update the local state with the updated lead data
+                    setLeads((prevLeads) =>
+                        prevLeads.map((row) => (row.lead_id === id ? updatedLead : row))
+                    );
+                    console.log(response.data);
+                }
+            } catch (error) {
+                console.error('Failed to update:', error);
+            }
+        }
+    };
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
             navigate(`/${username}/update_lead/${rowSelectionModel[0]}`);
@@ -81,13 +119,15 @@ export default function LeadsTable() {
                 backgroundColor: 'rgba(33, 45, 51, 1.0)',
             }, }} bgcolor={darkTheme.palette.background.paper2}>
             <DataGrid
-                rows={leads.map((lead, index) => ({ id: index + 1, ...lead }))}
+                rows={leads}
                 columns={leadColumns}
                 pagination
                 paginationModel={paginationModel}
                 onPaginationModelChange={handlePaginationModelChange}
                 pageSizeOptions={[5, 10, 25, 50, 100]}
                 checkboxSelection
+                getRowId={(row) => row.lead_id} // Use lead_id as the unique row ID
+                onCellEditStop={handleCellEditStop}
                 onRowSelectionModelChange={(newRowSelectionModel) => {
                     setRowSelectionModel(newRowSelectionModel);
                 }}
