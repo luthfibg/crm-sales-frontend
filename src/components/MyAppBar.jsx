@@ -161,8 +161,8 @@ function MyAppBar() {
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }} mr={4}>
-            <Typography color={'secondary'}>{fullname}</Typography>
+          <Box sx={{ flexGrow: 0 }} mr={3}>
+            <Typography fontSize={12} color={'secondary'}>{fullname}</Typography>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

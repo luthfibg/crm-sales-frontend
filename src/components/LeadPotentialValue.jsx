@@ -58,7 +58,6 @@ const data = [
 ];
 
 export default class LeadPotentialValue extends PureComponent {
-//   static demoUrl = 'https://codesandbox.io/p/sandbox/synchronized-line-charts-37rhmf';
 
   render() {
     return (

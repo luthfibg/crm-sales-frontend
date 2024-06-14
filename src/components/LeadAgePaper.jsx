@@ -1,8 +1,9 @@
 import React from "react";
 import { Paper, Typography } from "@mui/material";
 import darkTheme from "../styles/darkTheme";
+import LeadAge from "./LeadAge";
 
-export default function LeadGraphSub() {
+export default function LeadAgePaper() {
     return (
         <Paper
             sx={{
@@ -11,11 +12,12 @@ export default function LeadGraphSub() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flexDirection: "column",
                 bgcolor: darkTheme.palette.background.paper,
                 mb: "1rem",
             }}
         >
-            <Typography>Chart Line Resume</Typography>
+            <LeadAge/>
         </Paper>
     );
 }
