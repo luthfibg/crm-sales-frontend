@@ -1,8 +1,9 @@
 import React from "react";
 import { Paper, Typography } from "@mui/material";
 import darkTheme from "../styles/darkTheme";
+import LeadPotentialValue from "./LeadPotentialValue";
 
-export default function LeadGraphLine() {
+export default function LeadPotentialValuePaper() {
     return (
         <Paper
             sx={{
@@ -12,9 +13,9 @@ export default function LeadGraphLine() {
                 justifyContent: "center",
                 alignItems: "center",
                 bgcolor: darkTheme.palette.background.paper,
-            }}
-        >
-            <Typography>Line Chart</Typography>
+            }}>
+            <LeadPotentialValue/>
         </Paper>
     );
 }
+
