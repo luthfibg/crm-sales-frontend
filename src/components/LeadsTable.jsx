@@ -6,13 +6,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Divider, IconButton, Stack, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import darkTheme from '../styles/darkTheme';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import Clear from '@mui/icons-material/Clear';
 import OnlinePrediction from '@mui/icons-material/OnlinePrediction';
 import '../styles/init.css';
+
+const CRMTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+    ))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      maxWidth: 160,
+    },
+});
 
 export default function LeadsTable() {
     const [leads, setLeads] = useState([]);
@@ -48,12 +58,24 @@ export default function LeadsTable() {
     }, [username]);
 
     const leadColumns = [
-        { field: 'id', headerName: 'ID', width: 30, headerClassName: 'super-app-theme--header' },
-        { field: 'lead_title', headerName: 'Nama Lead', width: 130, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'person', headerName: 'Pelanggan', width: 130, headerClassName: 'super-app-theme--header' },
-        { field: 'institution', headerName: 'Institusi', width: 130, headerClassName: 'super-app-theme--header' },
-        { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'trade_value', headerName: 'Value', width: 100, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'id', headerName: 'ID', width: 30, headerClassName: 'super-app-theme--header', renderHeader: (params) => {
+            <Tooltip title="ID Lead"><span>{params.colDef.headerName}</span></Tooltip >
+        }},
+        { field: 'lead_title', headerName: 'Nama Lead', width: 130, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Judul Lead, Untuk Memudahkan Identifikasi"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'person', headerName: 'Pelanggan', width: 130, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Nama Pelanggan (Link Utama Institusi)"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'institution', headerName: 'Institusi', width: 130, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Nama Institusi Pelanggan"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Dapat Diisi Dengan Detail Lead"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'trade_value', headerName: 'Value', width: 100, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Besarnya Nilai Potensi Lead (Dalam Rupiah)"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
         { field: 'lead_status',
             headerName: 'Status Lead',
             width: 100,
@@ -66,11 +88,22 @@ export default function LeadsTable() {
                 {value: 'sukses', label: 'Sukses'}, 
                 {value: 'diskualifikasi', label: 'Diskualifikasi'}
             ],
-            headerClassName: 'super-app-theme--header' },
-        { field: 'response_time', headerName: 'Waktu Respon', width: 60, headerClassName: 'super-app-theme--header' },
-        { field: 'interaction_level', headerName: 'Level Interaksi', width: 60, headerClassName: 'super-app-theme--header' },
-        { field: 'source', headerName: 'Sumber', width: 60, headerClassName: 'super-app-theme--header' },
-        { field: 'converted', headerName: 'Dikonversi?', width: 70, headerClassName: 'super-app-theme--header' },
+            headerClassName: 'super-app-theme--header',
+            renderHeader: (params) => (
+                <Tooltip title="Status Lead Saat Ini"><span>{params.colDef.headerName}</span></Tooltip >
+            )},
+        { field: 'response_time', headerName: 'Waktu Respon', width: 60, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Rata-Rata Durasi Pelanggan Merespon (Dalam Jam)"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'interaction_level', headerName: 'Level Interaksi', width: 60, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Level Interaksi Pelanggan (Menggunakan Skala 1-5, Diisi Menggunakan Perkiraan Anda). 1 berarti sangat rendah, 5 sangat tinggi"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'source', headerName: 'Sumber', width: 60, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Sumber Lead Mendapatkan Informasi Tentang Produk Anda"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'converted', headerName: 'Dikonversi?', width: 70, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Apakah Pelanggan Berhasil Dikonversi? (1 artinya Ya, 0 artinya Tidak). Prediksi Lead Akan Menaruh Nilai Disini, Namun Sifatnya Sementara. Anda Dapat Mengeditnya Untuk Menyimpannya Secara Permanen"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
         {
             field: 'xgboost_predict',
             headerName: 'Predict',
@@ -84,11 +117,20 @@ export default function LeadsTable() {
                         {convertedValue} &nbsp; {convertedValue === 'convert' ? <ArrowUpward fontSize='12px' /> : <Clear fontSize='12px' />}
                     </Typography>
                 );
-            }
+            },
+            renderHeader: (params) => (
+                <Tooltip title="Hasil Prediksi Lead. Anda Dapat Meng-Klik Untuk Meningkatkannya Ke Opportunity, Atau Menurunkannya Dalam Daftar Lead Terdiskualifikasi"><span>{params.colDef.headerName}</span></Tooltip >
+            )
         },
-        { field: 'unqualified_reason', headerName: 'Alasan Diskualifikasi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lead_age', headerName: 'Umur Lead', width: 50, headerClassName: 'super-app-theme--header' },
-        { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'unqualified_reason', headerName: 'Alasan Diskualifikasi', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Alasan Leas Didiskualifikasi"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'lead_age', headerName: 'Umur Lead', width: 50, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Umur Lead Saat Ini (Dalam Hari), Dihitung Mulai Lead Ditambahkan. Jika Umur Lead Lebih Dari 15 Hari, Maka Lead Akan Di Diskualifikasi Otomatis."><span>{params.colDef.headerName}</span></Tooltip >
+        )},
+        { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Catatan Tambahan Mengenai Lead"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
     ];
 
     const processRowUpdate = async (newRow, oldRow) => {
@@ -198,47 +240,67 @@ export default function LeadsTable() {
             p: '0.5rem',
             borderRadius: '0.2rem',
         }}>
-            <IconButton 
-            sx={{ textTransform: 'none' }} 
-            color='primary'
-            onClick={handlePrediction}
-            cursor={'pointer'}>
-                <OnlinePrediction fontSize='small'/>
-            </IconButton>
-
-            <IconButton 
-            sx={{ textTransform: 'none' }} 
-            color='primary'
-            onClick={() => navigate(`/${username}/add_lead`)}
-            cursor={'pointer'}>
-                <AddIcon fontSize='small'/>
-            </IconButton>
-            
-            <IconButton
-                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-                size='small'
-                variant="outlined"
-                disabled={rowSelectionModel.length !== 1}
+            <CRMTooltip title={
+                <React.Fragment>
+                    <Typography color='text.secondary' fontSize={12}>Prediksi Konversi Leads</Typography>
+                    <Divider orientation='horizontal' />
+                    <Typography color='text.secondary' fontSize={10}><Typography color='text.primary' display={'inline'} fontSize={14}>&#183;</Typography>&nbsp;Menggunakan Algoritma ML</Typography>
+                    <Typography color='text.secondary' fontSize={10}><Typography color='text.primary' display={'inline'} fontSize={14}>&#183;</Typography>&nbsp;Prediksi yang dihasilkan merupakan rekomendasi, bukan eksak</Typography>
+                    <Typography color='text.secondary' fontSize={10}><Typography color='text.primary' display={'inline'} fontSize={14}>&#183;</Typography>&nbsp;Hasil prediksi tidak disimpan permanen, anda yang mengambil keputusan.</Typography>
+                </React.Fragment>
+            } placement='top'>
+                <IconButton 
+                sx={{ textTransform: 'none' }} 
                 color='primary'
-                onClick={handleEditClick}
+                onClick={handlePrediction}
                 cursor={'pointer'}>
-                <EditIcon fontSize='small'/>
-            </IconButton>
-            <IconButton
+                    <OnlinePrediction fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
+
+            <CRMTooltip title="Tambahkan lead baru" placement="top" arrow>
+                <IconButton 
+                sx={{ textTransform: 'none' }} 
+                color='primary'
+                onClick={() => navigate(`/${username}/add_lead`)}
+                cursor={'pointer'}>
+                    <AddIcon fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
+            
+            <CRMTooltip title="Edit lead. Anda hanya dapat memilih 1 lead untuk diedit" placement="top" arrow>
+                <IconButton
+                    sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                    size='small'
+                    variant="outlined"
+                    disabled={rowSelectionModel.length !== 1}
+                    color='primary'
+                    onClick={handleEditClick}
+                    cursor={'pointer'}>
+                    <EditIcon fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
+
+            <CRMTooltip title="Hapus lead. Pilih 1 atau lebih lead untuk dihapus. Ingat: Lead yang dihapus tidak dapat dikembalikan." placement="top" arrow>
+                <IconButton
+                    sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                    size='small'
+                    variant="outlined"
+                    color="error"
+                    disabled={rowSelectionModel < 1}
+                    onClick={handleDelete}>
+                    <RemoveCircleOutlineIcon fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
+
+            <CRMTooltip title="Tampilkan seluruh lead" placement="top" arrow>
+                <IconButton
                 sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                 size='small'
-                variant="outlined"
-                color="error"
-                disabled={rowSelectionModel < 1}
-                onClick={handleDelete}>
-                <RemoveCircleOutlineIcon fontSize='small'/>
-            </IconButton>
-            <IconButton
-            sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-            size='small'
-            color='primary'>
-                <FormatListNumberedRtlOutlinedIcon fontSize='small' />
-            </IconButton>
+                color='primary'>
+                    <FormatListNumberedRtlOutlinedIcon fontSize='small' />
+                </IconButton>
+            </CRMTooltip>
         </Stack>
         </>
     );

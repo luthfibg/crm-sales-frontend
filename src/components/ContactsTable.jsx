@@ -6,11 +6,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, IconButton, Stack } from '@mui/material';
-import { Link, useNavigate } from "react-router-dom";
+import { Box, IconButton, Stack, Tooltip } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { tooltipClasses } from '@mui/material/Tooltip';
+import { useNavigate } from "react-router-dom";
 import '../styles/init.css';
 import darkTheme from '../styles/darkTheme';
   
+const CRMTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+    ))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      maxWidth: 160,
+    },
+});
 
 export default function ContactsTable() {
     const [contacts, setContacts] = useState([]);
@@ -52,13 +61,37 @@ export default function ContactsTable() {
     const contactColumns = [
         // with custom datagrid header
         { field: 'id', headerName: 'ID', width: 70 , headerClassName: 'super-app-theme--header'},
-        { field: 'person', headerName: 'Nama', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'person', headerName: 'Nama', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Nama Pelanggan (Link Utama Institusi)">
+                <span>{params.colDef.headerName}</span>
+            </Tooltip>
+        )},
         { field: 'person_address', headerName: 'Alamat', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'institution', headerName: 'Institusi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'position', headerName: 'Posisi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'institution_address', headerName: 'Alamat Institusi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'status', headerName: 'Status', width: 100, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'institution', headerName: 'Institusi', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Nama Institusi Pelanggan">
+                <span>{params.colDef.headerName}</span>
+            </Tooltip>
+        )},
+        { field: 'position', headerName: 'Posisi', width: 150, editable: true, headerClassName: 'super-app-theme--header' , renderHeader: (params) => (
+            <Tooltip title="Posisi Pelanggan Dalam Institusi [Jika Informasi Tersedia]">
+                <span>{params.colDef.headerName}</span>
+            </Tooltip>
+        )},
+        { field: 'institution_address', headerName: 'Alamat Institusi', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Alamat Institusi Pelanggan [Jika Informasi Tersedia]">
+                <span>{params.colDef.headerName}</span>
+            </Tooltip>
+        )},
+        { field: 'status', headerName: 'Status', width: 100, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Status Kontak Saat Ini Dalam Pemeliharaan Sales">
+                <span>{params.colDef.headerName}</span>
+            </Tooltip>
+        )},
+        { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Informasi Tambahan Kontak">
+                <span>{params.colDef.headerName}</span>
+            </Tooltip>
+        )},
     ];
 
     const handleEditClick = () => {
@@ -143,41 +176,49 @@ export default function ContactsTable() {
             borderRadius: '0.2rem',
             mb: '1rem'
         }}>
-            <IconButton
-            sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-            size='small'
-            color='primary'
-            // LinkComponent={Link}
-            // to="/add_contact"
-            onClick={() => navigate(`/${username}/add_contact`)}
-            cursor={'pointer'}>
-                <AddIcon fontSize='small'/>
-            </IconButton>
-            <IconButton
-            sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-            size='small'
-            disabled={rowSelectionModel.length !== 1}
-            color='primary'
-            onClick={handleEditClick}
-            cursor={'pointer'}>
-                <EditIcon fontSize='small'/>
-            </IconButton>
-            <IconButton
-            sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-            size='small'
-            disabled={rowSelectionModel.length < 1}
-            color='error'
-            onClick={handleDelete}
-            cursor={'pointer'}>
-                <RemoveCircleOutlineIcon fontSize='small'/>
-            </IconButton>
-            <IconButton
-            sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-            size='small'
-            color='primary'
-            cursor={'pointer'}>
-                <FormatListNumberedRtlOutlinedIcon fontSize='small'/>
-            </IconButton>
+            <CRMTooltip title="Tambahkan Kontak Baru" placement="top" arrow>
+                <IconButton
+                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                size='small'
+                color='primary'
+                // LinkComponent={Link}
+                // to="/add_contact"
+                onClick={() => navigate(`/${username}/add_contact`)}
+                cursor={'pointer'}>
+                    <AddIcon fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
+            <CRMTooltip title="Edit kontak. Anda hanya boleh memilih 1 kontak untuk diedit" placement="top" arrow>
+                <IconButton
+                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                size='small'
+                disabled={rowSelectionModel.length !== 1}
+                color='primary'
+                onClick={handleEditClick}
+                cursor={'pointer'}>
+                    <EditIcon fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
+            <CRMTooltip title="Hapus kontak. Pilih 1 atau lebih kontak untuk dihapus. Ingat: Kontak yang dihapus tidak dapat dikembalikan." placement="top" arrow>
+                <IconButton
+                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                size='small'
+                disabled={rowSelectionModel.length < 1}
+                color='error'
+                onClick={handleDelete}
+                cursor={'pointer'}>
+                    <RemoveCircleOutlineIcon fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
+            <CRMTooltip title="Tampilkan seluruh kontak" placement="top" arrow>
+                <IconButton
+                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                size='small'
+                color='primary'
+                cursor={'pointer'}>
+                    <FormatListNumberedRtlOutlinedIcon fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
         </Stack>
         </>
     )
