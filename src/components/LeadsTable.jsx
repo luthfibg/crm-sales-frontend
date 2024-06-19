@@ -6,9 +6,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, IconButton, Stack } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import darkTheme from '../styles/darkTheme';
+import ArrowUpward from '@mui/icons-material/ArrowUpward';
+import Clear from '@mui/icons-material/Clear';
+import OnlinePrediction from '@mui/icons-material/OnlinePrediction';
 import '../styles/init.css';
 
 export default function LeadsTable() {
@@ -24,6 +27,17 @@ export default function LeadsTable() {
                 const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
                 // Add id property for DataGrid
                 const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
+
+                // Predict conversion for each lead
+                // for (const lead of leadsWithId) {
+                //     const predictionRes = await axios.post(`http://localhost:2999/${username}/data/leads/${lead.lead_id}/predict`, {
+                //         lead_status: lead.lead_status,
+                //         response_time: lead.response_time,
+                //         interaction_level: lead.interaction_level,
+                //         source: lead.source
+                //     });
+                //     lead.converted = predictionRes.data.prediction;
+                // } 
                 setLeads(leadsWithId);
             } catch (err) {
                 console.log(err);
@@ -53,10 +67,25 @@ export default function LeadsTable() {
                 {value: 'diskualifikasi', label: 'Diskualifikasi'}
             ],
             headerClassName: 'super-app-theme--header' },
-        { field: 'response_time', headerName: 'Waktu Respon', width: 30, headerClassName: 'super-app-theme--header' },
-        { field: 'interaction_level', headerName: 'Level Interaksi', width: 30, headerClassName: 'super-app-theme--header' },
-        { field: 'source', headerName: 'Sumber', width: 40, headerClassName: 'super-app-theme--header' },
-        { field: 'converted', headerName: 'Dikonversi?', width: 30, headerClassName: 'super-app-theme--header' },
+        { field: 'response_time', headerName: 'Waktu Respon', width: 60, headerClassName: 'super-app-theme--header' },
+        { field: 'interaction_level', headerName: 'Level Interaksi', width: 60, headerClassName: 'super-app-theme--header' },
+        { field: 'source', headerName: 'Sumber', width: 60, headerClassName: 'super-app-theme--header' },
+        { field: 'converted', headerName: 'Dikonversi?', width: 70, headerClassName: 'super-app-theme--header' },
+        {
+            field: 'xgboost_predict',
+            headerName: 'Predict',
+            width: 100,
+            headerClassName: 'super-app-theme--header',
+            renderCell: (params) => {
+                const lead = leads.find((l) => l.id === params.row.id);
+                const convertedValue = lead ? (lead.converted === 1 ? 'convert' : 'disqualify') : '';
+                return (
+                    <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }} fontSize={'12px'} color={lead.converted === 1 ? '#69f0ae' : '#ff7043'}>
+                        {convertedValue} &nbsp; {convertedValue === 'convert' ? <ArrowUpward fontSize='12px' /> : <Clear fontSize='12px' />}
+                    </Typography>
+                );
+            }
+        },
         { field: 'unqualified_reason', headerName: 'Alasan Diskualifikasi', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
         { field: 'lead_age', headerName: 'Umur Lead', width: 50, headerClassName: 'super-app-theme--header' },
         { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header' },
@@ -110,6 +139,26 @@ export default function LeadsTable() {
         setPaginationModel(newPaginationModel);
     };
 
+    const handlePrediction = async () => {
+        try {
+            const updatedLeads = await Promise.all(
+                leads.map(async (lead) => {
+                    console.log("Lead ID:" + lead.lead_id);
+                    const predictionRes = await axios.post(`http://localhost:2999/${username}/data/leads/${lead.lead_id}/predict`, {
+                        lead_status: lead.lead_status,
+                        response_time: lead.response_time,
+                        interaction_level: lead.interaction_level,
+                        source: lead.source
+                    });
+                    return { ...lead, converted: predictionRes.data.prediction };
+                })
+            );
+            setLeads(updatedLeads);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <>
         <Box sx={{
@@ -149,6 +198,14 @@ export default function LeadsTable() {
             p: '0.5rem',
             borderRadius: '0.2rem',
         }}>
+            <IconButton 
+            sx={{ textTransform: 'none' }} 
+            color='primary'
+            onClick={handlePrediction}
+            cursor={'pointer'}>
+                <OnlinePrediction fontSize='small'/>
+            </IconButton>
+
             <IconButton 
             sx={{ textTransform: 'none' }} 
             color='primary'

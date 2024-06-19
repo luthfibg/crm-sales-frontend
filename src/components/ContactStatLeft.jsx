@@ -11,12 +11,13 @@ export default function ContactStatLeft() {
 
     const [contacts, setContacts] = useState([]);
     const [leads, setLeads] = useState([]);
+    const username = localStorage.getItem('username');
   
     // load data from API/backend
     const fetchData = async () => {
         try {
-          const contactResponse = await axios.get('http://localhost:2999/data/contacts');
-          const leadResponse = await axios.get('http://localhost:2999/data/leads');
+          const contactResponse = await axios.get(`http://localhost:2999/${username}/data/contacts`);
+          const leadResponse = await axios.get(`http://localhost:2999/${username}/data/leads`);
           setContacts(contactResponse.data);
           setLeads(leadResponse.data);
         } catch (err) {
