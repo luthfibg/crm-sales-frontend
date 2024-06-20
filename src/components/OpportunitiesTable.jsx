@@ -157,17 +157,20 @@ export default function OpportunitiesTable() {
             </CRMTooltip> */}
 
             <CRMTooltip title="Tambahkan peluang baru" placement="top" arrow>
-                <IconButton 
-                sx={{ textTransform: 'none' }} 
-                color='primary'
-                onClick={() => navigate(`/${username}/add_opportunity`)}
-                cursor={'pointer'}
-                disabled>
-                    <AddIcon fontSize='small'/>
-                </IconButton>
+                <span>
+                    <IconButton 
+                    sx={{ textTransform: 'none' }} 
+                    color='primary'
+                    onClick={() => navigate(`/${username}/add_opportunity`)}
+                    cursor={'pointer'}
+                    disabled>
+                        <AddIcon fontSize='small'/>
+                    </IconButton>
+                </span>
             </CRMTooltip>
             
             <CRMTooltip title="Edit peluang. Anda hanya dapat memilih 1 peluang untuk diedit" placement="top" arrow>
+                <span>
                 <IconButton
                     sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                     size='small'
@@ -178,9 +181,11 @@ export default function OpportunitiesTable() {
                     cursor={'pointer'}>
                     <EditIcon fontSize='small'/>
                 </IconButton>
+                </span>
             </CRMTooltip>
 
             <CRMTooltip title="Hapus peluang. Pilih 1 atau lebih peluang untuk dihapus. Ingat: Peluang yang dihapus tidak dapat dikembalikan." placement="top" arrow>
+                <span>
                 <IconButton
                     sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                     size='small'
@@ -190,6 +195,7 @@ export default function OpportunitiesTable() {
                     onClick={handleDelete}>
                     <RemoveCircleOutlineIcon fontSize='small'/>
                 </IconButton>
+                </span>
             </CRMTooltip>
 
             <CRMTooltip title="Tampilkan seluruh peluang" placement="top" arrow>

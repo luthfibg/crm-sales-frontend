@@ -189,6 +189,7 @@ export default function ContactsTable() {
                 </IconButton>
             </CRMTooltip>
             <CRMTooltip title="Edit kontak. Anda hanya boleh memilih 1 kontak untuk diedit" placement="top" arrow>
+                <span>
                 <IconButton
                 sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                 size='small'
@@ -198,8 +199,10 @@ export default function ContactsTable() {
                 cursor={'pointer'}>
                     <EditIcon fontSize='small'/>
                 </IconButton>
+                </span>
             </CRMTooltip>
             <CRMTooltip title="Hapus kontak. Pilih 1 atau lebih kontak untuk dihapus. Ingat: Kontak yang dihapus tidak dapat dikembalikan." placement="top" arrow>
+                <span>
                 <IconButton
                 sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                 size='small'
@@ -209,6 +212,7 @@ export default function ContactsTable() {
                 cursor={'pointer'}>
                     <RemoveCircleOutlineIcon fontSize='small'/>
                 </IconButton>
+                </span>
             </CRMTooltip>
             <CRMTooltip title="Tampilkan seluruh kontak" placement="top" arrow>
                 <IconButton

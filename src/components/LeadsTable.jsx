@@ -258,6 +258,7 @@ export default function LeadsTable() {
             </CRMTooltip>
             
             <CRMTooltip title="Edit lead. Anda hanya dapat memilih 1 lead untuk diedit" placement="top" arrow>
+                <span>
                 <IconButton
                     sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                     size='small'
@@ -268,9 +269,11 @@ export default function LeadsTable() {
                     cursor={'pointer'}>
                     <EditIcon fontSize='small'/>
                 </IconButton>
+                </span>
             </CRMTooltip>
 
             <CRMTooltip title="Hapus lead. Pilih 1 atau lebih lead untuk dihapus. Ingat: Lead yang dihapus tidak dapat dikembalikan." placement="top" arrow>
+                <span>
                 <IconButton
                     sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                     size='small'
@@ -280,6 +283,7 @@ export default function LeadsTable() {
                     onClick={handleDelete}>
                     <RemoveCircleOutlineIcon fontSize='small'/>
                 </IconButton>
+                </span>
             </CRMTooltip>
 
             <CRMTooltip title="Tampilkan seluruh lead" placement="top" arrow>

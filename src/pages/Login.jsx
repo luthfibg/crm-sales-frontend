@@ -1,4 +1,4 @@
-import { Box, Button, Container, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Paper, Snackbar, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -52,14 +52,16 @@ const Login = () => {
                 autoComplete="off"
             >
                 <Typography sx={{ display: 'flex', justifyContent: 'center', mb: '2rem' }} variant="h5">Login CRM Sales</Typography>
-                <div>
-                    <TextField onChange={handleChange} name="username" id="outlined-username" label="Nama Pengguna" />
-                    <TextField onChange={handleChange} name="password" id="outlined-password" label="Password" type="password" />
-                    <Box display={"flex"}>
-                        <Button onClick={handleOnclickSave} sx={{ width: '30%', mr: '1rem' }} variant="outlined">Masuk</Button>
-                        <Button component={Link} to="/register" sx={{ width: '30%', ml: '1rem' }} variant="outlined">Daftar</Button>
+                <Paper sx={{ height: '60vh', width:'80vw', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', borderRadius: '0.4rem' }}>
+                    <>
+                    <TextField onChange={handleChange} name="username" id="outlined-username" label="Nama Pengguna" sx={{ maxWidth:'90%', }} />
+                    <TextField onChange={handleChange} name="password" id="outlined-password" label="Password" type="password" sx={{ maxWidth:'90%' }} />
+                    </>
+                    <Box display={"flex"} justifyContent={"center"} marginTop={"1rem"}>
+                        <Button onClick={handleOnclickSave} sx={{ width: '100%', mr: '1rem' }} variant="outlined">Masuk</Button>
+                        <Button component={Link} to="/register" sx={{ width: '100%', ml: '1rem' }} variant="outlined">Daftar</Button>
                     </Box>
-                </div>
+                </Paper>
             </Box>
         </Container>
     );

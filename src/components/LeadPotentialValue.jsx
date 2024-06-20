@@ -7,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Brush,
   ResponsiveContainer,
 } from 'recharts';
 import darkTheme from '../styles/darkTheme';
@@ -58,12 +57,12 @@ const data = [
 ];
 
 export default class LeadPotentialValue extends PureComponent {
-
   render() {
     return (
       <div style={{ width: '100%' }}>
-
-        <Typography variant="body2" fontSize={13} ml={5} color={'darkgrey'}>Potential Value</Typography>
+        <Typography variant="body2" fontSize={13} ml={5} color={'darkgrey'}>
+          Potential Value
+        </Typography>
 
         <ResponsiveContainer width="100%" height={200}>
           <LineChart
