@@ -37,17 +37,6 @@ export default function LeadsTable() {
                 const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
                 // Add id property for DataGrid
                 const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
-
-                // Predict conversion for each lead
-                // for (const lead of leadsWithId) {
-                //     const predictionRes = await axios.post(`http://localhost:2999/${username}/data/leads/${lead.lead_id}/predict`, {
-                //         lead_status: lead.lead_status,
-                //         response_time: lead.response_time,
-                //         interaction_level: lead.interaction_level,
-                //         source: lead.source
-                //     });
-                //     lead.converted = predictionRes.data.prediction;
-                // } 
                 setLeads(leadsWithId);
             } catch (err) {
                 console.log(err);

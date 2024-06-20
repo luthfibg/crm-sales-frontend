@@ -9,6 +9,7 @@ import ContactStats from '../components/ContactStats';
 import LeadValueGraph from '../components/LeadValueGraph';
 import LeadDigitalStats from '../components/LeadDigitalStats';
 import InterStats from '../components/InterStats';
+import OpportunitiesTable from '../components/OpportunitiesTable';
 
 export default function Dashboard() {
 
@@ -60,6 +61,20 @@ export default function Dashboard() {
                 <LeadValueGraph/>
                 <LeadDigitalStats/>
                 <LeadsTable/>
+                <Divider orientation='horizontal' flexItem />
+                <Box sx={{ display: 'flex', width: '100%', mb: '1rem', mt:'1rem', paddingX: '1rem', justifyContent: 'start', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem' }}>
+                    <Typography sx={{ 
+                        marginY: '0.5rem',
+                        fontSize:'0.9rem',
+                        color: darkTheme.palette.text.disabled,
+                        '@media (min-width: 900px)': { 
+                            fontSize: '1rem'
+                    }
+                }}>
+                        Daftar Peluang
+                    </Typography>
+                </Box>
+                <OpportunitiesTable/>
             </Container>
         </>
     );
