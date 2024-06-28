@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Button, Container, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import darkTheme from "../styles/darkTheme";
@@ -42,72 +42,129 @@ export default function AddProduct() {
         product_subcat2: product_subcat2[0].value,
         product_type:"",
         product_spec:"",
-        product_tkdn_precentage:"",
-        product_bmp_value:"",
-        product_price:"",
-        product_stars:"",
-        product_image_1:"",
-        product_image_2:"",
-        product_image_3:"",
+        product_tkdn_precentage: 0,
+        product_bmp_value: 0,
+        product_price: 0.00,
+        product_stars: 0,
+        product_image_1: null,
+        product_image_2: null,
+        product_image_3: null,
     });
 
     const handleChange = (e) => {
-        setProduct((prev) => ({...prev, [e.target.name]: e.target.value}));
+        if (e.target.type === 'file') {
+            setProduct((prev) => ({...prev, [e.target.name]: e.target.files[0]}));
+        } else {
+            setProduct((prev) => ({...prev, [e.target.name]: e.target.value}));
+        }
+        console.log('Product data being sent1:', product);
     };
 
-    const handleOnclickSave = async e => {
-        e.preventDefault()
+    const handleOnclickSave = async (e) => {
+        e.preventDefault();
+      
+        const formData = new FormData();
+        formData.append('product_image_1', product.product_image_1);
+        formData.append('product_image_2', product.product_image_2);
+        formData.append('product_image_3', product.product_image_3);
 
-        console.log('Product being sent:', product); // logging passed
+        // Append other product details
+        Object.keys(product).forEach(key => {
+            if (key !== 'product_image_1' && key !== 'product_image_2' && key !== 'product_image_3') {
+                formData.append(key, product[key]);
+            }
+        });
+      
+        console.log('Product being sent2:', product); // logging passed
         try {
-            const response = await axios.post("http://localhost:2999/data/product", product);
+            const response = await axios.post("http://localhost:2999/data/products", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // Add this header for file uploads
+                }
+            });
+            console.log('Form data fetched: ', formData.values());
             console.log(response.data.message);
             navigate('/products');
         } catch (err) {
             console.error(err.response?.data?.error || err.message);
         }
-    };
+      };
 
     return (
         <Container maxWidth="xl">
-            <Paper sx={{ width: "100%", height: "16rem", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", bgcolor: darkTheme.palette.background.paper2, border: "0.2rem solid white" }}>
-                <Typography>Add Product</Typography>
-                <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12, lg: 15 }}>
-                    <Grid item xs={4} sm={8} md={4} lg={5} sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                    <TextField name="product_cat" id="outlined-product-cat"
-                            select
-                            label="Kategori Produk"
-                            value={product.product_cat}
-                            onChange={handleChange}
-                            // defaultValue="Masuk"
-                            inputProps={{ "data-testid": "status-input" }}
-                            helperText="Pilih Kategori"
-                            >
-                            {product_cat.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        <TextField name="product_subcat" id="outlined-product-subcat"
-                            select
-                            label="SubKategori Produk"
-                            value={product.product_subcat}
-                            onChange={handleChange}
-                            // defaultValue="Masuk"
-                            inputProps={{ "data-testid": "status-input" }}
-                            helperText="Pilih Sub-Kategori"
-                            >
-                            {product_subcat.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+            <Paper sx={{ width: "100%", height: "85vh", marginTop: "10vh", marginBottom: "10vh",
+                display: "flex", justifyContent: "center",
+                alignItems: "center", flexDirection: "column",
+                bgcolor: darkTheme.palette.background.paper2,
+                border: "0.05rem solid white", overflow: "auto",
+                "& > *": {
+                    flex: "0 0 auto", // Prevent flex items from growing or shrinking
+                    marginBottom: "1rem", // Add some spacing between flex items
+                },
+            }}>
+                <Typography sx={{ marginBottom: "2rem" }}>Add Product</Typography>
+                <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12, lg: 15 }} sx={{ margin:0 }}>
+                    <Grid item xs={4} sm={8} md={4} lg={5} sx={{ justifyContent: "center", display: "flex", flexDirection: "column" }}>
+                    <TextField name="product_cat" id="outlined-product-cat" select sx={{ width: "96%", marginBottom: "0.5rem" }}
+                        label="Kategori Produk"
+                        value={product.product_cat}
+                        onChange={handleChange}
+                        // defaultValue="Masuk"
+                        inputProps={{ "data-testid": "status-input" }}
+                        >
+                        {product_cat.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField name="product_subcat" id="outlined-product-subcat"
+                        select
+                        sx={{ width: "96%", marginBottom: "0.5rem" }}
+                        label="SubKategori Produk"
+                        value={product.product_subcat}
+                        onChange={handleChange}
+                        // defaultValue="Masuk"
+                        inputProps={{ "data-testid": "status-input" }}
+                        >
+                        {product_subcat.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField onChange={handleChange} name="product_type" id="outlined-product-type" label="Tipe Produk" sx={{ width: "96%", marginBottom: "0.5rem" }} />
+                    <TextField onChange={handleChange} multiline rows={3} name="product_spec" id="outlined-product-spec" label="Spesifikasi" sx={{ width: "96%", marginBottom: "0.5rem" }}/>
                     </Grid>    
-                    <Grid item xs={4} sm={8} md={4} lg={5}></Grid>    
-                    <Grid item xs={4} sm={8} md={4} lg={5}></Grid>    
+                    <Grid item xs={4} sm={8} md={4} lg={5} sx={{ margin: "0 auto"}}>
+                        <TextField name="product_subcat2" id="outlined-product-subcat"
+                            select
+                            sx={{ width: "96%", marginBottom: "0.5rem" }}
+                            label="SubKategori Produk"
+                            value={product.product_subcat2}
+                            onChange={handleChange}
+                            // defaultValue="Masuk"
+                            inputProps={{ "data-testid": "status-input" }}
+                            >
+                            {product_subcat2.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                        <TextField onChange={handleChange} name="product_tkdn_percentage" type="number" id="outlined-product-tkdn-percentage" label="Nilai TKDN" sx={{ width: "96%", marginBottom: "0.5rem" }} />
+                        <TextField onChange={handleChange} name="product_bmp_value" type="number" id="outlined-product-bmp-value" label="Nilai BMP" sx={{ width: "96%", marginBottom: "0.5rem" }} />
+                        <TextField onChange={handleChange} name="product_price" type="currency" id="outlined-product-price" label="Harga" sx={{ width: "96%", marginBottom: "0.5rem" }} />
+                    </Grid>
+                    <Grid item xs={4} sm={8} md={4} lg={5} sx={{ margin: "0 auto"}}>
+                        <TextField onChange={handleChange} name="product_image_1" type="file" id="outlined-product-image-1" sx={{ width: "96%", marginBottom: "0.5rem" }} />
+                        <TextField onChange={handleChange} name="product_image_2" type="file" id="outlined-product-image-2" sx={{ width: "96%", marginBottom: "0.5rem" }} />
+                        <TextField onChange={handleChange} name="product_image_3" type="file" id="outlined-product-image-3" sx={{ width: "96%", marginBottom: "0.5rem" }} />
+                    </Grid>
                 </Grid>
+                <Stack orientation="horizontal">
+                    <Button onClick={handleOnclickSave} sx={{ width:'30%', mr:'1rem' }} variant="outlined">Simpan</Button>
+                </Stack>
             </Paper>
         </Container>
     );
