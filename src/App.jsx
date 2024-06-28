@@ -11,6 +11,8 @@ import CRMMonitor from './pages/CRMMonitor';
 import Register from './pages/Register';
 import Opening from './pages/Opening';
 import Login from './pages/Login';
+import ManageProducts from './pages/ManageProducts';
+import AddProduct from './pages/AddProduct';
 
 function App() {
   
@@ -23,6 +25,8 @@ function App() {
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/monitor" element={<CRMMonitor/>}/>
+          <Route path="/products" element={<ManageProducts/>}/>
+          <Route path="/add_products" element={<AddProduct/>}/>
           <Route path="/:username" element={<Dashboard/>}/>
           <Route path="/:username/add_contact" element={<AddContact/>}/>
           <Route path="/:username/add_lead" element={<AddLead/>}/>

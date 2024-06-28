@@ -16,7 +16,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 // import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Monitor', 'Laporan', 'Blog'];
+const pages = ['Monitor', 'Produk'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function MyAppBar() {
@@ -45,6 +45,10 @@ function MyAppBar() {
 
   const goToMonitor = () => {
     navigate('/monitor');
+  }
+
+  const goToProducts = () => {
+    navigate('/products');
   }
 
   useEffect(() => {
@@ -125,7 +129,7 @@ function MyAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => page === 'Monitor' ? goToMonitor() : goToProducts()}>
                   <Typography textAlign="center" sx={{ textTransform:'none' }}>{page}</Typography>
                 </MenuItem>
               ))}
@@ -154,7 +158,7 @@ function MyAppBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={() => page === 'Monitor' ? goToMonitor() : null}
+                onClick={() => page === 'Monitor' ? goToMonitor() : goToProducts()}
                 sx={{ my: 2, color: 'white', display: 'block', textTransform:'none' }}
               >
                 {page}
