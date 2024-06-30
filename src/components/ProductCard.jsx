@@ -3,14 +3,15 @@ import PowerSharp from '@mui/icons-material/PowerSharp';
 import PowerOffSharp from '@mui/icons-material/PowerOffSharp';
 import React from "react";
 
-export default function ProductCard({ product, onToggle, onRemove, initialDisplay }) {
+export default function ProductCard({ product, onToggle, onRemove, initialDisplay, disableToggleOn }) {
     const [display, setDisplay] = React.useState(initialDisplay);
 
     const handleChange = (event, newDisplay) => {
+        if (newDisplay === 'on' && disableToggleOn) return;
         setDisplay(newDisplay);
         if (newDisplay === 'on') {
             onToggle(product);
-        } else if (onRemove) {
+        } else if (newDisplay === 'off') {
             onRemove(product);
         }
     };
@@ -28,7 +29,7 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
                             aria-label="Platform"
                         >
                             <ToggleButton value="off"><PowerOffSharp /></ToggleButton>
-                            <ToggleButton value="on"><PowerSharp /></ToggleButton>
+                            <ToggleButton value="on" disabled={disableToggleOn}><PowerSharp /></ToggleButton>
                         </ToggleButtonGroup>
                     </Box>
                 </CardActions>

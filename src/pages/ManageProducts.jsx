@@ -11,13 +11,8 @@ export default function ManageProducts() {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [productsSale, setProductsSale] = useState([]);
-    // const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
-    // useEffect(() => {
-    //     axios.get("/data/products")
-    //         .then(response => setProducts(response.data))
-    // }, []);
     const handleAddProduct = () => {
         navigate('/add_products');
     };
@@ -43,30 +38,14 @@ export default function ManageProducts() {
         fetchProductsSale();
     }, []);
 
-    // const handleToggleProduct = async (product) => {
-    //     const existingProduct = productsSale.find(p => p.product_type === product.product_type);
-    //     if (existingProduct) {
-    //         setSnackbarOpen(true);
-    //         return;
-    //     }
-
-    //     setProductsSale([...productsSale, product]);
-
-    //     try {
-    //         await axios.post("http://localhost:2999/data/products_sale", product);
-    //     } catch (err) {
-    //         console.error("Failed to add product to sale", err);
-    //     }
-    // };
-
     const handleToggleProduct = async (product) => {
         const isProductInSale = productsSale.some(p => p.product_type === product.product_type);
-    
+
         if (isProductInSale) {
             setSnackbar({ open: true, message: 'Product already in sale list', severity: 'error' });
             return;
         }
-    
+
         try {
             console.log('Sending product to backend:', product);
             const response = await axios.post("http://localhost:2999/data/products_sale", { product_id: product.product_id });
@@ -75,15 +54,18 @@ export default function ManageProducts() {
             setSnackbar({ open: true, message: 'Product added to sale list', severity: 'success' });
         } catch (error) {
             console.error('Error adding product to sale list:', error);
+            setSnackbar({ open: true, message: 'Failed to add product to sale list', severity: 'error' });
         }
     };
+
     const handleRemoveProduct = async (product) => {
         const updatedProductsSale = productsSale.filter(p => p.product_type !== product.product_type);
         setProductsSale(updatedProductsSale);
 
         try {
             await axios.delete(`http://localhost:2999/data/products_sale/${product.product_id}`);
-            console.log(product.product_id)
+            console.log(product.product_id);
+            setSnackbar({ open: true, message: 'Product deleted from sale list!', severity: 'success' });
         } catch (err) {
             console.error("Failed to remove product from sale", err);
         }
@@ -107,14 +89,14 @@ export default function ManageProducts() {
                     <Grid item xs={4} sm={8} md={6} lg={8}>
                         <Paper sx={{ width: "100%", height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", bgcolor: darkTheme.palette.background.paper2 }}>
                             {products.map((product) => (
-                                <ProductCard key={product.product_id} product={product} onToggle={handleToggleProduct} initialDisplay={'off'} />
+                                <ProductCard key={product.product_id} product={product} onToggle={handleToggleProduct} onRemove={handleRemoveProduct} initialDisplay={'off'} disableToggleOn={false} />
                             ))}
                         </Paper>
                     </Grid>
                     <Grid item xs={4} sm={8} md={6} lg={8}>
                         <Paper sx={{ width: "100%", height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", bgcolor: darkTheme.palette.background.paper2 }}>
                             {productsSale.map((product) => (
-                                <ProductCard key={product.product_id} product={product} onToggle={() => handleRemoveProduct(product)} initialDisplay={'on'}/>
+                                <ProductCard key={product.product_id} product={product} onToggle={handleRemoveProduct} onRemove={handleRemoveProduct} initialDisplay={'on'} disableToggleOn={true} />
                             ))}
                         </Paper>
                     </Grid>
