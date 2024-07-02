@@ -48,7 +48,11 @@ export default function ManageProducts() {
 
         try {
             console.log('Sending product to backend:', product);
-            const response = await axios.post("http://localhost:2999/data/products_sale", { product_id: product.product_id });
+            const response = await axios.post("http://localhost:2999/data/products_sale", { product_id: product.product_id }, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Token otorisasi
+                }
+            });
             console.log('Response from backend:', response.data);
             setProductsSale(productsSale => [...productsSale, product]);
             setSnackbar({ open: true, message: 'Product added to sale list', severity: 'success' });
