@@ -60,46 +60,39 @@ export default function AddProduct() {
         }));
     };
 
-    const handleUpload = async (file) => {
-        const storageRef = ref(storage, `products/${file.name}`);
-        const snapshot = await uploadBytes(storageRef, file);
-        return await getDownloadURL(snapshot.ref);
-    };
+    // const handleUpload = async (file) => {
+    //     const storageRef = ref(storage, `products/${file.name}`);
+    //     const snapshot = await uploadBytes(storageRef, file);
+    //     return await getDownloadURL(snapshot.ref);
+    // };
 
     const handleOnclickSave = async (e) => {
         e.preventDefault();
         console.log('Product picture: ', product.product_image_1);
-
+    
         try {
-            // Upload images to Firebase Storage and get the URLs
-            const productImage1Url = product.product_image_1 ? await handleUpload(product.product_image_1) : '';
-            const productImage2Url = product.product_image_2 ? await handleUpload(product.product_image_2) : '';
-            const productImage3Url = product.product_image_3 ? await handleUpload(product.product_image_3) : '';
-
-            // Prepare the form data with image URLs
-            const formData = {
-                ...product,
-                product_image_1: productImage1Url,
-                product_image_2: productImage2Url,
-                product_image_3: productImage3Url
-            };
-
-            console.log('Product being sent:', formData);
-
+            // Create FormData object
+            const formData = new FormData();
+            for (let key in product) {
+                if (product[key]) {
+                    formData.append(key, product[key]);
+                }
+            }
+    
             // Send the form data to the backend
             const response = await axios.post("http://localhost:2999/data/products", formData, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 }
             });
-
+    
             console.log(response.data.message);
             navigate('/products');
         } catch (err) {
             console.error(err.response?.data?.error || err.message);
         }
     };
-
+        
     return (
         <Container maxWidth="xl">
             <Paper sx={{
