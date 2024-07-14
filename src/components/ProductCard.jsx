@@ -17,7 +17,7 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
     };
 
     return (
-        <Card sx={{ width: '90%', flexDirection: 'row', display: 'flex', alignItems: 'center', my: '0.25rem' }}>
+        <Card sx={{ width: '90%', height: '4rem', flexDirection: 'row', display: 'flex', alignItems: 'center', my: '0.25rem' }}>
             <Stack orientation="row" spacing={1} direction="row">
                 <CardActions>
                     <Box sx={{ flexGrow: 1 }}>
