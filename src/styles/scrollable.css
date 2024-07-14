@@ -1,0 +1,18 @@
+/* Add this CSS to your existing styles */
+.scrollable-container {
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent; /* Change the color to your desired transparent color */
+}
+  
+.scrollable-container::-webkit-scrollbar {
+    width: 8px; /* width of the scrollbar */
+}
+  
+.scrollable-container::-webkit-scrollbar-track {
+    background: transparent; /* color of the track */
+}
+  
+.scrollable-container::-webkit-scrollbar-thumb {
+    background-color: transparent; /* color of the thumb */
+}

@@ -13,6 +13,7 @@ import Opening from './pages/Opening';
 import Login from './pages/Login';
 import ManageProducts from './pages/ManageProducts';
 import AddProduct from './pages/AddProduct';
+import './styles/scrollable.css';
 
 function App() {
   

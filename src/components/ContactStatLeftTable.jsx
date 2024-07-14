@@ -67,6 +67,7 @@ export default function ContactStatLeftTable() {
     <>
     <TableContainer sx={{ height: 270 }}>
     <Table 
+    className="scrollable-container"
     stickyHeader
     aria-label="sticky table"
     sx={{ container_with_scrolls:{

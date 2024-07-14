@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MyAppBar from "../components/MyAppBar";
-import { Button, Container, Divider, Grid, Paper, Stack, Alert, Snackbar, Box } from "@mui/material";
+import { Button, Container, Divider, Grid, Paper, Stack, Alert, Snackbar, Box, CssBaseline } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import darkTheme from "../styles/darkTheme";
 import { useNavigate } from "react-router-dom";
@@ -90,8 +90,9 @@ export default function ManageProducts() {
                 </Stack>
                 <Divider orientation="horizontal" flexItem sx={{ marginBottom: "2rem" }} />
                 <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
+                    <CssBaseline />
                     <Grid item xs={4} sm={8} md={6} lg={8}>
-                        <Paper sx={{ width: "100%", height: "70vh", overflowY: "scroll", bgcolor: darkTheme.palette.background.paper2 }}>
+                        <Paper className="scrollable-container" sx={{ width: "100%", height: "70vh", overflowY: "scroll", bgcolor: darkTheme.palette.background.paper2 }}>
                             <Box width={"100%"} sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                 {products.map((product) => (
                                     <ProductCard key={product.product_id} product={product} onToggle={handleToggleProduct} onRemove={handleRemoveProduct} initialDisplay={'off'} disableToggleOn={false} />
@@ -100,10 +101,12 @@ export default function ManageProducts() {
                         </Paper>
                     </Grid>
                     <Grid item xs={4} sm={8} md={6} lg={8}>
-                        <Paper sx={{ width: "100%", height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", bgcolor: darkTheme.palette.background.paper2 }}>
-                            {productsSale.map((product) => (
-                                <ProductCard key={product.product_id} product={product} onToggle={handleRemoveProduct} onRemove={handleRemoveProduct} initialDisplay={'on'} disableToggleOn={true} />
-                            ))}
+                        <Paper className="scrollable-container" sx={{ width: "100%", height: "70vh", overflowY: "scroll", bgcolor: darkTheme.palette.background.paper2 }}>
+                            <Box width={"100%"} sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                {productsSale.map((product) => (
+                                    <ProductCard key={product.product_id} product={product} onToggle={handleRemoveProduct} onRemove={handleRemoveProduct} initialDisplay={'on'} disableToggleOn={true} />
+                                ))}
+                            </Box>
                         </Paper>
                     </Grid>
                 </Grid>
