@@ -5,6 +5,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import ContactStatLeftTable from "./ContactStatLeftTable";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import LeadFeedCard from "./LeadFeedCard";
 
 
 export default function ContactStatLeft() {
@@ -14,21 +15,6 @@ export default function ContactStatLeft() {
     const username = localStorage.getItem('username');
   
     // load data from API/backend
-    const fetchData = async () => {
-        try {
-          const contactResponse = await axios.get(`http://localhost:2999/${username}/data/contacts`);
-          const leadResponse = await axios.get(`http://localhost:2999/${username}/data/leads`);
-          setContacts(contactResponse.data);
-          setLeads(leadResponse.data);
-        } catch (err) {
-          console.log(err);
-        }
-    };
-
-    // load data when component mounts
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     return (
         <Box 
@@ -44,9 +30,9 @@ export default function ContactStatLeft() {
         }}>
             <>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingY:'0.5rem' }}>
-                <Typography sx={{ marginLeft:'0.5rem', fontSize:'0.7rem', color: darkTheme.palette.text.disabled }}>Leading Contacts</Typography>
+                <Typography sx={{ marginLeft:'0.5rem', fontSize:'0.7rem', color: darkTheme.palette.text.disabled }}>Lead Feeds</Typography>
                 <Stack direction="row" sx={{ marginLeft: 'auto', marginRight: '0.5rem' }}>
-                    <IconButton size="small" sx={{ width: '1.2rem', height: '1.2rem' }} onClick={fetchData}>
+                    <IconButton size="small" sx={{ width: '1.2rem', height: '1.2rem' }}>
                         <ReplayIcon fontSize="small" color="primary"/>
                     </IconButton>
                 </Stack>
@@ -57,11 +43,11 @@ export default function ContactStatLeft() {
                     height: '17rem',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    justifyContent: 'start',
+                    alignItems: 'center',
+                    py: '1rem'
                 }}>
-                {/* <Typography>Leading List Table</Typography> */}
-                <ContactStatLeftTable/>
+                <LeadFeedCard />
             </Paper>
             </>
         </Box>
