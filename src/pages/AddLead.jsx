@@ -49,12 +49,15 @@ const AddLead = () => {
     const username = localStorage.getItem('username'); // get username from localstorage (user login session)
 
     const [contact, setContact] = useState([]);
+    const [product, setProduct] = useState([]);
     const [lead, setLead] = useState({
         lead_title: "",
         sales_name: `${username}`,
         person: "",
         institution: 'PT. JSRS',
         descriptions: "",
+        product_type: product[0].value,
+        product_image_1: "",
         trade_value: null,
         lead_status: leadStatus[0].value,
         response_time: null,
@@ -74,7 +77,16 @@ const AddLead = () => {
                 console.log(err);
             }
         };
+        const fetchProducts = async () => {
+            try {
+                const res = await axios.get(`http://localhost:2999/data/products_sale`);
+                setProduct(res.data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
         fetchContacts();
+        fetchProducts();
     }, [username]);
 
     const navigate = useNavigate();
@@ -140,6 +152,17 @@ const AddLead = () => {
                         multiline
                         rows={1}
                         type="text" />
+
+                    {/* input 6 */}
+                    <TextField name="product_type" id="outlined-select-product-type" select value={lead.lead_status}
+                        onChange={handleChange} label="Status Lead" defaultValue="baru"
+                        helperText="*Status Lead Saat Ini">
+                        {leadStatus.map((option) => (
+                            <MenuItem key={`${option.value}-${keyId++}`} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
 
                     {/* input 6 */}
                     <TextField onChange={handleChange} name="trade_value" id="outlined-trade-value" label="Nilai Penjualan" type="number" />

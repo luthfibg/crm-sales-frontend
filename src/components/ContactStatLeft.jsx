@@ -7,9 +7,8 @@ import LeadFeedCard from "./LeadFeedCard";
 
 export default function ContactStatLeft() {
     const [wishlist, setWishlist] = useState([]);
-    const username = localStorage.getItem('username');
   
-    // load data from API/backend
+    // Load data from API/backend
     useEffect(() => {
         const fetchWishlist = async () => {
             try {
