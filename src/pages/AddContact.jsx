@@ -64,14 +64,13 @@ const AddContact = () => {
                 return
             }
             await axios.post(`http://localhost:2999/${username}/data/contacts`, contact);
-            // alert("Contact created successfully!");
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);
             console.error(err.response.data);
         }
     };
-
+    
     return (
         <Container maxWidth='lg' sx={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100vh' }}>
             <Box
