@@ -56,7 +56,7 @@ const AddLead = () => {
         person: "",
         institution: 'PT. JSRS',
         descriptions: "",
-        product_type: product[0].value,
+        product_type: "",
         product_image_1: "",
         trade_value: null,
         lead_status: leadStatus[0].value,

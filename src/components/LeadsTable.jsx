@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
+import WishleadModal from './WishleadModal';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -25,9 +26,11 @@ const CRMTooltip = styled(({ className, ...props }) => (
 });
 
 export default function LeadsTable() {
+    const [loading, setLoading] = useState(false);
     const [leads, setLeads] = useState([]);
     const [rowSelectionModel, setRowSelectionModel] = useState([]);
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
+    const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
     const username = localStorage.getItem('username'); // get username from localstorage (user login session)
 
@@ -135,6 +138,23 @@ export default function LeadsTable() {
             // If the update fails, return the old row to revert the changes in the grid
             return oldRow;
         }
+    };
+
+    const handleAddLead = async () => {
+        try {
+          setLoading(true); // Set loading state to true
+          setOpenModal(true);
+        } catch (error) {
+          console.error("An error occurred while adding a lead:", error);
+          // Handle the error
+        } finally {
+          setLoading(false); // Set loading state to false regardless of success or failure
+        }
+    };
+
+    const handleWishlistSaved = () => {
+        setOpenModal(false);
+        navigate(`/${username}/add_lead`);
     };
 
     const handleProcessRowUpdateError = (error) => {
@@ -251,11 +271,12 @@ export default function LeadsTable() {
                 <IconButton 
                 sx={{ textTransform: 'none' }} 
                 color='primary'
-                onClick={() => navigate(`/${username}/add_lead`)}
+                onClick={handleAddLead}
                 cursor={'pointer'}>
                     <AddIcon fontSize='small'/>
                 </IconButton>
             </CRMTooltip>
+            <WishleadModal open={openModal} onClose={handleWishlistSaved} />    
             
             <CRMTooltip title="Edit lead. Anda hanya dapat memilih 1 lead untuk diedit" placement="top" arrow>
                 <span>
