@@ -50,6 +50,7 @@ const AddLead = () => {
 
     const [contact, setContact] = useState([]);
     const [product, setProduct] = useState([]);
+    const [personName, setPersonName] = useState('');
     const [lead, setLead] = useState({
         lead_title: "",
         sales_name: `${username}`,
@@ -87,6 +88,14 @@ const AddLead = () => {
         };
         fetchContacts();
         fetchProducts();
+
+        // Ambil nama pelanggan dari localStorage
+        const savedPerson = localStorage.getItem('selectedPerson');
+        if (savedPerson) {
+        setPersonName(savedPerson);
+        // Hapus dari localStorage jika tidak perlu disimpan lebih lama
+        localStorage.removeItem('selectedPerson');
+        }
     }, [username]);
 
     const navigate = useNavigate();
@@ -132,14 +141,20 @@ const AddLead = () => {
                     <TextField onChange={handleChange} name="sales_name" id="outlined-sales-name" label="Nama Sales" hidden disabled value={username} sx={{ display: 'none' }} />
 
                     {/* input 3 */}
-                    <TextField name="person" id="outlined-person" select onChange={handleChange} label="Nama Customer"
+                    {/* <TextField name="person" id="outlined-person" select onChange={handleChange} label="Nama Customer"
                         value={lead.person}>
                         {contact.map((contact) => (
                             <MenuItem key={`${contact.person}-${keyId++}`} value={contact.person}>
                                 {contact.person}
                             </MenuItem>
                         ))}
-                    </TextField>
+                    </TextField> */}
+                    <TextField name="person" id="outlined-person"
+                        label="Nama Pelanggan"
+                        value={personName}
+                        onChange={handleChange}
+                        fullWidth
+                    />
 
                     {/* input 4 */}
                     <TextField name="institution" id="outlined-select-institution" label="Nama Institusi" value={lead.institution}

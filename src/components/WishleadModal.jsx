@@ -84,6 +84,9 @@ export default function WishleadModal({ open, onClose }) {
 
   const handleSaveWishlist = async () => {
     try {
+      // Simpan nama pelanggan di localStorage
+      localStorage.setItem('selectedPerson', selectedContact);
+
       await axios.post('http://localhost:2999/data/wishlist', {
         person: selectedContact,
       });
@@ -92,6 +95,7 @@ export default function WishleadModal({ open, onClose }) {
       console.error('Error saving wishlist:', error);
     }
   };
+  
   return (
     <Modal
       open={open}
