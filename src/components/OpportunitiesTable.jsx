@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Stack, IconButton, Tooltip, Divider, styled, tooltipClasses } from '@mui/material';
+import { Box, Stack, IconButton, Tooltip, styled, tooltipClasses } from '@mui/material';
 import darkTheme from '../styles/darkTheme';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';

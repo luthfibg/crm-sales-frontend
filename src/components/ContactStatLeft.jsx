@@ -6,21 +6,31 @@ import axios from "axios";
 import LeadFeedCard from "./LeadFeedCard";
 
 export default function ContactStatLeft() {
-    const [wishlist, setWishlist] = useState([]);
-  
-    // Load data from API/backend
+    const [leads, setLeads] = useState([]);
+
+    const fetchLeadFeeds = async () => {
+        try {
+            const response = await axios.get(`http://localhost:2999/data/lead_feeds`);
+            const leadData = await Promise.all(response.data.map(async (lead) => {
+                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${lead.contact_id}`);
+                return {
+                    ...lead,
+                    customer_name: `${customerResponse.data.customer_fname} ${customerResponse.data.customer_lname}`,
+                };
+            }));
+            setLeads(leadData);
+        } catch (err) {
+            console.error("Failed to fetch lead feeds", err);
+        }
+    };
+
     useEffect(() => {
-        const fetchWishlist = async () => {
-            try {
-                const response = await axios.get(`http://localhost:2999/data/wishlist`);
-                setWishlist(response.data);
-            } catch (err) {
-                console.error("Failed to fetch wishlist", err);
-            }
-        };
-        fetchWishlist();
+        fetchLeadFeeds();
     }, []);
 
+    const handlePick = (lf_id) => {
+        setLeads(leads.filter(lead => lead.lf_id !== lf_id));
+    };
     return (
         <Box 
             sx={{ 
@@ -58,8 +68,8 @@ export default function ContactStatLeft() {
                         alignItems: 'center',
                     }}>
                     {
-                        wishlist.map((wish) => (
-                            <LeadFeedCard key={wish.wishlist_id} wish={wish} />
+                        leads.map((lead) => (
+                            <LeadFeedCard key={lead.lf_id} lead={lead} onPick={handlePick} />
                         ))
                     }
                 </Box>

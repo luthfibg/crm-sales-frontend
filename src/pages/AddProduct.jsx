@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import darkTheme from "../styles/darkTheme";
 import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
-import { storage } from "../firebase";
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// import { storage } from "../firebase";
+// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export default function AddProduct() {
     const product_cat = [
