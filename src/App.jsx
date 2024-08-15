@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import ManageProducts from './pages/ManageProducts';
 import AddProduct from './pages/AddProduct';
 import './styles/scrollable.css';
+import ProtectedRoute from './components/AuthCheck';
 
 function App() {
   
@@ -22,17 +23,17 @@ function App() {
       <CssBaseline/>
       <BrowserRouter>
         <Routes>
+          <Route path="/monitor" element={<ProtectedRoute><CRMMonitor/></ProtectedRoute>}/>
+          <Route path="/products" element={<ProtectedRoute><ManageProducts/></ProtectedRoute>}/>
+          <Route path="/add_products" element={<ProtectedRoute><AddProduct/></ProtectedRoute>}/>
+          <Route path="/:username" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
+          <Route path="/:username/add_contact" element={<ProtectedRoute><AddContact/></ProtectedRoute>}/>
+          <Route path="/:username/add_lead" element={<ProtectedRoute><AddLead/></ProtectedRoute>}/>
+          <Route path="/:username/update_contact/:id" element={<ProtectedRoute><UpdateContact/></ProtectedRoute>}/>
+          <Route path="/:username/update_lead/:id" element={<ProtectedRoute><UpdateLead/></ProtectedRoute>}/>
           <Route path="/" element={<Opening/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
-          <Route path="/monitor" element={<CRMMonitor/>}/>
-          <Route path="/products" element={<ManageProducts/>}/>
-          <Route path="/add_products" element={<AddProduct/>}/>
-          <Route path="/:username" element={<Dashboard/>}/>
-          <Route path="/:username/add_contact" element={<AddContact/>}/>
-          <Route path="/:username/add_lead" element={<AddLead/>}/>
-          <Route path="/:username/update_contact/:id" element={<UpdateContact/>}/>
-          <Route path="/:username/update_lead/:id" element={<UpdateLead/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
