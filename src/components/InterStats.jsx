@@ -20,7 +20,7 @@ export default function InterStats() {
             }
         };
         fetchLeads();
-    }, []);
+    }, [username]);
 
     return (
         <Paper sx={{ width: "100%", bgcolor: darkTheme.palette.background.paper, height: "8rem", margin:'0px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'scroll', '@media (min-width: 900px)': { overflow:'hidden'}, borderRadius: '0.3rem' }}>

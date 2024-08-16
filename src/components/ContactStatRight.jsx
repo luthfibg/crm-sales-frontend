@@ -40,7 +40,7 @@ export default function ContactStatRight() {
             }
         };
         fetchContacts();
-    }, []);
+    }, [username]);
 
     // retrieve contact status count
     const getStatusCount = () => {
@@ -70,7 +70,7 @@ export default function ContactStatRight() {
     };
 
     const renderCustomizedLabel = (props) => {
-        const { cx, cy, midAngle, innerRadius, outerRadius, percent, index } = props;
+        const { cx, cy, midAngle, innerRadius, outerRadius, index } = props;
         const RADIAN = Math.PI / 180;
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
         const x = cx + radius * Math.cos(-midAngle * RADIAN);

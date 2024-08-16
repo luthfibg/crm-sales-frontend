@@ -35,7 +35,7 @@ export default function ContactStatLeft() {
 
     useEffect(() => {
         fetchLeadFeeds();
-    }, []);
+    }, [fetchLeadFeeds]);
 
     const handlePick = (lf_id) => {
         setLeads(leads.filter(lead => lead.lf_id !== lf_id));

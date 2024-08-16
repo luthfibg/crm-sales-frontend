@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import darkTheme from '../styles/darkTheme';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
+import UpgradeOutlined from '@mui/icons-material/UpgradeOutlined';
 import Clear from '@mui/icons-material/Clear';
 import OnlinePrediction from '@mui/icons-material/OnlinePrediction';
 import '../styles/init.css';
@@ -140,6 +141,30 @@ export default function LeadsTable() {
         }
     };
 
+    // Upgrade leads to opportunity handler
+    const handleUpgradeLeads = async () => {
+        if (rowSelectionModel.length > 0) {
+            try {
+                await Promise.all(rowSelectionModel.map(async (leadId) => {
+                    console.log('Check leadId retrieved: '+leadId); // test passed
+                    await axios.post(`http://localhost:2999/${username}/data/opportunities`, {
+                        lead_id: leadId,
+                        stage: 'opportunity',
+                    });
+                }));
+                // Refresh the leads data after upgrading
+                const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
+                // Add id property for DataGrid
+                const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
+                setLeads(leadsWithId);
+                window.location.reload();
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+
+
     const handleAddLead = async () => {
         try {
           setLoading(true); // Set loading state to true
@@ -264,6 +289,17 @@ export default function LeadsTable() {
                 onClick={handlePrediction}
                 cursor={'pointer'}>
                     <OnlinePrediction fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
+
+            <CRMTooltip title="Upgrade Ke Opportunity" placement="top" arrow>
+                <IconButton 
+                sx={{ textTransform: 'none' }} 
+                color='primary'
+                onClick={handleUpgradeLeads}
+                cursor={'pointer'}
+                disabled={rowSelectionModel < 1}>
+                    <UpgradeOutlined fontSize='small'/>
                 </IconButton>
             </CRMTooltip>
 
