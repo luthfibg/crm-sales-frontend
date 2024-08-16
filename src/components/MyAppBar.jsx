@@ -66,7 +66,7 @@ function MyAppBar() {
     };
 
       fetchFullname();
-  }, []);
+  }, [username]);
 
   const logout = () => {
     // Remove the JWT token from localStorage
