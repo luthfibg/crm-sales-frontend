@@ -1,20 +1,28 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import axios from 'axios';
+import darkTheme from '../styles/darkTheme';
 
 function LeadFeedCard({ lead, onPick }) {
+
+    const token = localStorage.getItem('token');
     const handlePick = async () => {
         try {
-            // Menghapus lead dari lead_feeds setelah dipick
-            await axios.delete(`http://localhost:2999/data/lead_feeds/${lead.lf_id}`);
+            await axios.delete(`http://localhost:2999/data/lead_feeds/${lead.lf_id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             onPick(lead.lf_id); // Mengupdate state di parent component
         } catch (error) {
             console.error('Failed to pick lead:', error);
         }
     };
 
+
+    
     return (
-        <Box
+        <Box bgcolor={darkTheme.palette.background.paper}
             sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -22,7 +30,6 @@ function LeadFeedCard({ lead, onPick }) {
                 padding: '0.5rem',
                 marginBottom: '0.5rem',
                 width: '90%',
-                backgroundColor: '#f5f5f5',
                 borderRadius: '4px',
                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
             }}

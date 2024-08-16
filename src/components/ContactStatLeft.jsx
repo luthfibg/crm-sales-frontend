@@ -7,12 +7,21 @@ import LeadFeedCard from "./LeadFeedCard";
 
 export default function ContactStatLeft() {
     const [leads, setLeads] = useState([]);
+    const token = localStorage.getItem('token');
 
     const fetchLeadFeeds = async () => {
         try {
-            const response = await axios.get(`http://localhost:2999/data/lead_feeds`);
+            const response = await axios.get('http://localhost:2999/data/lead_feeds', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const leadData = await Promise.all(response.data.map(async (lead) => {
-                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${lead.contact_id}`);
+                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${lead.contact_id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 return {
                     ...lead,
                     customer_name: `${customerResponse.data.customer_fname} ${customerResponse.data.customer_lname}`,
