@@ -85,10 +85,10 @@ export default function LeadsTable() {
             renderHeader: (params) => (
                 <Tooltip title="Status Lead Saat Ini"><span>{params.colDef.headerName}</span></Tooltip >
             )},
-        { field: 'response_time', headerName: 'Waktu Respon', width: 60, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'response_time', headerName: 'Waktu Respon', width: 60, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Rata-Rata Durasi Pelanggan Merespon (Dalam Jam)"><span>{params.colDef.headerName}</span></Tooltip >
         )},
-        { field: 'interaction_level', headerName: 'Level Interaksi', width: 60, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'interaction_level', headerName: 'Level Interaksi', width: 60, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Level Interaksi Pelanggan (Menggunakan Skala 1-5, Diisi Menggunakan Perkiraan Anda). 1 berarti sangat rendah, 5 sangat tinggi"><span>{params.colDef.headerName}</span></Tooltip >
         )},
         { field: 'source', headerName: 'Sumber', width: 60, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
