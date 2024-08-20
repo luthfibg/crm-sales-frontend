@@ -4,6 +4,7 @@ import darkTheme from "../styles/darkTheme";
 import LeadPotentialValue from "./LeadPotentialValue";
 
 export default function LeadPotentialValuePaper() {
+    const username = localStorage.getItem('username');
     return (
         <Paper
             sx={{
@@ -14,7 +15,7 @@ export default function LeadPotentialValuePaper() {
                 alignItems: "center",
                 bgcolor: darkTheme.palette.background.paper,
             }}>
-            <LeadPotentialValue/>
+            <LeadPotentialValue username={username}/>
         </Paper>
     );
 }
