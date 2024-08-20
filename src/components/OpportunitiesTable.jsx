@@ -29,15 +29,12 @@ export default function OpportunitiesTable() {
             try {
                 const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`);
 
-                console.log(res.data);
-
                 // filter out null and undefined of opportunity
                 const filteredOpportunities = res.data.filter(opportunity => opportunity.opportunity_id !== null && opportunity.opportunity_id !== undefined);
 
                 // Add id property for DataGrid
                 const opportunitiesWithId = filteredOpportunities.map(opportunity => ({ ...opportunity, id: opportunity.opportunity_id }));
                 
-                console.log("Opportunities Data With ID:", opportunitiesWithId);
                 setOpportunities(opportunitiesWithId);
             } catch (err) {
                 console.log(err);
@@ -45,7 +42,6 @@ export default function OpportunitiesTable() {
         };
 
         fetchAllOpportunities();
-        console.log("Opportunities Data:", opportunities);
     }, [username]);
 
     const oppsColumns = [

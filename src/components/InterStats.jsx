@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 export default function InterStats() {
 
     const [totalLeads, setTotalLeads] = useState(0); // useState untuk total leads
+    const [totalOpportunities, setTotalOpportunities] = useState(0); // useState untuk total opportunities
     const username = localStorage.getItem('username');
 
     useEffect(() => {
@@ -20,11 +21,23 @@ export default function InterStats() {
             }
         };
         fetchLeads();
+
+        const fetchOpportunities = async () => {
+            try {
+                const response = await fetch(`http://localhost:2999/${username}/data/opportunities`);
+                const data = await response.json();
+                setTotalOpportunities(data.length); // Set total opportunities
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchOpportunities();
+
     }, [username]);
 
     return (
         <Paper sx={{ width: "100%", bgcolor: darkTheme.palette.background.paper, height: "8rem", margin:'0px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'scroll', '@media (min-width: 900px)': { overflow:'hidden'}, borderRadius: '0.3rem' }}>
-            <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
+            <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, borderRadius: '0.3rem', mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
                     <CircularProgress variant="determinate" value={45} size={100} thickness={4} style={{ width: '70px', height: '70px' }} />
                     <Box
@@ -62,11 +75,11 @@ export default function InterStats() {
                         }}
                     >
                         <Typography variant="caption" fontSize={'1rem'} component="div" color={darkTheme.palette.secondary.main}>
-                        3
+                        {totalOpportunities}
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Deals" size="small" color="default" />
+                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Opportunities" size="small" color="default" />
             </Box>
             <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
@@ -84,11 +97,11 @@ export default function InterStats() {
                         }}
                     >
                         <Typography variant="caption" fontSize={'1rem'} component="div" color={darkTheme.palette.secondary.main}>
-                        35M
+                        2
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Revenue" size="small" color="default" />
+                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Projects" size="small" color="default" />
             </Box>
             <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
@@ -106,11 +119,11 @@ export default function InterStats() {
                         }}
                     >
                         <Typography variant="caption" fontSize={'1rem'} component="div" color={darkTheme.palette.secondary.main}>
-                        245
+                        245M
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Networks" size="small" color="default" />
+                <Chip sx={{ marginY: '0.5rem' }} variant="outlined" label="Incoming Revenue" size="small" color="default" />
             </Box>
             <Box sx={{  width:'20%', height:'6rem', '@media (min-width: 900px)': { width:'12%'}, mr:'1rem', display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', }}>
                 <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width:'100%'}}>
