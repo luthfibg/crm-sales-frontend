@@ -28,8 +28,16 @@ export default function OpportunitiesTable() {
         const fetchAllOpportunities = async () => {
             try {
                 const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`);
+
+                console.log(res.data);
+
+                // filter out null and undefined of opportunity
+                const filteredOpportunities = res.data.filter(opportunity => opportunity.opportunity_id !== null && opportunity.opportunity_id !== undefined);
+
                 // Add id property for DataGrid
-                const opportunitiesWithId = res.data.map(opportunity => ({ ...opportunity, id: opportunity.opportunity_id }));
+                const opportunitiesWithId = filteredOpportunities.map(opportunity => ({ ...opportunity, id: opportunity.opportunity_id }));
+                
+                console.log("Opportunities Data With ID:", opportunitiesWithId);
                 setOpportunities(opportunitiesWithId);
             } catch (err) {
                 console.log(err);
@@ -37,16 +45,17 @@ export default function OpportunitiesTable() {
         };
 
         fetchAllOpportunities();
+        console.log("Opportunities Data:", opportunities);
     }, [username]);
 
     const oppsColumns = [
         { field: 'opportunity_id', headerName: 'ID', width: 30 },
-        { field: 'opportunity_title', headerName: 'Peluang', width: 100 },
-        { field: 'opportunity_sales_rep', headerName: 'Sales', width: 60 },
-        { field: 'opportunity_person', headerName: 'Pelanggan', width: 60 },
-        { field: 'opportunity_institution', headerName: 'Institusi', width: 60 },
-        { field: 'opportunity_value', headerName: 'Nilai', width: 60 },
-        { field: 'opportunity_status', headerName: 'Status', width: 60 },
+        { field: 'opportunity_title', headerName: 'Peluang', width: 150 },
+        { field: 'sales_rep', headerName: 'Sales', width: 120 },
+        { field: 'person', headerName: 'Pelanggan', width: 150 },
+        { field: 'institution', headerName: 'Institusi', width: 150 },
+        { field: 'value', headerName: 'Nilai', width: 150 },
+        { field: 'status', headerName: 'Status', width: 60 },
     ];
 
     const processRowUpdate = async (newRow, oldRow) => {
@@ -116,7 +125,7 @@ export default function OpportunitiesTable() {
                 onPaginationModelChange={handlePaginationModelChange}
                 pageSizeOptions={[5, 10, 25, 50, 100]}
                 checkboxSelection
-                getRowId={(row) => row.lead_id} // Use lead_id as the unique row ID
+                getRowId={(row) => row.opportunity_id} // Use opportunity_id as the unique row ID
                 processRowUpdate={processRowUpdate}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 onRowSelectionModelChange={(newRowSelectionModel) => {
