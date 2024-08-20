@@ -39,21 +39,31 @@ export default function LeadsTable() {
         const fetchAllLeads = async () => {
             try {
                 const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
-                // Add id property for DataGrid
-                const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
+                const filteredLeads = res.data.filter(lead => lead.lead_id !== null && lead.lead_id !== undefined);
+                
+                const leadsWithId = filteredLeads.map(lead => ({ 
+                    ...lead, 
+                    id: lead.lead_id || `temp-${Math.random()}` 
+                }));
+                
                 setLeads(leadsWithId);
+                console.log("Leads Data:", leads);
             } catch (err) {
                 console.log(err);
             }
         };
-
+    
         fetchAllLeads();
     }, [username]);
-
+    
+    
     const leadColumns = [
         { field: 'id', headerName: 'ID', width: 30, headerClassName: 'super-app-theme--header', renderHeader: (params) => {
             <Tooltip title="ID Lead"><span>{params.colDef.headerName}</span></Tooltip >
         }},
+        { field: 'lead_current', headerName: 'Current', width: 130, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+            <Tooltip title="Status Aktif Lead"><span>{params.colDef.headerName}</span></Tooltip >
+        )},
         { field: 'lead_title', headerName: 'Nama Lead', width: 130, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Judul Lead, Untuk Memudahkan Identifikasi"><span>{params.colDef.headerName}</span></Tooltip >
         )},
@@ -62,9 +72,6 @@ export default function LeadsTable() {
         )},
         { field: 'institution', headerName: 'Institusi', width: 130, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Nama Institusi Pelanggan"><span>{params.colDef.headerName}</span></Tooltip >
-        )},
-        { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
-            <Tooltip title="Dapat Diisi Dengan Detail Lead"><span>{params.colDef.headerName}</span></Tooltip >
         )},
         { field: 'trade_value', headerName: 'Value', width: 100, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Besarnya Nilai Potensi Lead (Dalam Rupiah)"><span>{params.colDef.headerName}</span></Tooltip >
@@ -115,14 +122,8 @@ export default function LeadsTable() {
                 <Tooltip title="Hasil Prediksi Lead. Anda Dapat Meng-Klik Untuk Meningkatkannya Ke Opportunity, Atau Menurunkannya Dalam Daftar Lead Terdiskualifikasi"><span>{params.colDef.headerName}</span></Tooltip >
             )
         },
-        { field: 'unqualified_reason', headerName: 'Alasan Diskualifikasi', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
-            <Tooltip title="Alasan Leas Didiskualifikasi"><span>{params.colDef.headerName}</span></Tooltip >
-        )},
         { field: 'lead_age', headerName: 'Umur Lead', width: 50, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Umur Lead Saat Ini (Dalam Hari), Dihitung Mulai Lead Ditambahkan. Jika Umur Lead Lebih Dari 15 Hari, Maka Lead Akan Di Diskualifikasi Otomatis."><span>{params.colDef.headerName}</span></Tooltip >
-        )},
-        { field: 'notes', headerName: 'Catatan', width: 200, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
-            <Tooltip title="Catatan Tambahan Mengenai Lead"><span>{params.colDef.headerName}</span></Tooltip >
         )},
     ];
 
@@ -141,29 +142,27 @@ export default function LeadsTable() {
         }
     };
 
-    // Upgrade leads to opportunity handler
     const handleUpgradeLeads = async () => {
         if (rowSelectionModel.length > 0) {
             try {
                 await Promise.all(rowSelectionModel.map(async (leadId) => {
-                    console.log('Check leadId retrieved: '+leadId); // test passed
                     await axios.post(`http://localhost:2999/${username}/data/opportunities`, {
                         lead_id: leadId,
-                        stage: 'opportunity',
                     });
                 }));
+    
                 // Refresh the leads data after upgrading
                 const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
-                // Add id property for DataGrid
                 const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
                 setLeads(leadsWithId);
-                window.location.reload();
+    
+                // Optionally, you can avoid reload by just updating the leads state
+                // instead of using window.location.reload();
             } catch (err) {
                 console.log(err);
             }
         }
-    };
-
+    };    
 
     const handleAddLead = async () => {
         try {
