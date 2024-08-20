@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
+import UpgradeOutlined from '@mui/icons-material/UpgradeOutlined';
 
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -103,6 +104,27 @@ export default function OpportunitiesTable() {
         setPaginationModel(newPaginationModel);
     };
 
+    const handleUpgradeOpportunity = async () => {
+        if (rowSelectionModel.length > 0) {
+            try {
+                await Promise.all(rowSelectionModel.map(async (opportunityId) => {
+                    await axios.post(`http://localhost:2999/${username}/data/projects`, {
+                        opportunity_id: opportunityId,
+                    });
+                }));
+    
+                // Refresh the opportunities data after upgrading
+                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`);
+                const opportunitiesWithId = res.data.map(opportunity => ({ ...opportunity, id: opportunity.opportunity_id }));
+                setOpportunities(opportunitiesWithId);
+    
+                // Optionally, you can avoid reload by just updating the leads state
+                // instead of using window.location.reload();
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };    
 
     return (
         <>
@@ -143,23 +165,17 @@ export default function OpportunitiesTable() {
             p: '0.5rem',
             borderRadius: '0.2rem',
         }}>
-            {/* <CRMTooltip title={
-                <React.Fragment>
-                    <Typography color='text.secondary' fontSize={12}>Prediksi Konversi Leads</Typography>
-                    <Divider orientation='horizontal' />
-                    <Typography color='text.secondary' fontSize={10}><Typography color='text.primary' display={'inline'} fontSize={14}>&#183;</Typography>&nbsp;Menggunakan Algoritma ML</Typography>
-                    <Typography color='text.secondary' fontSize={10}><Typography color='text.primary' display={'inline'} fontSize={14}>&#183;</Typography>&nbsp;Prediksi yang dihasilkan merupakan rekomendasi, bukan eksak</Typography>
-                    <Typography color='text.secondary' fontSize={10}><Typography color='text.primary' display={'inline'} fontSize={14}>&#183;</Typography>&nbsp;Hasil prediksi tidak disimpan permanen, anda yang mengambil keputusan.</Typography>
-                </React.Fragment>
-            } placement='top'>
+
+            <CRMTooltip title="Upgrade Ke Project" placement="top" arrow>
                 <IconButton 
                 sx={{ textTransform: 'none' }} 
                 color='primary'
-                onClick={handlePrediction}
-                cursor={'pointer'}>
-                    <OnlinePrediction fontSize='small'/>
+                onClick={handleUpgradeOpportunity}
+                cursor={'pointer'}
+                disabled={rowSelectionModel < 1}>
+                    <UpgradeOutlined fontSize='small'/>
                 </IconButton>
-            </CRMTooltip> */}
+            </CRMTooltip>
 
             <CRMTooltip title="Tambahkan peluang baru" placement="top" arrow>
                 <span>
