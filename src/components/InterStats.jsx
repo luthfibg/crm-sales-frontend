@@ -8,6 +8,7 @@ export default function InterStats() {
 
     const [totalLeads, setTotalLeads] = useState(0); // useState untuk total leads
     const [totalOpportunities, setTotalOpportunities] = useState(0); // useState untuk total opportunities
+    const [totalProjects, setTotalProjects] = useState(0); // useState untuk total projects
     const username = localStorage.getItem('username');
 
     useEffect(() => {
@@ -32,6 +33,17 @@ export default function InterStats() {
             }
         };
         fetchOpportunities();
+
+        const fetchProjects = async () => {
+            try {
+                const response = await fetch(`http://localhost:2999/${username}/data/projects`);
+                const data = await response.json();
+                setTotalProjects(data.length); // Set total projects
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchProjects();
 
     }, [username]);
 
@@ -97,7 +109,7 @@ export default function InterStats() {
                         }}
                     >
                         <Typography variant="caption" fontSize={'1rem'} component="div" color={darkTheme.palette.secondary.main}>
-                        2
+                        {totalProjects}
                         </Typography>
                     </Box>
                 </Box>
