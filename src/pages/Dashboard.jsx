@@ -10,6 +10,7 @@ import LeadValueGraph from '../components/LeadValueGraph';
 import LeadDigitalStats from '../components/LeadDigitalStats';
 import InterStats from '../components/InterStats';
 import OpportunitiesTable from '../components/OpportunitiesTable';
+import ProjectsTable from '../components/ProjectsTable';
 
 export default function Dashboard() {
 
@@ -40,7 +41,7 @@ export default function Dashboard() {
                             fontSize: '1rem'
                         }
                     }}>
-                        Daftar Kontak
+                        Daftar Kontak <i>(Contacts)</i>
                     </Typography>
                 </Box>
                 <ContactStats/>
@@ -55,7 +56,7 @@ export default function Dashboard() {
                             fontSize: '1rem'
                     }
                 }}>
-                        Daftar Lead
+                        Daftar Lead <i>(Leads)</i>
                     </Typography>
                 </Box>
                 <LeadValueGraph/>
@@ -71,10 +72,24 @@ export default function Dashboard() {
                             fontSize: '1rem'
                     }
                 }}>
-                        Daftar Peluang
+                        Daftar Peluang <i>(Opportunities)</i>
                     </Typography>
                 </Box>
                 <OpportunitiesTable/>
+                <Divider orientation='horizontal' flexItem />
+                <Box sx={{ display: 'flex', width: '100%', mb: '1rem', mt:'1rem', paddingX: '1rem', justifyContent: 'start', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem' }}>
+                    <Typography sx={{ 
+                        marginY: '0.5rem',
+                        fontSize:'0.9rem',
+                        color: darkTheme.palette.text.disabled,
+                        '@media (min-width: 900px)': { 
+                            fontSize: '1rem'
+                    }
+                }}>
+                        Daftar Projek <i>(Projects)</i>
+                    </Typography>
+                </Box>
+                <ProjectsTable/>
             </Container>
         </>
     );
