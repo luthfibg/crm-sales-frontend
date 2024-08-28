@@ -119,7 +119,6 @@ export default function ContactStatRight() {
             flexDirection: 'column',
             bgcolor: darkTheme.palette.background.paper2,
             borderRadius: '0.3rem',
-            p: '0 0.5rem 0.5rem 0.5rem'
         }}>
             <>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingY:'0.5rem' }}>

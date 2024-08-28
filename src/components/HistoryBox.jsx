@@ -5,41 +5,9 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import axios from "axios";
 import LeadFeedCard from "./LeadFeedCard";
 
-export default function ContactStatLeft() {
-    const [leads, setLeads] = useState([]);
+export default function HistoryBox() {
     const token = localStorage.getItem('token');
 
-    const fetchLeadFeeds = async () => {
-        try {
-            const response = await axios.get('http://localhost:2999/data/lead_feeds', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const leadData = await Promise.all(response.data.map(async (lead) => {
-                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${lead.contact_id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                return {
-                    ...lead,
-                    customer_name: `${customerResponse.data.customer_fname} ${customerResponse.data.customer_lname}`,
-                };
-            }));
-            setLeads(leadData);
-        } catch (err) {
-            console.error("Failed to fetch lead feeds", err);
-        }
-    };
-
-    useEffect(() => {
-        fetchLeadFeeds();
-    }, [fetchLeadFeeds]);
-
-    const handlePick = (lf_id) => {
-        setLeads(leads.filter(lead => lead.lf_id !== lf_id));
-    };
     return (
         <Box 
             sx={{ 
@@ -50,10 +18,11 @@ export default function ContactStatLeft() {
                 flexDirection: 'column',
                 bgcolor: darkTheme.palette.background.paper2,
                 borderRadius: '0.3rem',
+                marginRight: '1rem',
             }}>
             <>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingY:'0.5rem' }}>
-                <Typography sx={{ marginLeft:'0.5rem', fontSize:'0.7rem', color: darkTheme.palette.text.disabled }}>Umpan Baru</Typography>
+                <Typography sx={{ marginLeft:'0.5rem', fontSize:'0.7rem', color: darkTheme.palette.text.disabled }}>Riwayat</Typography>
                 <Stack direction="row" sx={{ marginLeft: 'auto', marginRight: '0.5rem' }}>
                     <IconButton size="small" sx={{ width: '1.2rem', height: '1.2rem' }}>
                         <ReplayIcon fontSize="small" color="primary"/>
@@ -65,6 +34,7 @@ export default function ContactStatLeft() {
                 sx={{ 
                     width: '100%',
                     height: '17rem',
+                    py: '1rem',
                     overflowY: 'scroll',
                 }}>
                 <Box width={'100%'} height={'100%'}
@@ -75,9 +45,6 @@ export default function ContactStatLeft() {
                         alignItems: 'center',
                     }}>
                     {
-                        leads.map((lead) => (
-                            <LeadFeedCard key={lead.lf_id} lead={lead} onPick={handlePick} />
-                        ))
                     }
                 </Box>
             </Paper>
