@@ -14,7 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
-// import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Monitor', 'Produk'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];

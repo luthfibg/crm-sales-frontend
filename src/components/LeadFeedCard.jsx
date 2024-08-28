@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Divider } from '@mui/material';
 import axios from 'axios';
 import darkTheme from '../styles/darkTheme';
 
@@ -22,14 +22,15 @@ function LeadFeedCard({ lead, onPick }) {
 
     
     return (
-        <Box bgcolor={darkTheme.palette.background.paper}
+        <>
+        <Box bgcolor={darkTheme.palette.background.paper2}
             sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 padding: '0.5rem',
-                marginBottom: '0.5rem',
-                width: '90%',
+                // marginBottom: '0.5rem',
+                width: '100%',
                 borderRadius: '4px',
                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
             }}
@@ -41,6 +42,8 @@ function LeadFeedCard({ lead, onPick }) {
                 Pick
             </Button>
         </Box>
+        <Divider orientation='horizontal' width='100%' />
+        </>
     );
 }
 
