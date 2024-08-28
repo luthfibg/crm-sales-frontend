@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button, Divider } from '@mui/material';
+import { Box, Typography, Button, Divider, Chip } from '@mui/material';
 import axios from 'axios';
 import darkTheme from '../styles/darkTheme';
 
@@ -35,8 +35,11 @@ function LeadFeedCard({ lead, onPick }) {
                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
             }}
         >
-            <Typography variant="body2" color="textSecondary">
-                {lead.customer_name} (Produk: {lead.product_count})
+            <Typography variant="body2" color="textSecondary" fontSize={'0.7rem'} display={'flex'} flexDirection={'column'}>
+                <Chip label="Lead" color="info" size="small" sx={{width: 'fit-content', height: 'fit-content', fontSize: '0.55rem', mb: '0.2rem'}} />
+                <Box>
+                    {lead.customer_name} (Produk: {lead.product_count})
+                </Box>
             </Typography>
             <Button size="small" variant="contained" color="primary" onClick={handlePick}>
                 Pick
