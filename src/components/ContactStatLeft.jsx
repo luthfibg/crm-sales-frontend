@@ -4,9 +4,11 @@ import darkTheme from '../styles/darkTheme';
 import ReplayIcon from '@mui/icons-material/Replay';
 import axios from "axios";
 import LeadFeedCard from "./LeadFeedCard";
+import OppFeedCard from "./OppFeedCard";
 
 export default function ContactStatLeft() {
     const [leads, setLeads] = useState([]);
+    const [opportunities, setOpportunities] = useState([]);
     const token = localStorage.getItem('token');
 
     const fetchLeadFeeds = async () => {
@@ -33,13 +35,43 @@ export default function ContactStatLeft() {
         }
     };
 
+    const fetchOppFeeds = async () => {
+        try {
+            const response = await axios.get('http://localhost:2999/data/opp_feeds', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const opportunityData = await Promise.all(response.data.map(async (opportunity) => {
+                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${opportunity.customer_id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                return {
+                    ...opportunity,
+                    customer_name: `${customerResponse.data.customer_fname} ${customerResponse.data.customer_lname}`,
+                };
+            }));
+            setOpportunities(opportunityData);
+        } catch (err) {
+            console.error("Failed to fetch opportunity feeds", err);
+        }
+    };
+
     useEffect(() => {
         fetchLeadFeeds();
-    }, [fetchLeadFeeds]);
+        fetchOppFeeds();
+    }, [fetchLeadFeeds, fetchOppFeeds()]);
 
     const handlePick = (lf_id) => {
         setLeads(leads.filter(lead => lead.lf_id !== lf_id));
     };
+
+    const handleOppPick = (of_id) => {
+        setOpportunities(opportunities.filter(opportunity => opportunity.of_id !== of_id));
+    };
+
     return (
         <Box 
             sx={{ 
@@ -77,6 +109,11 @@ export default function ContactStatLeft() {
                     {
                         leads.map((lead) => (
                             <LeadFeedCard key={lead.lf_id} lead={lead} onPick={handlePick} />
+                        ))
+                    }
+                    {
+                        opportunities.map((opportunity) => (
+                            <OppFeedCard key={opportunity.of_id} opportunity={opportunity} onPick={handleOppPick} />
                         ))
                     }
                 </Box>

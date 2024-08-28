@@ -39,7 +39,7 @@ function OppFeedCard({ opportunity, onPick }) {
             <Typography variant="body2" color="textSecondary" fontSize={'0.7rem'} display={'flex'} flexDirection={'column'}>
                 <Chip label="Opportunity" color="warning" size="small" sx={{width: 'fit-content', height: 'fit-content', fontSize: '0.55rem', mb: '0.2rem'}} />
                 <Box>
-                    {lead.customer_name} (Produk: {lead.product_count})
+                    {opportunity.customer_name} (Kapan: {opportunity.created_at})
                 </Box>
             </Typography>
             <Button size="small" variant="contained" color="primary" onClick={handlePick}>

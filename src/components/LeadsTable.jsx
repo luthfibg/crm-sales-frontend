@@ -47,7 +47,6 @@ export default function LeadsTable() {
                 }));
                 
                 setLeads(leadsWithId);
-                console.log("Leads Data:", leads);
             } catch (err) {
                 console.log(err);
             }
