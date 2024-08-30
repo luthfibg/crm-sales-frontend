@@ -100,22 +100,27 @@ export default function ContactStatLeft() {
                     overflowY: 'scroll',
                 }}>
                 <Box width={'100%'} height={'100%'}
-                    sx={{ 
+                    sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'start',
+                        justifyContent: (leads.length === 0 || opportunities.length === 0) ? 'center' : 'start',
                         alignItems: 'center',
                     }}>
-                    {
-                        leads.map((lead) => (
-                            <LeadFeedCard key={lead.lf_id} lead={lead} onPick={handlePick} />
-                        ))
-                    }
-                    {
-                        opportunities.map((opportunity) => (
-                            <OppFeedCard key={opportunity.of_id} opportunity={opportunity} onPick={handleOppPick} />
-                        ))
-                    }
+                    {leads.length === 0 || opportunities.length === 0 ? (
+                    <Typography variant="body2" color="textSecondary" fontSize={'0.7rem'} display={'flex'} flexDirection={'column'}>
+                        Tidak ada umpan
+                    </Typography>
+                    ) : (
+                    <>
+                        {leads.map((lead) => (
+                        <LeadFeedCard key={lead.lf_id} lead={lead} onPick={handlePick} />
+                        ))}
+                        {opportunities.map((opportunity) => (
+                        <OppFeedCard key={opportunity.of_id} opportunity={opportunity} onPick={handleOppPick} />
+                        ))}
+                    </>
+                    )}
+                    
                 </Box>
             </Paper>
             </>

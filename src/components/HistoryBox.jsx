@@ -41,11 +41,12 @@ export default function HistoryBox() {
                     sx={{ 
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'start',
+                        justifyContent: 'center',
                         alignItems: 'center',
                     }}>
-                    {
-                    }
+                    <Typography variant="body2" color="textSecondary" fontSize={'0.7rem'} display={'flex'} flexDirection={'column'}>
+                        Tidak Ada Riwayat
+                    </Typography>
                 </Box>
             </Paper>
             </>
