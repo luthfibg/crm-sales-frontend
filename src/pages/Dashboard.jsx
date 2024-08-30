@@ -7,7 +7,7 @@ import LeadsTable from '../components/LeadsTable';
 import darkTheme from '../styles/darkTheme';
 import ContactStats from '../components/ContactStats';
 import LeadValueGraph from '../components/LeadValueGraph';
-import LeadDigitalStats from '../components/LeadDigitalStats';
+// import LeadDigitalStats from '../components/LeadDigitalStats';
 import InterStats from '../components/InterStats';
 import OpportunitiesTable from '../components/OpportunitiesTable';
 import ProjectsTable from '../components/ProjectsTable';
@@ -60,7 +60,7 @@ export default function Dashboard() {
                     </Typography>
                 </Box>
                 <LeadValueGraph/>
-                <LeadDigitalStats/>
+                {/* <LeadDigitalStats/> */}
                 <LeadsTable/>
                 <Divider orientation='horizontal' flexItem />
                 <Box sx={{ display: 'flex', width: '100%', mb: '1rem', mt:'1rem', paddingX: '1rem', justifyContent: 'start', bgcolor: darkTheme.palette.background.paper2, borderRadius: '0.3rem' }}>
