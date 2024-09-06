@@ -97,16 +97,20 @@ export default function ContactsTable() {
 
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
-            const username = localStorage.getItem('username'); // get username from localstorage (user login session)
+            const selectedRowIndex = rowSelectionModel[0] - 1; // rowSelectionModel starts from 1, so we subtract 1 to get the correct index
+            const selectedContact = contacts[selectedRowIndex]; // Get the selected contact from the contacts array
+            const contactId = selectedContact.contact_id; // Extract contact_id
+    
+            const username = localStorage.getItem('username'); // Get username from local storage (user login session)
             if (!username) {
                 console.error('Username is null or undefined');
-                return; // Jangan navigasi jika username tidak tersedia
+                return; // Do not navigate if username is not available
             }
-            navigate(`/${username}/update_contact/${rowSelectionModel[0]}`);
-            console.log(rowSelectionModel[0]);
+            // Navigate to update contact route with contact_id
+            navigate(`/${username}/update_contact/${contactId}`);
         }
     };
-
+    
     const handleDelete = async () => {
         if (rowSelectionModel.length > 0) {
             const username = localStorage.getItem('username'); // get username from localstorage (user login session)
