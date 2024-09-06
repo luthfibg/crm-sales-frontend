@@ -38,7 +38,7 @@ function LeadFeedCard({ lead, onPick }) {
             <Typography variant="body2" color="textSecondary" fontSize={'0.7rem'} display={'flex'} flexDirection={'column'}>
                 <Chip label="Lead" color="info" size="small" sx={{width: 'fit-content', height: 'fit-content', fontSize: '0.55rem', mb: '0.2rem'}} />
                 <Box>
-                    {lead.customer_name} (Produk: {lead.product_count})
+                    {lead.customer_name} Produk: {lead.product_count}
                 </Box>
             </Typography>
             <Button size="small" variant="contained" color="primary" onClick={handlePick}>
