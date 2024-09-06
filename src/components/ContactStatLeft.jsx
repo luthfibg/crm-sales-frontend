@@ -10,7 +10,6 @@ export default function ContactStatLeft() {
     const [leads, setLeads] = useState([]);
     const [opportunities, setOpportunities] = useState([]);
     const token = localStorage.getItem('token');
-    console.log("Token: ", token);
 
     const fetchLeadFeeds = async () => {
         try {
@@ -19,7 +18,6 @@ export default function ContactStatLeft() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log("Lead feeds data:", response.data); // Logging di sini
             const leadData = await Promise.all(response.data.map(async (lead) => {
                 const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${lead.customer_id}`, {
                     headers: {
