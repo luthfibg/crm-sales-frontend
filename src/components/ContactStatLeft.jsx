@@ -10,6 +10,7 @@ export default function ContactStatLeft() {
     const [leads, setLeads] = useState([]);
     const [opportunities, setOpportunities] = useState([]);
     const token = localStorage.getItem('token');
+    console.log("Token: ", token);
 
     const fetchLeadFeeds = async () => {
         try {
@@ -18,15 +19,16 @@ export default function ContactStatLeft() {
                     'Authorization': `Bearer ${token}`
                 }
             });
+            console.log("Lead feeds data:", response.data); // Logging di sini
             const leadData = await Promise.all(response.data.map(async (lead) => {
-                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${lead.contact_id}`, {
+                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${lead.customer_id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
                 return {
                     ...lead,
-                    customer_name: `${customerResponse.data.customer_fname} ${customerResponse.data.customer_lname}`,
+                    customer_name: `${customerResponse.data.customer_fname} ${customerResponse.data.customer_lname}`
                 };
             }));
             setLeads(leadData);
@@ -62,9 +64,9 @@ export default function ContactStatLeft() {
     useEffect(() => {
         fetchLeadFeeds();
         fetchOppFeeds();
-    }, [fetchLeadFeeds, fetchOppFeeds()]);
+    }, []);
 
-    const handlePick = (lf_id) => {
+    const handleLeadPick = (lf_id) => {
         setLeads(leads.filter(lead => lead.lf_id !== lf_id));
     };
 
@@ -103,24 +105,32 @@ export default function ContactStatLeft() {
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: (leads.length === 0 || opportunities.length === 0) ? 'center' : 'start',
+                        justifyContent: (leads.length === 0 && opportunities.length === 0) ? 'center' : 'start',
                         alignItems: 'center',
-                    }}>
-                    {leads.length === 0 || opportunities.length === 0 ? (
-                    <Typography variant="body2" color="textSecondary" fontSize={'0.7rem'} display={'flex'} flexDirection={'column'}>
-                        Tidak ada umpan
-                    </Typography>
+                    }}>                    
+                    {(leads.length === 0 && opportunities.length === 0) ? (
+                        <Typography variant="body2" color="textSecondary">
+                            Tidak ada umpan
+                        </Typography>
                     ) : (
-                    <>
-                        {leads.map((lead) => (
-                        <LeadFeedCard key={lead.lf_id} lead={lead} onPick={handlePick} />
-                        ))}
-                        {opportunities.map((opportunity) => (
-                        <OppFeedCard key={opportunity.of_id} opportunity={opportunity} onPick={handleOppPick} />
-                        ))}
-                    </>
+                        <>
+                            {leads.length > 0 && (
+                                <>
+                                    {leads.map((lead) => (
+                                        <LeadFeedCard key={lead.lf_id} lead={lead} onPick={handleLeadPick} />
+                                    ))}
+                                </>
+                            )}
+
+                            {opportunities.length > 0 && (
+                                <>
+                                    {opportunities.map((opportunity) => (
+                                        <OppFeedCard key={opportunity.of_id} opportunity={opportunity} onPick={handleOppPick} />
+                                    ))}
+                                </>
+                            )}
+                        </>
                     )}
-                    
                 </Box>
             </Paper>
             </>

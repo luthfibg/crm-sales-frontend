@@ -44,11 +44,12 @@ export default function ContactsTable() {
 
     const sortContactsByStatus = (contacts) => {
         const statusOrder = {
-            'follow up': 1,
-            'masuk': 2,
-            'menganggur': 3,
-            'deal': 4,
-            'gagal': 5
+            'opportunity': 1,
+            'lead': 2,
+            'new': 3,
+            'project': 4,
+            'idle': 5,
+            'done': 6
         };
 
         return contacts.sort((a, b) => {
@@ -60,34 +61,34 @@ export default function ContactsTable() {
 
     const contactColumns = [
         // with custom datagrid header
-        { field: 'id', headerName: 'ID', width: 70 , headerClassName: 'super-app-theme--header'},
-        { field: 'person', headerName: 'Nama', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'contact_id', headerName: 'ID', width: 70 , headerClassName: 'super-app-theme--header'},
+        { field: 'contact_name', headerName: 'Nama', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Nama Pelanggan (Link Utama Institusi)">
                 <span>{params.colDef.headerName}</span>
             </Tooltip>
         )},
-        { field: 'person_address', headerName: 'Alamat', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
-        { field: 'institution', headerName: 'Institusi', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'contact_address', headerName: 'Alamat', width: 150, editable: true, headerClassName: 'super-app-theme--header' },
+        { field: 'contact_institution', headerName: 'Institusi', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Nama Institusi Pelanggan">
                 <span>{params.colDef.headerName}</span>
             </Tooltip>
         )},
-        { field: 'position', headerName: 'Posisi', width: 150, editable: true, headerClassName: 'super-app-theme--header' , renderHeader: (params) => (
+        { field: 'contact_position', headerName: 'Posisi', width: 150, editable: true, headerClassName: 'super-app-theme--header' , renderHeader: (params) => (
             <Tooltip title="Posisi Pelanggan Dalam Institusi [Jika Informasi Tersedia]">
                 <span>{params.colDef.headerName}</span>
             </Tooltip>
         )},
-        { field: 'institution_address', headerName: 'Alamat Institusi', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'contact_institution_address', headerName: 'Alamat Institusi', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Alamat Institusi Pelanggan [Jika Informasi Tersedia]">
                 <span>{params.colDef.headerName}</span>
             </Tooltip>
         )},
-        { field: 'status', headerName: 'Status', width: 100, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'contact_status', headerName: 'Status', width: 100, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Status Kontak Saat Ini Dalam Pemeliharaan Sales">
                 <span>{params.colDef.headerName}</span>
             </Tooltip>
         )},
-        { field: 'descriptions', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'description', headerName: 'Deskripsi', width: 200, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Informasi Tambahan Kontak">
                 <span>{params.colDef.headerName}</span>
             </Tooltip>

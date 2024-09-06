@@ -12,7 +12,7 @@ const COLORS = [darkTheme.palette.primary.light, '#E48EB2', '#EA8F8B', '#EF8F63'
 export default function ContactStatRight() {
 
     const [totalContacts, setTotalContacts] = useState(0); // useState untuk total contacts
-    const [followUpCount, setfollowUpCount] = useState(0); // useState to count follow up
+    const [newCount, setNewCount] = useState(0); // useState to count follow up
     const [contactData, setContactData] = useState([]);
     const theme = useTheme();
     const username = localStorage.getItem('username');
@@ -33,8 +33,8 @@ export default function ContactStatRight() {
                 const data = await response.json();
                 setContactData(data);
                 setTotalContacts(data.length); // Set total contacts
-                const followUp = data.filter(contact => contact.status === 'Follow Up');
-                setfollowUpCount(followUp.length);
+                const newContacts = data.filter(contact => contact.contact_status === 'new');
+                setNewCount(newContacts.length);
             } catch (err) {
                 console.log(err);
             }
@@ -44,12 +44,22 @@ export default function ContactStatRight() {
 
     // retrieve contact status count
     const getStatusCount = () => {
+        const statusLabels = {
+            'new': 'New',
+            'lead': 'Leading',
+            'opportunity': 'Opportunity',
+            'project': 'Project',
+            'idle': 'Idle',
+            'done': 'Successful'	
+        };
+        
         const statusCount = {
-            'Masuk': 0,
-            'Follow Up': 0,
-            'Menganggur': 0,
-            'Gagal': 0,
-            'Deal': 0
+            'new': 0,
+            'lead': 0,
+            'opportunity': 0,
+            'project': 0,
+            'idle': 0,
+            'done': 0
         };
 
         // handle empty data
@@ -58,13 +68,13 @@ export default function ContactStatRight() {
         }
 
         contactData.forEach(contact => {
-            if (statusCount.hasOwnProperty(contact.status)) {
-                statusCount[contact.status] += 1;
+            if (statusCount.hasOwnProperty(contact.contact_status)) {
+                statusCount[contact.contact_status] += 1;
             }
         });
 
         return Object.keys(statusCount).map(key => ({
-            name: key,
+            name: statusLabels[key],
             value: statusCount[key]
         }));
     };
@@ -159,11 +169,11 @@ export default function ContactStatRight() {
                         </Card>
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>{followUpCount}</Typography>
+                                <Typography sx={{ fontSize: 22 }} color="secondary.main" textAlign={'center'}>{newCount}</Typography>
                                 <Typography sx={{ 
                                     fontSize: 10,
                                     '@media(min-width: 1200px)': { fontSize: 12 },
-                                }} color="primary.light" textAlign={'center'}>Follow  Up</Typography>
+                                }} color="primary.light" textAlign={'center'}>Baru</Typography>
                             </CardContent>
                             <CardActions>
                             </CardActions>
