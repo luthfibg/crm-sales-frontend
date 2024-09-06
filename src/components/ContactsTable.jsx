@@ -112,28 +112,39 @@ export default function ContactsTable() {
     };
     
     const handleDelete = async () => {
+        console.log("Selected rows (rowSelectionModel):", rowSelectionModel); // Cek isi rowSelectionModel
+    
         if (rowSelectionModel.length > 0) {
-            const username = localStorage.getItem('username'); // get username from localstorage (user login session)
+            const username = localStorage.getItem('username');
+            if (!username) {
+                console.error('Username is null or undefined');
+                return; 
+            }
+    
             try {
-                if (!username) {
-                    console.error('Username is null or undefined');
-                    return; // Jangan lanjutkan jika username tidak tersedia
-                }
-                await Promise.all(rowSelectionModel.map(async (contactId) => {
-                    // const contactId = rowSelectionModel[0];
-                    await axios.delete(`http://localhost:2999/${username}/data/contacts/` + contactId);
-                    console.log('Check contactId retrieved: '+ contactId); // test passed
+                // Pastikan rowSelectionModel berisi contactId langsung atau ambil contactId dari kontak yang diseleksi
+                await Promise.all(rowSelectionModel.map(async (rowIndex) => {
+                    const selectedContact = contacts.find(contact => contact.contact_id === rowIndex); 
+                    if (selectedContact) {
+                        const contact_id = selectedContact.contact_id;
+                        console.log("Attempting to delete contact with ID:", contact_id); // Log setiap contactId
+                        await axios.delete(`http://localhost:2999/${username}/data/contacts/${contact_id}`);
+                    }
                 }));
-                // Refresh the contacts data after deletion
+    
+                // Refresh data setelah penghapusan
                 const res = await axios.get(`http://localhost:2999/${username}/data/contacts`);
                 const sortedContacts = sortContactsByStatus(res.data);
                 setContacts(sortedContacts);
-                window.location.reload();
+                // window.location.reload();
             } catch (err) {
                 console.log(err);
             }
         }
     };
+    
+    
+    
     
     const handlePaginationModelChange = (newPaginationModel) => {
         setPaginationModel(newPaginationModel);
@@ -155,6 +166,7 @@ export default function ContactsTable() {
                 rows={contacts.map((contact, index) => ({ id: index + 1, ...contact }))}
                 columns={contactColumns}
                 pagination
+                getRowId={(row) => row.contact_id}
                 initialState={{ pagination: { paginationModel: { pageSize: 5 } } }}
                 paginationModel={paginationModel}
                 onPaginationModelChange={handlePaginationModelChange}

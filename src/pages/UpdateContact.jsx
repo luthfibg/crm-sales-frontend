@@ -59,8 +59,8 @@ const UpdateContact = () => {
     const handleOnclickSave = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:2999/data/contacts/${contactId}`, contact);
-            navigate('/');
+            await axios.put(`http://localhost:2999/${username}/data/contacts/${contactId}`, contact);
+            navigate(`/${username}`);
         } catch (err) {
             console.log(err);
             console.error(err.response.data);
@@ -179,7 +179,7 @@ const UpdateContact = () => {
                         <Button onClick={handleOnclickSave} sx={{ width:'30%', mr:'1rem' }} variant="outlined">
                             Simpan
                         </Button>
-                        <Button component={Link} to="/" sx={{ width:'30%', ml:'1rem' }} variant="outlined">
+                        <Button component={Link} to={`/${username}`} sx={{ width:'30%', ml:'1rem' }} variant="outlined">
                             Batal
                         </Button>
                     </Box>
