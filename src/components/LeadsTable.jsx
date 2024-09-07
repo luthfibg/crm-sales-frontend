@@ -55,7 +55,6 @@ export default function LeadsTable() {
         fetchAllLeads();
     }, [username]);
     
-    
     const leadColumns = [
         // { field: 'id', headerName: 'ID', width: 30, headerClassName: 'super-app-theme--header', renderHeader: (params) => {
         //     <Tooltip title="ID Lead"><span>{params.colDef.headerName}</span></Tooltip >
@@ -180,9 +179,29 @@ export default function LeadsTable() {
 
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
-            navigate(`/${username}/update_lead/${rowSelectionModel[0]}`);
+            const selectedLeadId = rowSelectionModel[0]; // Gunakan langsung lead_id dari rowSelectionModel
+            console.log("Selected lead ID:", selectedLeadId);
+    
+            // Cari lead berdasarkan lead_id di array leads
+            const selectedLead = leads.find(lead => lead.lead_id === selectedLeadId);
+    
+            if (!selectedLead) {
+                console.error("Selected lead not found");
+                return;
+            }
+    
+            console.log("Selected lead:", selectedLead);
+    
+            if (!username) {
+                console.error('Username is null or undefined');
+                return; // Jangan lanjut jika username tidak ada
+            }
+    
+            // Arahkan ke halaman update lead dengan lead_id yang sesuai
+            navigate(`/${username}/update_lead/${selectedLead.lead_id}`);
         }
     };
+    
 
     const handleDelete = async () => {
         if (rowSelectionModel.length > 0) {

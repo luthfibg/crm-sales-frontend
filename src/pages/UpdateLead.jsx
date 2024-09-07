@@ -1,9 +1,9 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import '../styles/formCustom.css';
 
 const leadStatus = [
@@ -47,7 +47,9 @@ const converted = [
 
 const UpdateLead = () => {
 
+    const navigate = useNavigate();
     const username = localStorage.getItem('username');
+    const {leadId} = useParams();
     const [lead, setLead] = useState({
         lead_title:"",
         sales_name:"",
@@ -64,11 +66,26 @@ const UpdateLead = () => {
         notes:"",
     })
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        const fetchLead = async () => {
+            try {
+                const res = await axios.get(`http://localhost:2999/${username}/data/leads/${leadId}`);
+                if (res.data.length > 0) {
+                    setLead(res.data[0]); // Ambil elemen pertama dari array
+                } else {
+                    console.error("Lead not found");
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchLead();
+    }, [username, leadId]); // Dependency array
+    
+
     const handleChange = (e) => {
         setLead((prev) => ({...prev, [e.target.name]: e.target.value}));
     }
-    console.log(lead);
     const handleOnclickSave = async e => {
         e.preventDefault();
         try {
@@ -90,24 +107,27 @@ const UpdateLead = () => {
         autoComplete="off">
             <Typography sx={{ display:'flex', justifyContent:'center', mb:'2rem' }} variant="h5">Daftarkan Lead Baru</Typography>
             <div>
-                <TextField onChange={handleChange} name="lead_title" id="outlined-lead-title" label="Judul Lead"/>
+                <TextField onChange={handleChange} name="lead_title" id="outlined-lead-title" label="Judul Lead" value={lead.lead_title}/>
                 
-                <TextField onChange={handleChange} name="sales_name" id="outlined-sales-name" label="Nama Sales"/>
+                <TextField onChange={handleChange} name="sales_name" disabled id="outlined-sales-name" label="Nama Sales" value={lead.sales_name}/>
                 
-                <TextField onChange={handleChange} name="person" id="outlined-person" label="Nama Customer"/>
+                <TextField onChange={handleChange} name="contact_name" id="outlined-person" label="Nama Customer" value={lead.contact_name}/>
                 
-                <TextField onChange={handleChange} name="institution" id="outlined-institution" label="Nama Institusi"/>
+                <TextField onChange={handleChange} name="contact_institution" disabled value={lead.contact_institution} id="outlined-institution" label="Nama Institusi"/>
                 
                 <TextField onChange={handleChange} name="descriptions" id="outlined-multiline-static" label="Keterangan"
                 multiline
                 rows={3}
-                type="text"/>
+                type="text"
+                value={lead.descriptions}/>
 
-                <TextField onChange={handleChange} name="trade_value" id="outlined-trade-value" label="Nilai Penjualan" type="number" />
+                <TextField onChange={handleChange} name="trade_value" value={lead.trade_value} id="outlined-trade-value" label="Nilai Penjualan" type="number" />
                 
                 <TextField name="lead_status" id="outlined-lead-status" select
                     label="Status Lead"
-                    defaultValue="baru">
+                    defaultValue="baru"
+                    value={lead.lead_status}
+                    onChange={(e) => setLead({ ...lead, lead_status: e.target.value })}>
                     {leadStatus.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                         {option.label}
@@ -115,11 +135,12 @@ const UpdateLead = () => {
                     ))}
                 </TextField>
 
-                <TextField onChange={handleChange} name="response_time" helperText="*Berdasarkan Jam" type="number" id="outlined-response-time" label="Waktu Respon"/>
+                <TextField onChange={handleChange} name="response_time" value={lead.response_time} helperText="*Berdasarkan Jam" type="number" id="outlined-response-time" label="Waktu Respon"/>
                 
                 <TextField name="interaction_level" id="outlined-interaction-level" select
                     label="Level Interaksi"
-                    defaultValue="1">
+                    defaultValue="1"
+                    value={lead.interaction_level}>
                     {interactionLevel.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                         {option.label}
@@ -129,7 +150,8 @@ const UpdateLead = () => {
 
                 <TextField name="source" id="outlined-source" select
                     label="Sumber"
-                    defaultValue="email">
+                    defaultValue="email"
+                    value={lead.source}>
                     {source.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                         {option.label}
@@ -139,7 +161,8 @@ const UpdateLead = () => {
 
                 <TextField name="converted" id="outlined-converted" select
                     label="Dikonversi?"
-                    defaultValue='0'>
+                    defaultValue='0'
+                    value={lead.converted}>
                     {converted.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                         {option.label}
@@ -149,7 +172,8 @@ const UpdateLead = () => {
 
                 <TextField name="unqualified_reason" id="outlined-unqualified-reason" select label="Alasan Diskualifikasi"
                     defaultValue=""
-                    helperText="Mengapa Diskualifikasi?">
+                    helperText="Mengapa Diskualifikasi?"
+                    value={lead.unqualified_reason}>
                     {unqualificationReason.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                         {option.label}
@@ -161,7 +185,8 @@ const UpdateLead = () => {
                 id="outlined-notes"
                 label="Catatan"
                 multiline
-                rows={3} />
+                rows={3}
+                value={lead.notes}/>
 
                 <Box sx={{ display:'flex', paddingX:'2rem' }}>
                 <Button onClick={handleOnclickSave} sx={{ width:'50%', mr:'1rem' }} variant="outlined">Simpan</Button>
