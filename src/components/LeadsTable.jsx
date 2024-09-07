@@ -208,7 +208,7 @@ export default function LeadsTable() {
             try {
                 await Promise.all(rowSelectionModel.map(async (leadId) => {
                     console.log('Check leadId retrieved: '+leadId); // test passed
-                    await axios.delete(`http://localhost:2999/${username}/data/leads/`+leadId);
+                    await axios.delete(`http://localhost:2999/${username}/data/leads/${leadId}`);
                 }));
                 // Refresh the leads data after deletion
                 const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
