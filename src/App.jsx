@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Dashboard from './pages/Dashboard';
 import AddContact from './pages/AddContact';
 import AddLead from './pages/AddLead';
+import AddOpportunity from './pages/AddOpportunity';
 import UpdateContact from './pages/UpdateContact';
 import UpdateLead from './pages/UpdateLead';
 import CRMMonitor from './pages/CRMMonitor';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/:username" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
           <Route path="/:username/add_contact" element={<ProtectedRoute><AddContact/></ProtectedRoute>}/>
           <Route path="/:username/add_lead" element={<ProtectedRoute><AddLead/></ProtectedRoute>}/>
+          <Route path="/:username/add_opportunity" element={<ProtectedRoute><AddOpportunity/></ProtectedRoute>}/>
           <Route path="/:username/update_contact/:contactId" element={<ProtectedRoute><UpdateContact/></ProtectedRoute>}/>
           <Route path="/:username/update_lead/:leadId" element={<ProtectedRoute><UpdateLead/></ProtectedRoute>}/>
           <Route path="/" element={<Opening/>}/>

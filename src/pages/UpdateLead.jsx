@@ -53,8 +53,8 @@ const UpdateLead = () => {
     const [lead, setLead] = useState({
         lead_title:"",
         sales_name:"",
-        person:"",
-        institution:"",
+        contact_name:"",
+        contact_institution:"",
         descriptions:"",
         trade_value:null,
         lead_status: leadStatus[0].value,
@@ -89,7 +89,7 @@ const UpdateLead = () => {
     const handleOnclickSave = async e => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:2999/${username}/data/leads`, lead);
+            await axios.put(`http://localhost:2999/${username}/data/lead-manual-update/${leadId}`, lead);
             navigate(`/${username}`);    
         } catch (err) {
             console.log(err);
