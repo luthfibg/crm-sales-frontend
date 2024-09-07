@@ -9,6 +9,7 @@ import { useSpring, animated } from '@react-spring/web';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const {
@@ -82,20 +83,30 @@ export default function WishleadModal({ open, onClose }) {
     fetchContacts();
   }, [username]);
 
+  const navigate = useNavigate();
   const handleSaveWishlist = async () => {
     try {
-      // Simpan nama pelanggan di localStorage
-      localStorage.setItem('selectedPerson', selectedContact);
+        const selectedContactObj = contacts.find(contact => contact.contact_name === selectedContact);
+        localStorage.setItem('selectedPerson', JSON.stringify(selectedContactObj));
 
-      await axios.post('http://localhost:2999/data/wishlist', {
-        person: selectedContact,
-      });
-      onClose(); // Tutup modal setelah wishlist dibuat
+        const response = await axios.post('http://localhost:2999/data/wishlist_from_modal', {
+            contact_name: selectedContactObj.contact_name,
+        });
+
+        if (response.status === 200) {
+            onClose(); // Tutup modal setelah wishlist berhasil disimpan
+        }
     } catch (error) {
-      console.error('Error saving wishlist:', error);
+        if (error.response && error.response.status === 400) {
+            alert('Wishlist already exists for this customer.');
+            onClose(); // Tutup modal jika wishlist sudah ada
+            navigate(`/${username}`);
+        } else {
+            console.error('Error saving wishlist:', error);
+        }
     }
   };
-  
+
   return (
     <Modal
       open={open}
@@ -122,8 +133,8 @@ export default function WishleadModal({ open, onClose }) {
             sx={{ mt: 2 }}
           >
             {contacts.map((contact) => (
-              <MenuItem key={contact.id} value={contact.person}>
-                {contact.person}
+              <MenuItem key={contact.contact_id} value={contact.contact_name}>
+                {contact.contact_name}
               </MenuItem>
             ))}
           </TextField>
