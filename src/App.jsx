@@ -30,7 +30,7 @@ function App() {
           <Route path="/:username/add_contact" element={<ProtectedRoute><AddContact/></ProtectedRoute>}/>
           <Route path="/:username/add_lead" element={<ProtectedRoute><AddLead/></ProtectedRoute>}/>
           <Route path="/:username/update_contact/:contactId" element={<ProtectedRoute><UpdateContact/></ProtectedRoute>}/>
-          <Route path="/:username/update_lead/:id" element={<ProtectedRoute><UpdateLead/></ProtectedRoute>}/>
+          <Route path="/:username/update_lead/:leadId" element={<ProtectedRoute><UpdateLead/></ProtectedRoute>}/>
           <Route path="/" element={<Opening/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
