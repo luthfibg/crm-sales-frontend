@@ -54,17 +54,17 @@ const AddLead = () => {
     const [lead, setLead] = useState({
         lead_title: "",
         sales_name: `${username}`,
-        person: "",
-        institution: 'PT. JSRS',
+        contact_name: "",
+        contact_institution: 'PT. JSRS',
         descriptions: "",
         product_type: "",
         product_image_1: "",
         trade_value: null,
         lead_status: leadStatus[0].value,
         response_time: null,
-        interaction_level: interactionLevel[0].value,
+        interaction_level: interactionLevel[2].value,
         source: source[0].value,
-        converted: converted[0].value,
+        converted: converted[1].value,
         unqualified_reason: unqualifiedReason[0].value,
         notes: "",
     });
@@ -88,25 +88,29 @@ const AddLead = () => {
         };
         fetchContacts();
         fetchProducts();
-
-        // Ambil nama pelanggan dari localStorage
-        const savedPerson = localStorage.getItem('selectedPerson');
+    
+        // Ambil data kontak dari localStorage
+        const savedPerson = JSON.parse(localStorage.getItem('selectedPerson'));
         if (savedPerson) {
-        setPersonName(savedPerson);
-        // Hapus dari localStorage jika tidak perlu disimpan lebih lama
-        localStorage.removeItem('selectedPerson');
+            setPersonName(savedPerson.contact_name);
+            setLead((prev) => ({
+                ...prev,
+                contact_name: savedPerson.contact_name,
+                contact_institution: savedPerson.contact_institution
+            }));
+            localStorage.removeItem('selectedPerson');
         }
     }, [username]);
-
+    
     const navigate = useNavigate();
     const handleChange = (e) => {
         const { name, value } = e.target;
         setLead((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-        if (name === 'person') {
-            const selectedContact = contact.find(contact => contact.person === value);
+        if (name === 'contact_name') {
+            const selectedContact = contact.find(contact => contact.contact_name === value);
             if (selectedContact) {
-                setLead((prev) => ({ ...prev, institution: selectedContact.institution }));
+                setLead((prev) => ({ ...prev, contact_institution: selectedContact.contact_institution }));
             }
         }
     }
@@ -149,7 +153,7 @@ const AddLead = () => {
                             </MenuItem>
                         ))}
                     </TextField> */}
-                    <TextField name="person" id="outlined-person"
+                    <TextField name="contact_name" id="outlined-contact-name"
                         label="Nama Pelanggan"
                         value={personName}
                         onChange={handleChange}
@@ -157,7 +161,7 @@ const AddLead = () => {
                     />
 
                     {/* input 4 */}
-                    <TextField name="institution" id="outlined-select-institution" label="Nama Institusi" value={lead.institution}
+                    <TextField name="contact_institution" id="outlined-select-contact-institution" label="Nama Institusi" value={lead.contact_institution}
                         onChange={handleChange}
                         helperText="Nama Institusi akan otomatis terisi"
                         disabled />
