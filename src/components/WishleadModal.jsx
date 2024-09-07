@@ -94,6 +94,12 @@ export default function WishleadModal({ open, onClose }) {
         });
 
         if (response.status === 200) {
+          if (response.data.wishlist_id) {
+            
+            // Simpan wishlist_id ke localStorage
+            localStorage.setItem('wishlist_id', response.data.wishlist_id);
+            
+          }
             onClose(); // Tutup modal setelah wishlist berhasil disimpan
         }
     } catch (error) {

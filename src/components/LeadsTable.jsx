@@ -57,27 +57,24 @@ export default function LeadsTable() {
     
     
     const leadColumns = [
-        { field: 'id', headerName: 'ID', width: 30, headerClassName: 'super-app-theme--header', renderHeader: (params) => {
-            <Tooltip title="ID Lead"><span>{params.colDef.headerName}</span></Tooltip >
-        }},
-        { field: 'lead_current', headerName: 'Current', width: 130, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
-            <Tooltip title="Status Aktif Lead"><span>{params.colDef.headerName}</span></Tooltip >
-        )},
-        { field: 'lead_title', headerName: 'Nama Lead', width: 130, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        // { field: 'id', headerName: 'ID', width: 30, headerClassName: 'super-app-theme--header', renderHeader: (params) => {
+        //     <Tooltip title="ID Lead"><span>{params.colDef.headerName}</span></Tooltip >
+        // }},
+        { field: 'lead_title', headerName: 'Nama Lead', width: 150, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Judul Lead, Untuk Memudahkan Identifikasi"><span>{params.colDef.headerName}</span></Tooltip >
         )},
-        { field: 'person', headerName: 'Pelanggan', width: 130, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'contact_name', headerName: 'Pelanggan', width: 150, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Nama Pelanggan (Link Utama Institusi)"><span>{params.colDef.headerName}</span></Tooltip >
         )},
-        { field: 'institution', headerName: 'Institusi', width: 130, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'contact_institution', headerName: 'Institusi', width: 150, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Nama Institusi Pelanggan"><span>{params.colDef.headerName}</span></Tooltip >
         )},
-        { field: 'trade_value', headerName: 'Value', width: 100, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        { field: 'trade_value', headerName: 'Value', width: 120, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Besarnya Nilai Potensi Lead (Dalam Rupiah)"><span>{params.colDef.headerName}</span></Tooltip >
         )},
         { field: 'lead_status',
             headerName: 'Status Lead',
-            width: 100,
+            width: 150,
             editable: true,
             type: 'singleSelect',
             valueOptions: [
@@ -91,16 +88,16 @@ export default function LeadsTable() {
             renderHeader: (params) => (
                 <Tooltip title="Status Lead Saat Ini"><span>{params.colDef.headerName}</span></Tooltip >
             )},
-        { field: 'response_time', headerName: 'Waktu Respon', width: 60, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
-            <Tooltip title="Rata-Rata Durasi Pelanggan Merespon (Dalam Jam)"><span>{params.colDef.headerName}</span></Tooltip >
-        )},
-        { field: 'interaction_level', headerName: 'Level Interaksi', width: 60, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
-            <Tooltip title="Level Interaksi Pelanggan (Menggunakan Skala 1-5, Diisi Menggunakan Perkiraan Anda). 1 berarti sangat rendah, 5 sangat tinggi"><span>{params.colDef.headerName}</span></Tooltip >
-        )},
-        { field: 'source', headerName: 'Sumber', width: 60, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
-            <Tooltip title="Sumber Lead Mendapatkan Informasi Tentang Produk Anda"><span>{params.colDef.headerName}</span></Tooltip >
-        )},
-        { field: 'converted', headerName: 'Dikonversi?', width: 70, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        // { field: 'response_time', headerName: 'Waktu Respon', width: 60, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        //     <Tooltip title="Rata-Rata Durasi Pelanggan Merespon (Dalam Jam)"><span>{params.colDef.headerName}</span></Tooltip >
+        // )},
+        // { field: 'interaction_level', headerName: 'Level Interaksi', width: 60, editable: true, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        //     <Tooltip title="Level Interaksi Pelanggan (Menggunakan Skala 1-5, Diisi Menggunakan Perkiraan Anda). 1 berarti sangat rendah, 5 sangat tinggi"><span>{params.colDef.headerName}</span></Tooltip >
+        // )},
+        // { field: 'source', headerName: 'Sumber', width: 60, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
+        //     <Tooltip title="Sumber Lead Mendapatkan Informasi Tentang Produk Anda"><span>{params.colDef.headerName}</span></Tooltip >
+        // )},
+        { field: 'converted', headerName: 'Dikonversi?', width: 120, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
             <Tooltip title="Apakah Pelanggan Berhasil Dikonversi? (1 artinya Ya, 0 artinya Tidak). Prediksi Lead Akan Menaruh Nilai Disini, Namun Sifatnya Sementara. Anda Dapat Mengeditnya Untuk Menyimpannya Secara Permanen"><span>{params.colDef.headerName}</span></Tooltip >
         )},
         {
@@ -121,9 +118,6 @@ export default function LeadsTable() {
                 <Tooltip title="Hasil Prediksi Lead. Anda Dapat Meng-Klik Untuk Meningkatkannya Ke Opportunity, Atau Menurunkannya Dalam Daftar Lead Terdiskualifikasi"><span>{params.colDef.headerName}</span></Tooltip >
             )
         },
-        { field: 'lead_age', headerName: 'Umur Lead', width: 50, headerClassName: 'super-app-theme--header', renderHeader: (params) => (
-            <Tooltip title="Umur Lead Saat Ini (Dalam Hari), Dihitung Mulai Lead Ditambahkan. Jika Umur Lead Lebih Dari 15 Hari, Maka Lead Akan Di Diskualifikasi Otomatis."><span>{params.colDef.headerName}</span></Tooltip >
-        )},
     ];
 
     const processRowUpdate = async (newRow, oldRow) => {

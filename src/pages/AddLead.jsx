@@ -47,18 +47,18 @@ const unqualifiedReason = [
 
 const AddLead = () => {
     const username = localStorage.getItem('username'); // get username from localstorage (user login session)
-
+    const wishlistId = localStorage.getItem('wishlist_id');
     const [contact, setContact] = useState([]);
     const [product, setProduct] = useState([]);
     const [personName, setPersonName] = useState('');
     const [lead, setLead] = useState({
+        lead_current: "active",
         lead_title: "",
         sales_name: `${username}`,
+        wishlist_id: null,
         contact_name: "",
         contact_institution: 'PT. JSRS',
         descriptions: "",
-        product_type: "",
-        product_image_1: "",
         trade_value: null,
         lead_status: leadStatus[0].value,
         response_time: null,
@@ -91,12 +91,14 @@ const AddLead = () => {
     
         // Ambil data kontak dari localStorage
         const savedPerson = JSON.parse(localStorage.getItem('selectedPerson'));
+
         if (savedPerson) {
             setPersonName(savedPerson.contact_name);
             setLead((prev) => ({
                 ...prev,
                 contact_name: savedPerson.contact_name,
-                contact_institution: savedPerson.contact_institution
+                contact_institution: savedPerson.contact_institution,
+                wishlist_id: wishlistId
             }));
             localStorage.removeItem('selectedPerson');
         }
@@ -143,6 +145,14 @@ const AddLead = () => {
 
                     {/* input 2 */}
                     <TextField onChange={handleChange} name="sales_name" id="outlined-sales-name" label="Nama Sales" hidden disabled value={username} sx={{ display: 'none' }} />
+                    <TextField onChange={handleChange}
+                        name="wishlist_id"
+                        id="outlined-wishlist-id"
+                        label="ID Wishlist" disabled
+                        sx={{ display: 'none' }}
+                        type="number"
+                        hidden
+                        value={wishlistId}  />
 
                     {/* input 3 */}
                     {/* <TextField name="person" id="outlined-person" select onChange={handleChange} label="Nama Customer"
@@ -173,17 +183,6 @@ const AddLead = () => {
                         type="text" />
 
                     {/* input 6 */}
-                    <TextField name="product_type" id="outlined-select-product-type" select value={lead.lead_status}
-                        onChange={handleChange} label="Status Lead" defaultValue="baru"
-                        helperText="*Status Lead Saat Ini">
-                        {leadStatus.map((option) => (
-                            <MenuItem key={`${option.value}-${keyId++}`} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-
-                    {/* input 6 */}
                     <TextField onChange={handleChange} name="trade_value" id="outlined-trade-value" label="Nilai Penjualan" type="number" />
 
                     {/* input 7 */}
@@ -212,7 +211,7 @@ const AddLead = () => {
                         ))}
                     </TextField>
 
-                    {/* input 9 */}
+                    {/* input 10 */}
                     <TextField name="source" id="outlined-source" select value={lead.source}
                         onChange={handleChange} label="Sumber Prospek" defaultValue="email">
                         {source.map((option) => (
@@ -222,7 +221,7 @@ const AddLead = () => {
                         ))}
                     </TextField>
 
-                    {/* input 10 */}
+                    {/* input 11 */}
                     <TextField name="converted" id="outlined-converted" select value={lead.converted}
                         onChange={handleChange} label="Dikonversi?" defaultValue="0">
                         {converted.map((option) => (
@@ -232,7 +231,7 @@ const AddLead = () => {
                         ))}
                     </TextField>
 
-                    {/* input 11 */}
+                    {/* input 12 */}
                     <TextField name="unqualified_reason" id="outlined-select-unqualified-reason"
                         select
                         value={lead.unqualified_reason}
@@ -247,7 +246,7 @@ const AddLead = () => {
                         ))}
                     </TextField>
 
-                    {/* input 9 */}
+                    {/* input 13 */}
                     <TextField onChange={handleChange} name="notes" id="outlined-notes"
                         label="Catatan"
                         multiline
