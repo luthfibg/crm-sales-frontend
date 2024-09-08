@@ -87,7 +87,7 @@ export default function ProjectsTable() {
             try {
                 await Promise.all(rowSelectionModel.map(async (projectId) => {
                     console.log('Check projectId retrieved: '+projectId); // test passed
-                    await axios.delete(`http://localhost:2999/${username}/data/projects/`+ projectId);
+                    await axios.delete(`http://localhost:2999/${username}/data/projects/${projectId}`);
                 }));
                 // Refresh the projects data after deletion
                 const res = await axios.get(`http://localhost:2999/${username}/data/projects`);

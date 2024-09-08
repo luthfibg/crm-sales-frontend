@@ -1,11 +1,27 @@
-import { Box, Card, CardActionArea, CardActions, Stack, Typography, ToggleButton, ToggleButtonGroup, Divider } from "@mui/material";
+import { Box, Card, CardActionArea, CardActions, Stack, Typography, ToggleButton, ToggleButtonGroup, Divider, Menu, MenuItem } from "@mui/material";
 import PowerSharp from '@mui/icons-material/PowerSharp';
 import PowerOffSharp from '@mui/icons-material/PowerOffSharp';
 import React from "react";
 
 export default function ProductCard({ product, onToggle, onRemove, initialDisplay, disableToggleOn }) {
     const [display, setDisplay] = React.useState(initialDisplay);
+    const productOptions = ['Datasheet', 'Edit', 'Remove'];
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    // const open = Boolean(anchorEl);
+    const username = localStorage.getItem('username');
 
+    React.useEffect(() => {
+        function handleClickOutside(event) {
+            if (anchorEl && !anchorEl.contains(event.target)) {
+                handleCloseProductMenu();
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [anchorEl]);
+    
     const handleChange = (event, newDisplay) => {
         if (newDisplay === 'on' && disableToggleOn) return;
         setDisplay(newDisplay);
@@ -14,6 +30,13 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
         } else if (newDisplay === 'off') {
             onRemove(product);
         }
+    };
+
+    const handleOpenProductMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseProductMenu = () => {
+        setAnchorEl(null);
     };
 
     return (
@@ -33,7 +56,13 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
                         </ToggleButtonGroup>
                     </Box>
                 </CardActions>
-                <CardActionArea sx={{ display: 'flex', flexDirection: 'row' }}>
+                <CardActionArea sx={{ display: 'flex', flexDirection: 'row' }}
+                    onClick={(event) => {
+                        event.stopPropagation();  // Mencegah bubbling ke elemen lain
+                        handleOpenProductMenu(event);  // Fungsi untuk membuka menu
+                    }}
+                    onMouseDown={(e) => e.stopPropagation()} // stop the event from bubbling up to the parent element
+                    >
                     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                         <Typography align="center" gutterBottom fontSize={11} component="div">
                             Category
@@ -61,6 +90,45 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
                             {product.product_type}
                         </Typography>
                     </Box>
+                    <Menu
+                        sx={{ mt: '45px' }}
+                        id="menu-product"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={(event) => {
+                            event.stopPropagation();  // Jika diperlukan, untuk mencegah bubbling saat menutup menu
+                            handleCloseProductMenu();  // Menutup menu
+                        }}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                    >
+                        {productOptions.map((option) => (
+                            <div key={option}>
+                                <MenuItem onClick={() => {
+                                    if (option === 'Datasheet') {
+                                        window.open(product.product_datasheet);
+                                    } else if (option === 'Edit') {
+                                        window.location.href = `/${username}/edit_product/${product.product_id}`;
+                                    } else if (option === 'Remove') {
+                                        onRemove(product);
+                                    }
+                                    handleCloseProductMenu(); // Tutup menu setelah memilih opsi
+                                }}>
+                                    {option}
+                                </MenuItem>
+                                <Divider />
+                            </div>
+                        ))}
+                    </Menu>
+
+
                 </CardActionArea>
             </Stack>
         </Card>
