@@ -49,10 +49,10 @@ export default function OpportunitiesTable() {
         { field: 'opportunity_id', headerName: 'ID', width: 30 },
         { field: 'opportunity_title', headerName: 'Peluang', width: 150 },
         { field: 'sales_rep', headerName: 'Sales', width: 120 },
-        { field: 'person', headerName: 'Pelanggan', width: 150 },
-        { field: 'institution', headerName: 'Institusi', width: 150 },
+        { field: 'contact_name', headerName: 'Pelanggan', width: 150 },
+        { field: 'contact_institution', headerName: 'Institusi', width: 150 },
         { field: 'value', headerName: 'Nilai', width: 150 },
-        { field: 'status', headerName: 'Status', width: 60 },
+        { field: 'opportunity_status', headerName: 'Status', width: 60 },
     ];
 
     const processRowUpdate = async (newRow, oldRow) => {
@@ -77,7 +77,23 @@ export default function OpportunitiesTable() {
 
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
-            navigate(`/${username}/update_opportunity/${rowSelectionModel[0]}`);
+            const selectedOpportunityId = rowSelectionModel[0]; // Gunakan langsung opportunity_id dari rowSelectionModel
+            console.log("Selected opportunity ID:", selectedOpportunityId);
+    
+            // Cari opportunity berdasarkan opportunity_id di array opportunities
+            const selectedOpportunity = opportunities.find(opportunity => opportunity.opportunity_id === selectedOpportunityId);
+    
+            if (!selectedOpportunity) {
+                console.error("Selected opportunity not found");
+                return;
+            }    
+            if (!username) {
+                console.error('Username is null or undefined');
+                return; // Jangan lanjut jika username tidak ada
+            }
+    
+            // Arahkan ke halaman update opportunity dengan opportunity_id yang sesuai
+            navigate(`/${username}/update_opportunity/${selectedOpportunity.opportunity_id}`);
         }
     };
 

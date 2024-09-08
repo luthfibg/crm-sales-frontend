@@ -188,10 +188,7 @@ export default function LeadsTable() {
             if (!selectedLead) {
                 console.error("Selected lead not found");
                 return;
-            }
-    
-            console.log("Selected lead:", selectedLead);
-    
+            }    
             if (!username) {
                 console.error('Username is null or undefined');
                 return; // Jangan lanjut jika username tidak ada
