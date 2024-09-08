@@ -33,6 +33,7 @@ export default function LeadsTable() {
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
     const username = localStorage.getItem('username'); // get username from localstorage (user login session)
 
     useEffect(() => {
@@ -144,7 +145,11 @@ export default function LeadsTable() {
                 }));
     
                 // Refresh the leads data after upgrading
-                const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
+                const res = await axios.get(`http://localhost:2999/${username}/data/leads`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
                 setLeads(leadsWithId);
     

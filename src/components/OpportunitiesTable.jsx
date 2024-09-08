@@ -28,7 +28,11 @@ export default function OpportunitiesTable() {
     useEffect(() => {
         const fetchAllOpportunities = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`);
+                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
 
                 // filter out null and undefined of opportunity
                 const filteredOpportunities = res.data.filter(opportunity => opportunity.opportunity_id !== null && opportunity.opportunity_id !== undefined);
@@ -101,8 +105,8 @@ export default function OpportunitiesTable() {
         if (rowSelectionModel.length > 0) {
             try {
                 await Promise.all(rowSelectionModel.map(async (opportunityId) => {
-                    console.log('Check opportunieId retrieved: '+opportunityId); // test passed
-                    await axios.delete(`http://localhost:2999/${username}/data/opportunities/`+opportunityId);
+                    console.log('Check opportunityId retrieved: '+opportunityId); // test passed
+                    await axios.delete(`http://localhost:2999/${username}/data/opportunities/${opportunityId}`);
                 }));
                 // Refresh the opportunities data after deletion
                 const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`);
@@ -126,15 +130,20 @@ export default function OpportunitiesTable() {
                 await Promise.all(rowSelectionModel.map(async (opportunityId) => {
                     await axios.post(`http://localhost:2999/${username}/data/projects`, {
                         opportunity_id: opportunityId,
+                        
                     });
                 }));
     
                 // Refresh the opportunities data after upgrading
-                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`);
+                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
                 const opportunitiesWithId = res.data.map(opportunity => ({ ...opportunity, id: opportunity.opportunity_id }));
                 setOpportunities(opportunitiesWithId);
     
-                // Optionally, you can avoid reload by just updating the leads state
+                // Optionally, you can avoid reload by just updating the opportunities state
                 // instead of using window.location.reload();
             } catch (err) {
                 console.log(err);
