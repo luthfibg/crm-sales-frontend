@@ -14,17 +14,14 @@ const Login = () => {
 
     const handleOnclickSave = async (e) => {
         e.preventDefault();
-        console.log('Sales data being logged in:', sales); // logging sales sended
         try {
             if (!sales.username || !sales.password) {
                 throw new Error("Nama Pengguna dan Password wajib diisi.");
             }
             const response = await axios.post("http://localhost:2999/login", sales);
-            console.log(response.data.message);
             localStorage.setItem('token', response.data.token); // Save the token to local storage
             localStorage.setItem('username', sales.username); // Save the username to local storage
             localStorage.setItem('fullname', sales.fullname); // Save the fullname to local storage
-            console.log('Username saved:', sales.username); // Debugging log
             navigate(`/${sales.username}`); // Redirect to the user's dashboard
         } catch (err) {
             console.error(err.response?.data?.error || err.message);

@@ -8,6 +8,8 @@ import AddLead from './pages/AddLead';
 import AddOpportunity from './pages/AddOpportunity';
 import UpdateContact from './pages/UpdateContact';
 import UpdateLead from './pages/UpdateLead';
+import UpdateOpportunity from './pages/UpdateOpportunity';
+import UpdateProject from './pages/UpdateProject';
 import CRMMonitor from './pages/CRMMonitor';
 import Register from './pages/Register';
 import Opening from './pages/Opening';
@@ -33,6 +35,8 @@ function App() {
           <Route path="/:username/add_opportunity" element={<ProtectedRoute><AddOpportunity/></ProtectedRoute>}/>
           <Route path="/:username/update_contact/:contactId" element={<ProtectedRoute><UpdateContact/></ProtectedRoute>}/>
           <Route path="/:username/update_lead/:leadId" element={<ProtectedRoute><UpdateLead/></ProtectedRoute>}/>
+          <Route path="/:username/update_opportunity/:opportunityId" element={<ProtectedRoute><UpdateOpportunity/></ProtectedRoute>}/>
+          <Route path="/:username/update_project/:projectId" element={<ProtectedRoute><UpdateProject/></ProtectedRoute>}/>
           <Route path="/" element={<Opening/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
