@@ -91,7 +91,7 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
                         </Typography>
                     </Box>
                     <Menu
-                        sx={{ mt: '45px' }}
+                        sx={{ mt: '45px', borderColor: 'divider' }}
                         id="menu-product"
                         anchorEl={anchorEl}
                         open={Boolean(anchorEl)}
@@ -115,7 +115,7 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
                                     if (option === 'Datasheet') {
                                         window.open(product.product_datasheet);
                                     } else if (option === 'Edit') {
-                                        window.location.href = `/${username}/edit_product/${product.product_id}`;
+                                        window.location.href = `/edit_product/${product.product_id}`;
                                     } else if (option === 'Remove') {
                                         onRemove(product);
                                     }
@@ -123,7 +123,7 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
                                 }}>
                                     {option}
                                 </MenuItem>
-                                <Divider />
+                                <Divider sx={{ my: '0', margin: 0 }} />
                             </div>
                         ))}
                     </Menu>
