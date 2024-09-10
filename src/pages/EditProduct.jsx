@@ -93,7 +93,7 @@ export default function EditProduct() {
     const handleOnclickSave = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:2999/data/products/${product.product_id}`, product);
+            await axios.put(`http://localhost:2999/data/products/${productId}`, product);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);
@@ -214,31 +214,40 @@ export default function EditProduct() {
                         />
                     </Grid>
                     <Grid item xs={4} sm={8} md={4} lg={5} sx={{ margin: "0 auto" }}>
+                        <label htmlFor="outlined-product-image-1">
+                            {product.product_image_1 ? `File: Image Product 1` : 'No file chosen'}
+                        </label>
                         <TextField
                             onChange={handleChange}
                             name="product_image_1"
                             type="file"
-                            // value={product.product_image_1}
                             id="outlined-product-image-1"
                             sx={{ width: "96%", marginBottom: "0.5rem" }}
                         />
+                        
+                        <label htmlFor="outlined-product-image-2">
+                            {product.product_image_2 ? `File: Image Product 2` : 'No file chosen'}
+                        </label>
                         <TextField
                             onChange={handleChange}
                             name="product_image_2"
                             type="file"
-                            // value={product.product_image_2}
                             id="outlined-product-image-2"
                             sx={{ width: "96%", marginBottom: "0.5rem" }}
                         />
+
+                        <label htmlFor="outlined-product-image-3">
+                            {product.product_image_3 ? `File: Image Product 3` : 'No file chosen'}
+                        </label>
                         <TextField
                             onChange={handleChange}
                             name="product_image_3"
                             type="file"
-                            // value={product.product_image_3}
                             id="outlined-product-image-3"
                             sx={{ width: "96%", marginBottom: "0.5rem" }}
                         />
                     </Grid>
+
                 </Grid>
                 <Stack orientation="horizontal">
                     <Button onClick={handleOnclickSave} sx={{ width: '30%', mr: '1rem' }} variant="outlined">Simpan</Button>
