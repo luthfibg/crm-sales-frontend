@@ -2,6 +2,7 @@ import { Box, Card, CardActionArea, CardActions, Stack, Typography, ToggleButton
 import PowerSharp from '@mui/icons-material/PowerSharp';
 import PowerOffSharp from '@mui/icons-material/PowerOffSharp';
 import React from "react";
+import axios from "axios";
 
 export default function ProductCard({ product, onToggle, onRemove, initialDisplay, disableToggleOn }) {
     const [display, setDisplay] = React.useState(initialDisplay);
@@ -38,6 +39,17 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
     const handleCloseProductMenu = () => {
         setAnchorEl(null);
     };
+
+    const handleRemoveProduct = async () => {
+        try {
+            await axios.delete(`http://localhost:2999/data/products/${product.product_id}`);
+            console.log('Product deleted successfully');
+            onRemove(product);
+            window.location.reload();
+        } catch (error) {
+            error.response ? console.log(error.response.data) : console.log(error.message);
+        }
+    }
 
     return (
         <Card sx={{ width: '90%', height: '4rem', flexDirection: 'row', display: 'flex', alignItems: 'center', my: '0.25rem' }}>
@@ -117,7 +129,7 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
                                     } else if (option === 'Edit') {
                                         window.location.href = `/edit_product/${product.product_id}`;
                                     } else if (option === 'Remove') {
-                                        onRemove(product);
+                                        handleRemoveProduct();
                                     }
                                     handleCloseProductMenu(); // Tutup menu setelah memilih opsi
                                 }}>
