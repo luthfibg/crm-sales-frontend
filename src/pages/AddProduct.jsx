@@ -2,8 +2,8 @@ import { Button, Container, Grid, Paper, Stack, TextField, Typography } from "@m
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import darkTheme from "../styles/darkTheme";
-import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
+import axiosInstance from "../axiosConfig";
 // import { storage } from "../firebase";
 // import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -91,7 +91,7 @@ export default function AddProduct() {
             }
     
             // Send the form data to the backend
-            const response = await axios.post("http://localhost:2999/data/products", formData, {
+            const response = await axiosInstance.post("http://localhost:2999/data/products", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

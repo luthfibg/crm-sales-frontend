@@ -1,10 +1,10 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/formCustom.css';
+import axiosInstance from "../axiosConfig";
 
 const opportunityStatus = [
     { value: 'open', label: 'Open' },
@@ -33,7 +33,7 @@ const AddOpportunity = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/contacts`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
                 setContact(res.data);
             } catch (err) {
                 console.log(err);
@@ -70,7 +70,7 @@ const AddOpportunity = () => {
         e.preventDefault();
         console.log(opportunity)
         try {
-            await axios.post(`http://localhost:2999/${username}/data/opportunities`, opportunity);
+            await axiosInstance.post(`http://localhost:2999/${username}/data/opportunities`, opportunity);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

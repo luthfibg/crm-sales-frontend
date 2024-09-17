@@ -12,8 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useEffect } from 'react';
+import axiosInstance from '../axiosConfig';
 
 const pages = ['Monitor', 'Produk'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -53,19 +53,16 @@ function MyAppBar() {
   useEffect(() => {
     const fetchFullname = async () => {
         try {
-            const response = await axios.get(`http://localhost:2999/${username}/userinfo`, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+            const response = await axiosInstance.get(`http://localhost:2999/${username}/userinfo`);
             setFullname(response.data.fullname);
+            console.log("fULLNAME: ", response.data.fullname);
         } catch (error) {
             console.error('Error fetching fullname:', error);
         }
     };
 
       fetchFullname();
-  }, [username]);
+  }, []);
 
   const logout = () => {
     // Remove the JWT token from localStorage
@@ -76,7 +73,7 @@ function MyAppBar() {
   }
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" elevation={1}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}

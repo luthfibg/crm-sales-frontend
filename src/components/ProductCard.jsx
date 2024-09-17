@@ -2,7 +2,7 @@ import { Box, Card, CardActionArea, CardActions, Stack, Typography, ToggleButton
 import PowerSharp from '@mui/icons-material/PowerSharp';
 import PowerOffSharp from '@mui/icons-material/PowerOffSharp';
 import React from "react";
-import axios from "axios";
+import axiosInstance from "../axiosConfig";
 
 export default function ProductCard({ product, onToggle, onRemove, initialDisplay, disableToggleOn }) {
     const [display, setDisplay] = React.useState(initialDisplay);
@@ -42,7 +42,7 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
 
     const handleRemoveProduct = async () => {
         try {
-            await axios.delete(`http://localhost:2999/data/products/${product.product_id}`);
+            await axiosInstance.delete(`http://localhost:2999/data/products/${product.product_id}`);
             console.log('Product deleted successfully');
             onRemove(product);
             window.location.reload();

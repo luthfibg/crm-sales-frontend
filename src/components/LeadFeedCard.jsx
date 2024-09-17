@@ -2,17 +2,14 @@ import React from 'react';
 import { Box, Typography, Button, Divider, Chip } from '@mui/material';
 import axios from 'axios';
 import darkTheme from '../styles/darkTheme';
+import axiosInstance from '../axiosConfig';
 
 function LeadFeedCard({ lead, onPick }) {
 
     const token = localStorage.getItem('token');
     const handlePick = async () => {
         try {
-            await axios.delete(`http://localhost:2999/data/lead_feeds/${lead.lf_id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            await axiosInstance.delete(`http://localhost:2999/data/lead_feeds/${lead.lf_id}`);
             onPick(lead.lf_id); // Mengupdate state di parent component
         } catch (error) {
             console.error('Failed to pick lead:', error);

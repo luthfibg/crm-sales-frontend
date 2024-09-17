@@ -1,10 +1,10 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import '../styles/formCustom.css';
+import axiosInstance from "../axiosConfig";
 
 const projectStatus = [
     { value: 'in progress', label: 'In Progress' },
@@ -31,7 +31,7 @@ const UpdateProject = () => {
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/projects/${projectId}`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/projects/${projectId}`);
                 if (res.data.length > 0) {
                     setProject(res.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -64,7 +64,7 @@ const UpdateProject = () => {
         e.preventDefault();
         console.log(project)
         try {
-            await axios.put(`http://localhost:2999/${username}/data/project-manual-update/${projectId}`, project);
+            await axiosInstance.put(`http://localhost:2999/${username}/data/project-manual-update/${projectId}`, project);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

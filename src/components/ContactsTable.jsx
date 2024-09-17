@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -12,6 +11,7 @@ import { tooltipClasses } from '@mui/material/Tooltip';
 import { useNavigate } from "react-router-dom";
 import '../styles/init.css';
 import darkTheme from '../styles/darkTheme';
+import axiosInstance from '../axiosConfig';
   
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -31,7 +31,7 @@ export default function ContactsTable() {
     useEffect(() => {
         const fetchAllContacts = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/contacts`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
                 const sortedContacts = sortContactsByStatus(res.data);
                 setContacts(sortedContacts);
             } catch (err) {
@@ -97,9 +97,8 @@ export default function ContactsTable() {
 
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
-            const selectedRowIndex = rowSelectionModel[0] - 1; // rowSelectionModel starts from 1, so we subtract 1 to get the correct index
-            const selectedContact = contacts[selectedRowIndex]; // Get the selected contact from the contacts array
-            const contactId = selectedContact.contact_id; // Extract contact_id
+            const selectedRowIndex = rowSelectionModel[0]; // rowSelectionModel starts from 1, so we subtract 1 to get the correct index
+            const contactId = selectedRowIndex; // Extract contact_id
     
             const username = localStorage.getItem('username'); // Get username from local storage (user login session)
             if (!username) {
@@ -126,14 +125,14 @@ export default function ContactsTable() {
                 await Promise.all(rowSelectionModel.map(async (rowIndex) => {
                     const selectedContact = contacts.find(contact => contact.contact_id === rowIndex); 
                     if (selectedContact) {
-                        const contact_id = selectedContact.contact_id;
-                        console.log("Attempting to delete contact with ID:", contact_id); // Log setiap contactId
-                        await axios.delete(`http://localhost:2999/${username}/data/contacts/${contact_id}`);
+                        const contactId = selectedContact.contact_id;
+                        console.log("Attempting to delete contact with ID:", contactId); // Log setiap contactId
+                        await axiosInstance.delete(`http://localhost:2999/${username}/data/contacts/${contactId}`);
                     }
                 }));
     
                 // Refresh data setelah penghapusan
-                const res = await axios.get(`http://localhost:2999/${username}/data/contacts`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
                 const sortedContacts = sortContactsByStatus(res.data);
                 setContacts(sortedContacts);
                 // window.location.reload();
@@ -157,11 +156,11 @@ export default function ContactsTable() {
             width: '100%',
             mb: '1rem',
             '& .super-app-theme--header': {
-                backgroundColor: 'rgba(33, 45, 51, 1.0)',
+                backgroundColor: '#fff',
             },
              }}
              id="contactsTable"
-            bgcolor={darkTheme.palette.background.paper2}>
+            bgcolor={darkTheme.palette.background.paper}>
             <DataGrid
                 rows={contacts.map((contact, index) => ({ id: index + 1, ...contact }))}
                 columns={contactColumns}

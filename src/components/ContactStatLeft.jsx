@@ -5,6 +5,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import axios from "axios";
 import LeadFeedCard from "./LeadFeedCard";
 import OppFeedCard from "./OppFeedCard";
+import axiosInstance from "../axiosConfig";
 
 export default function ContactStatLeft() {
     const [leads, setLeads] = useState([]);
@@ -13,17 +14,9 @@ export default function ContactStatLeft() {
 
     const fetchLeadFeeds = async () => {
         try {
-            const response = await axios.get('http://localhost:2999/data/lead_feeds', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await axiosInstance.get('http://localhost:2999/data/lead_feeds');
             const leadData = await Promise.all(response.data.map(async (lead) => {
-                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${lead.customer_id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const customerResponse = await axiosInstance.get(`http://localhost:2999/data/customer_accs/${lead.customer_id}`);
                 return {
                     ...lead,
                     customer_name: `${customerResponse.data.customer_fname} ${customerResponse.data.customer_lname}`
@@ -37,13 +30,13 @@ export default function ContactStatLeft() {
 
     const fetchOppFeeds = async () => {
         try {
-            const response = await axios.get('http://localhost:2999/data/opp_feeds', {
+            const response = await axiosInstance.get('http://localhost:2999/data/opp_feeds', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
             const opportunityData = await Promise.all(response.data.map(async (opportunity) => {
-                const customerResponse = await axios.get(`http://localhost:2999/data/customer_accs/${opportunity.customer_id}`, {
+                const customerResponse = await axiosInstance.get(`http://localhost:2999/data/customer_accs/${opportunity.customer_id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -94,6 +87,7 @@ export default function ContactStatLeft() {
             </Box>
             <Paper
                 className="scrollable-container"
+                elevation={2}
                 sx={{ 
                     width: '100%',
                     height: '17rem',
@@ -107,7 +101,7 @@ export default function ContactStatLeft() {
                         alignItems: 'center',
                     }}>                    
                     {(leads.length === 0 && opportunities.length === 0) ? (
-                        <Typography variant="body2" color="textSecondary">
+                        <Typography variant="body2" color="textSecondary" fontSize={'0.7rem'} display={'flex'} flexDirection={'column'}>
                             Tidak ada umpan
                         </Typography>
                     ) : (

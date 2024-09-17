@@ -1,10 +1,10 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import '../styles/formCustom.css';
+import axiosInstance from "../axiosConfig";
 
 const opportunityStatus = [
     { value: 'open', label: 'Open' },
@@ -32,7 +32,7 @@ const UpdateOpportunity = () => {
     useEffect(() => {
         const fetchOpportunity = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities/${opportunityId}`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/opportunities/${opportunityId}`);
                 if (res.data.length > 0) {
                     setOpportunity(res.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -61,7 +61,7 @@ const UpdateOpportunity = () => {
         e.preventDefault();
         console.log(opportunity)
         try {
-            await axios.put(`http://localhost:2999/${username}/data/opportunity-manual-update/${opportunityId}`, opportunity);
+            await axiosInstance.put(`http://localhost:2999/${username}/data/opportunity-manual-update/${opportunityId}`, opportunity);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

@@ -3,6 +3,7 @@ import React from "react";
 import darkTheme from "../styles/darkTheme";
 import { CircularProgress } from "@mui/material";
 import { useState, useEffect } from "react";
+import axiosInstance from "../axiosConfig";
 
 export default function InterStats() {
 
@@ -14,37 +15,37 @@ export default function InterStats() {
     useEffect(() => {
         const fetchLeads = async () => {
             try {
-                const response = await fetch(`http://localhost:2999/${username}/data/leads`);
-                const data = await response.json();
+                const response = await axiosInstance.get(`/${username}/data/leads`);
+                const data = response.data;
                 setTotalLeads(data.length); // Set total leads
             } catch (err) {
                 console.log(err);
             }
         };
         fetchLeads();
-
+    
         const fetchOpportunities = async () => {
             try {
-                const response = await fetch(`http://localhost:2999/${username}/data/opportunities`);
-                const data = await response.json();
+                const response = await axiosInstance.get(`/${username}/data/opportunities`);
+                const data = response.data;
                 setTotalOpportunities(data.length); // Set total opportunities
             } catch (err) {
                 console.log(err);
             }
         };
         fetchOpportunities();
-
+    
         const fetchProjects = async () => {
             try {
-                const response = await fetch(`http://localhost:2999/${username}/data/projects`);
-                const data = await response.json();
+                const response = await axiosInstance.get(`/${username}/data/projects`);
+                const data = response.data;
                 setTotalProjects(data.length); // Set total projects
             } catch (err) {
                 console.log(err);
             }
         };
         fetchProjects();
-
+    
     }, [username]);
 
     return (

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { Box, Stack, IconButton, Tooltip, styled, tooltipClasses } from '@mui/material';
@@ -9,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import UpgradeOutlined from '@mui/icons-material/UpgradeOutlined';
+import axiosInstance from '../axiosConfig';
 
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -28,7 +28,7 @@ export default function OpportunitiesTable() {
     useEffect(() => {
         const fetchAllOpportunities = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`, {
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/opportunities`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
@@ -61,7 +61,7 @@ export default function OpportunitiesTable() {
 
     const processRowUpdate = async (newRow, oldRow) => {
         try {
-            const response = await axios.put(`http://localhost:2999/${username}/data/opportunities/${newRow.opportunity_id}`, newRow);
+            const response = await axiosInstance.put(`http://localhost:2999/${username}/data/opportunities/${newRow.opportunity_id}`, newRow);
             // Update the local state with the updated row data
             setOpportunities((prevOpportunities) =>
                 prevOpportunities.map((row) => (row.opportunity_id === newRow.opportunity_id ? { ...newRow, id: newRow.opportunity_id } : row))
@@ -106,10 +106,10 @@ export default function OpportunitiesTable() {
             try {
                 await Promise.all(rowSelectionModel.map(async (opportunityId) => {
                     console.log('Check opportunityId retrieved: '+opportunityId); // test passed
-                    await axios.delete(`http://localhost:2999/${username}/data/opportunities/${opportunityId}`);
+                    await axiosInstance.delete(`http://localhost:2999/${username}/data/opportunities/${opportunityId}`);
                 }));
                 // Refresh the opportunities data after deletion
-                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/opportunities`);
                 // Add id property for DataGrid
                 const opportunitiesWithId = res.data.map(opportunity => ({ ...opportunity, id: opportunity.opportunity_id }));
                 setOpportunities(opportunitiesWithId);
@@ -128,14 +128,14 @@ export default function OpportunitiesTable() {
         if (rowSelectionModel.length > 0) {
             try {
                 await Promise.all(rowSelectionModel.map(async (opportunityId) => {
-                    await axios.post(`http://localhost:2999/${username}/data/projects`, {
+                    await axiosInstance.post(`http://localhost:2999/${username}/data/projects`, {
                         opportunity_id: opportunityId,
                         
                     });
                 }));
     
                 // Refresh the opportunities data after upgrading
-                const res = await axios.get(`http://localhost:2999/${username}/data/opportunities`, {
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/opportunities`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
@@ -158,8 +158,8 @@ export default function OpportunitiesTable() {
             width: '100%',
             mb: '1rem',
             '& .super-app-theme--header': {
-                backgroundColor: 'rgba(33, 45, 51, 1.0)',
-            }, }} bgcolor={darkTheme.palette.background.paper2}>
+                backgroundColor: '#fff',
+            }, }} bgcolor={darkTheme.palette.background.paper}>
             <DataGrid
                 rows={opportunities}
                 columns={oppsColumns}
