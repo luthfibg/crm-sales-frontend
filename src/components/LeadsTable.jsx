@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
 import WishleadModal from './WishleadModal';
-import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -17,6 +16,7 @@ import UpgradeOutlined from '@mui/icons-material/UpgradeOutlined';
 import Clear from '@mui/icons-material/Clear';
 import OnlinePrediction from '@mui/icons-material/OnlinePrediction';
 import '../styles/init.css';
+import axiosInstance from '../axiosConfig';
 
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -39,7 +39,7 @@ export default function LeadsTable() {
     useEffect(() => {
         const fetchAllLeads = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/leads`);
                 const filteredLeads = res.data.filter(lead => lead.lead_id !== null && lead.lead_id !== undefined);
                 
                 const leadsWithId = filteredLeads.map(lead => ({ 
@@ -122,7 +122,7 @@ export default function LeadsTable() {
 
     const processRowUpdate = async (newRow, oldRow) => {
         try {
-            const response = await axios.put(`http://localhost:2999/${username}/data/leads/${newRow.lead_id}`, newRow);
+            const response = await axiosInstance.put(`http://localhost:2999/${username}/data/leads/${newRow.lead_id}`, newRow);
             // Update the local state with the updated row data
             setLeads((prevLeads) =>
                 prevLeads.map((row) => (row.lead_id === newRow.lead_id ? { ...newRow, id: newRow.lead_id } : row))
@@ -139,19 +139,16 @@ export default function LeadsTable() {
         if (rowSelectionModel.length > 0) {
             try {
                 await Promise.all(rowSelectionModel.map(async (leadId) => {
-                    await axios.post(`http://localhost:2999/${username}/data/opportunities`, {
+                    await axiosInstance.post(`http://localhost:2999/${username}/data/opportunities`, {
                         lead_id: leadId,
                     });
                 }));
     
                 // Refresh the leads data after upgrading
-                const res = await axios.get(`http://localhost:2999/${username}/data/leads`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/leads`);
                 const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
                 setLeads(leadsWithId);
+                window.location.reload();
     
                 // Optionally, you can avoid reload by just updating the leads state
                 // instead of using window.location.reload();
@@ -193,7 +190,7 @@ export default function LeadsTable() {
             if (!selectedLead) {
                 console.error("Selected lead not found");
                 return;
-            }    
+            }
             if (!username) {
                 console.error('Username is null or undefined');
                 return; // Jangan lanjut jika username tidak ada
@@ -210,10 +207,10 @@ export default function LeadsTable() {
             try {
                 await Promise.all(rowSelectionModel.map(async (leadId) => {
                     console.log('Check leadId retrieved: '+leadId); // test passed
-                    await axios.delete(`http://localhost:2999/${username}/data/leads/${leadId}`);
+                    await axiosInstance.delete(`http://localhost:2999/${username}/data/leads/${leadId}`);
                 }));
                 // Refresh the leads data after deletion
-                const res = await axios.get(`http://localhost:2999/${username}/data/leads`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/leads`);
                 // Add id property for DataGrid
                 const leadsWithId = res.data.map(lead => ({ ...lead, id: lead.lead_id }));
                 setLeads(leadsWithId);
@@ -233,7 +230,7 @@ export default function LeadsTable() {
             const updatedLeads = await Promise.all(
                 leads.map(async (lead) => {
                     console.log("Lead ID:" + lead.lead_id);
-                    const predictionRes = await axios.post(`http://localhost:2999/${username}/data/leads/${lead.lead_id}/predict`, {
+                    const predictionRes = await axiosInstance.post(`http://localhost:2999/${username}/data/leads/${lead.lead_id}/predict`, {
                         lead_status: lead.lead_status,
                         response_time: lead.response_time,
                         interaction_level: lead.interaction_level,
@@ -255,8 +252,8 @@ export default function LeadsTable() {
             width: '100%',
             mb: '1rem',
             '& .super-app-theme--header': {
-                backgroundColor: 'rgba(33, 45, 51, 1.0)',
-            }, }} bgcolor={darkTheme.palette.background.paper2}>
+                backgroundColor: '#fff',
+            }, }} bgcolor={darkTheme.palette.background.paper}>
             <DataGrid
                 rows={leads}
                 columns={leadColumns}

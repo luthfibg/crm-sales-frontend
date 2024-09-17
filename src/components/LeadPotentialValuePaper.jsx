@@ -15,7 +15,7 @@ export default function LeadPotentialValuePaper() {
                 alignItems: "center",
                 bgcolor: darkTheme.palette.background.paper,
             }}>
-            <LeadPotentialValue username={username}/>
+            {/* <LeadPotentialValue username={username}/> */}
         </Paper>
     );
 }

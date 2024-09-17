@@ -1,10 +1,10 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
-import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import '../styles/formCustom.css';
+import axiosInstance from "../axiosConfig";
 
 const UpdateContact = () => {
     const navigate = useNavigate();
@@ -30,7 +30,11 @@ const UpdateContact = () => {
     useEffect(() => {
         const fetchContact = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/contacts/${contactId}`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts/${contactId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
                 if (res.data.length > 0) {
                     setContact(res.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -59,7 +63,7 @@ const UpdateContact = () => {
     const handleOnclickSave = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:2999/${username}/data/contacts/${contactId}`, contact);
+            await axiosInstance.put(`http://localhost:2999/${username}/data/contacts/${contactId}`, contact);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

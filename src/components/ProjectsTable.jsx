@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { Box, Stack, IconButton, Tooltip, styled, tooltipClasses } from '@mui/material';
@@ -9,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import UpgradeOutlined from '@mui/icons-material/UpgradeOutlined';
+import axiosInstance from '../axiosConfig';
 
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -28,7 +28,7 @@ export default function ProjectsTable() {
     useEffect(() => {
         const fetchAllProjects = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/projects`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/projects`);
 
                 // filter out null and undefined of projects
                 const filteredProjects = res.data.filter(project => project.project_id !== null && project.project_id !== undefined);
@@ -58,7 +58,7 @@ export default function ProjectsTable() {
 
     const processRowUpdate = async (newRow, oldRow) => {
         try {
-            const response = await axios.put(`http://localhost:2999/${username}/data/projects/${newRow.project_id}`, newRow);
+            const response = await axiosInstance.put(`http://localhost:2999/${username}/data/projects/${newRow.project_id}`, newRow);
             // Update the local state with the updated row data
             setProjects((prevProjects) =>
                 prevProjects.map((row) => (row.projects_id === newRow.projects_id ? { ...newRow, id: newRow.projects_id } : row))
@@ -87,10 +87,10 @@ export default function ProjectsTable() {
             try {
                 await Promise.all(rowSelectionModel.map(async (projectId) => {
                     console.log('Check projectId retrieved: '+projectId); // test passed
-                    await axios.delete(`http://localhost:2999/${username}/data/projects/${projectId}`);
+                    await axiosInstance.delete(`http://localhost:2999/${username}/data/projects/${projectId}`);
                 }));
                 // Refresh the projects data after deletion
-                const res = await axios.get(`http://localhost:2999/${username}/data/projects`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/projects`);
                 // Add id property for DataGrid
                 const projectsWithId = res.data.map(project => ({ ...project, id: project.project_id }));
                 setProjects(projectsWithId);
@@ -109,13 +109,13 @@ export default function ProjectsTable() {
         if (rowSelectionModel.length > 0) {
             try {
                 await Promise.all(rowSelectionModel.map(async (projectId) => {
-                    await axios.post(`http://localhost:2999/${username}/data/projects`, {
+                    await axiosInstance.post(`http://localhost:2999/${username}/data/projects`, {
                         project_id: projectId,
                     });
                 }));
     
                 // Refresh the projects data after upgrading
-                const res = await axios.get(`http://localhost:2999/${username}/data/projects`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/projects`);
                 const projectsWithId = res.data.map(project => ({ ...project, id: project.project_id }));
                 setProjects(projectsWithId);
     
@@ -134,8 +134,8 @@ export default function ProjectsTable() {
             width: '100%',
             mb: '1rem',
             '& .super-app-theme--header': {
-                backgroundColor: 'rgba(33, 45, 51, 1.0)',
-            }, }} bgcolor={darkTheme.palette.background.paper2}>
+                backgroundColor: '#fff',
+            }, }} bgcolor={darkTheme.palette.background.paper}>
             <DataGrid
                 rows={projects}
                 columns={projectColumns}

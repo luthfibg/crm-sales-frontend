@@ -1,10 +1,10 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/formCustom.css';
+import axiosInstance from "../axiosConfig";
 
 const leadStatus = [
     { value: 'baru', label: 'Baru' },
@@ -72,7 +72,7 @@ const AddLead = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/contacts`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
                 setContact(res.data);
             } catch (err) {
                 console.log(err);
@@ -80,7 +80,7 @@ const AddLead = () => {
         };
         const fetchProducts = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/data/products_sale`);
+                const res = await axiosInstance.get(`http://localhost:2999/data/products_sale`);
                 setProduct(res.data);
             } catch (err) {
                 console.log(err);
@@ -121,7 +121,7 @@ const AddLead = () => {
         e.preventDefault();
         console.log(lead)
         try {
-            await axios.post(`http://localhost:2999/${username}/data/leads`, lead);
+            await axiosInstance.post(`http://localhost:2999/${username}/data/leads`, lead);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

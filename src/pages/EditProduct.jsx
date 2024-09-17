@@ -2,8 +2,8 @@ import { Button, Container, Grid, Paper, Stack, TextField, Typography } from "@m
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import darkTheme from "../styles/darkTheme";
-import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
+import axiosInstance from "../axiosConfig";
 // import { storage } from "../firebase";
 // import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -77,7 +77,7 @@ export default function EditProduct() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:2999/data/products/${productId}`);
+                const response = await axiosInstance.get(`http://localhost:2999/data/products/${productId}`);
                 if (response.data.length > 0) {
                     setProduct(response.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -93,7 +93,7 @@ export default function EditProduct() {
     const handleOnclickSave = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:2999/data/products/${productId}`, product);
+            await axiosInstance.put(`http://localhost:2999/data/products/${productId}`, product);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

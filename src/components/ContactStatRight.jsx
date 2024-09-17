@@ -4,6 +4,7 @@ import darkTheme from "../styles/darkTheme";
 import ReplayIcon from '@mui/icons-material/Replay';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import axiosInstance from "../axiosConfig";
 // import { styled } from '@mui/material/styles';
 // import CustomLegend from "../styles/legendCustom";
 
@@ -29,18 +30,19 @@ export default function ContactStatRight() {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await fetch(`http://localhost:2999/${username}/data/contacts`);
-                const data = await response.json();
+                const response = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
+                const data = response.data;
                 setContactData(data);
                 setTotalContacts(data.length); // Set total contacts
                 const newContacts = data.filter(contact => contact.contact_status === 'new');
                 setNewCount(newContacts.length);
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         };
         fetchContacts();
     }, [username]);
+    
 
     // retrieve contact status count
     const getStatusCount = () => {
@@ -152,7 +154,8 @@ export default function ContactStatRight() {
                     m:'0 px',
                     px: '0.5rem',
                     overflow: 'hidden',
-                }}>
+                }}
+                elevation={2}>
                 <Stack sx={{ width: '100%', height: '100%' }} spacing={1} direction={"row"} alignItems={"center"}>
                     <Stack spacing={1} direction={"column"} width={'50%'} alignItems={"center"}>
                         <Card sx={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

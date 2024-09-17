@@ -1,10 +1,10 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import '../styles/formCustom.css';
+import axiosInstance from "../axiosConfig";
 
 const leadStatus = [
     {value:'baru', label:'Baru'},
@@ -69,7 +69,7 @@ const UpdateLead = () => {
     useEffect(() => {
         const fetchLead = async () => {
             try {
-                const res = await axios.get(`http://localhost:2999/${username}/data/leads/${leadId}`);
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/leads/${leadId}`);
                 if (res.data.length > 0) {
                     setLead(res.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -89,7 +89,7 @@ const UpdateLead = () => {
     const handleOnclickSave = async e => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:2999/${username}/data/lead-manual-update/${leadId}`, lead);
+            await axiosInstance.put(`http://localhost:2999/${username}/data/lead-manual-update/${leadId}`, lead);
             navigate(`/${username}`);    
         } catch (err) {
             console.log(err);

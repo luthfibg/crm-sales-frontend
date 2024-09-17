@@ -1,15 +1,15 @@
 import React from 'react';
 import { Box, Typography, Button, Divider } from '@mui/material';
-import axios from 'axios';
 import darkTheme from '../styles/darkTheme';
 import Chip from '@mui/material/Chip';
+import axiosInstance from '../axiosConfig';
 
 function OppFeedCard({ opportunity, onPick }) {
 
     const token = localStorage.getItem('token');
     const handlePick = async () => {
         try {
-            await axios.delete(`http://localhost:2999/data/opp_feeds/${opportunity.of_id}`, {
+            await axiosInstance.delete(`http://localhost:2999/data/opp_feeds/${opportunity.of_id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
