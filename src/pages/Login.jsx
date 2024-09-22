@@ -18,7 +18,7 @@ const Login = () => {
             if (!sales.username || !sales.password) {
                 throw new Error("Nama Pengguna dan Password wajib diisi.");
             }
-            const response = await axios.post("http://localhost:2999/login", sales);
+            const response = await axios.post("https://crm-sales-backend-production.up.railway.app/login", sales);
             localStorage.setItem('token', response.data.token); // Save the token to local storage
             localStorage.setItem('username', sales.username); // Save the username to local storage
             localStorage.setItem('fullname', sales.fullname); // Save the fullname to local storage

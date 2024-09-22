@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Buat instance Axios
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:2999', // URL base pointing to your backend
+    baseURL: 'https://crm-sales-backend-production.up.railway.app', // URL base pointing to your backend
 });
 
 // Tambahkan interceptor untuk menyisipkan token JWT pada setiap request

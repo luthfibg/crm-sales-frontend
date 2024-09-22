@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { Box, Stack, IconButton, Tooltip, styled, tooltipClasses } from '@mui/material';
+import { Box, Stack, IconButton, Tooltip, styled, tooltipClasses, Button } from '@mui/material';
 import darkTheme from '../styles/darkTheme';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
-import UpgradeOutlined from '@mui/icons-material/UpgradeOutlined';
+import Done from '@mui/icons-material/Done';
 import axiosInstance from '../axiosConfig';
 
 const CRMTooltip = styled(({ className, ...props }) => (
@@ -125,7 +125,15 @@ export default function ProjectsTable() {
                 console.log(err);
             }
         }
-    };    
+    };
+    
+    const handlePrint = () => {
+        window.print();
+    };
+
+    const handleOpenReport = () => {
+        navigate(`/${username}/report`);
+    };
 
     return (
         <>
@@ -174,7 +182,7 @@ export default function ProjectsTable() {
                 onClick={handleFinishProject}
                 cursor={'pointer'}
                 disabled={rowSelectionModel < 1}>
-                    <UpgradeOutlined fontSize='small'/>
+                    <Done fontSize='small'/>
                 </IconButton>
             </CRMTooltip>
 
@@ -228,6 +236,20 @@ export default function ProjectsTable() {
                     <FormatListNumberedRtlOutlinedIcon fontSize='small' />
                 </IconButton>
             </CRMTooltip>
+        </Stack>
+        <Stack 
+        direction="row"
+        width={'100%'}
+        spacing={1}
+        mt={"1rem"}
+        bgcolor={darkTheme.palette.background.paper2}
+        sx={{ 
+            justifyContent: 'flex-start',
+            p: '0.5rem',
+            borderRadius: '0.2rem',
+        }}>
+            <Button variant='contained' onClick={handlePrint}>Cetak Halaman Ini</Button>
+            <Button variant='contained' onClick={handleOpenReport}>Cetak Laporan</Button>
         </Stack>
         </>
     );

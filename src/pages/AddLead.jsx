@@ -74,6 +74,7 @@ const AddLead = () => {
             try {
                 const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
                 setContact(res.data);
+                console.log('Contacts Data:', res.data);
             } catch (err) {
                 console.log(err);
             }
@@ -96,11 +97,11 @@ const AddLead = () => {
             setPersonName(savedPerson.contact_name);
             setLead((prev) => ({
                 ...prev,
+                contact_id: savedPerson.contact_id,
                 contact_name: savedPerson.contact_name,
                 contact_institution: savedPerson.contact_institution,
                 wishlist_id: wishlistId
             }));
-            localStorage.removeItem('selectedPerson');
         }
     }, [username]);
     
@@ -111,22 +112,55 @@ const AddLead = () => {
 
         if (name === 'contact_name') {
             const selectedContact = contact.find(contact => contact.contact_name === value);
+            console.log("Check selected contact:", selectedContact);
             if (selectedContact) {
-                setLead((prev) => ({ ...prev, contact_institution: selectedContact.contact_institution }));
+                setLead((prev) => ({ 
+                    ...prev,
+                    contact_institution: selectedContact.contact_institution,
+                    contact_id: selectedContact.contact_id
+                }));
             }
         }
     }
 
     const handleOnclickSave = async e => {
         e.preventDefault();
-        console.log(lead)
+        // Ambil contact_id dari lead state
+        const { contact_id } = lead;
+        
+        // Cek apakah contact_id tersedia
+        if (!contact_id) {
+            console.error('Contact ID is missing');
+            return;
+        }
         try {
+            await updateContactStatus(contact_id, 'lead');
             await axiosInstance.post(`http://localhost:2999/${username}/data/leads`, lead);
+
+             // Hapus data dari localStorage setelah penyimpanan berhasil
+            localStorage.removeItem('selectedPerson');
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);
         }
     }
+
+    const updateContactStatus = async (contactId, newStatus) => {
+        try {
+            const response = await axiosInstance.put(`/contacts/${contactId}/status`, {
+                newStatus
+            });
+    
+            if (response.status === 200) {
+                console.log('Contact status updated successfully');
+            } else {
+                console.error('Failed to update contact status');
+            }
+        } catch (error) {
+            console.error('Error updating contact status:', error);
+        }
+    };
+    
     let keyId = 0;
 
     return (
