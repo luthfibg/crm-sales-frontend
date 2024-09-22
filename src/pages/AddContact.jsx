@@ -66,7 +66,7 @@ const AddContact = () => {
                 return;
             }
             // Send contact data to backend
-            await axiosInstance.post(`http://localhost:2999/${username}/data/contacts`, contact);
+            await axiosInstance.post(`https://localhost:2999/${username}/data/contacts`, contact);
             // Send activities data to backend
             await axiosInstance.post(`http://localhost:2999/${username}/data/activities`, activities);
             navigate(`/${username}`);

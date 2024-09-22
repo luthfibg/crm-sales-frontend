@@ -55,7 +55,6 @@ function MyAppBar() {
         try {
             const response = await axiosInstance.get(`http://localhost:2999/${username}/userinfo`);
             setFullname(response.data.fullname);
-            console.log("fULLNAME: ", response.data.fullname);
         } catch (error) {
             console.error('Error fetching fullname:', error);
         }

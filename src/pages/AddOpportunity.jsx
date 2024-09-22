@@ -47,10 +47,10 @@ const AddOpportunity = () => {
              setPersonName(savedPerson.contact_name);
              setOpportunity((prev) => ({
                  ...prev,
+                 contact_id: savedPerson.contact_id,
                  contact_name: savedPerson.contact_name,
                  contact_institution: savedPerson.contact_institution,
              }));
-             localStorage.removeItem('selectedPerson');
          }
     }, [username]);
 
@@ -61,21 +61,52 @@ const AddOpportunity = () => {
         if (name === 'contact_name') {
             const selectedContact = contact.find(contact => contact.contact_name === value);
             if (selectedContact) {
-                setOpportunity((prev) => ({ ...prev, contact_institution: selectedContact.contact_institution }));
+                setOpportunity((prev) => ({
+                    ...prev,
+                    contact_id: selectedContact.contact_id,
+                    contact_institution: selectedContact.contact_institution,
+                }));
             }
         }
     }
 
     const handleOnclickSave = async e => {
         e.preventDefault();
+
+        const { contact_id } = opportunity;
+        if (!contact_id) {
+            console.error('Contact ID is missing');
+            return;
+        }
         console.log(opportunity)
         try {
+            await updateContactStatus(contact_id, 'opportunity');
             await axiosInstance.post(`http://localhost:2999/${username}/data/opportunities`, opportunity);
-            navigate(`/${username}`);
+
+             // Hapus data dari localStorage setelah penyimpanan berhasil
+             localStorage.removeItem('selectedPerson');
+             navigate(`/${username}`);
         } catch (err) {
             console.log(err);
         }
     }
+
+    const updateContactStatus = async (contactId, newStatus) => {
+        try {
+            const response = await axiosInstance.put(`/contacts/${contactId}/status`, {
+                
+                newStatus
+            });
+    
+            if (response.status === 200) {
+                console.log('Contact status updated successfully');
+            } else {
+                console.error('Failed to update contact status');
+            }
+        } catch (error) {
+            console.error('Error updating contact status:', error);
+        }
+    };
     let keyId = 0;
 
     return (
