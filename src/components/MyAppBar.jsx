@@ -53,7 +53,7 @@ function MyAppBar() {
   useEffect(() => {
     const fetchFullname = async () => {
         try {
-            const response = await axiosInstance.get(`http://localhost:2999/${username}/userinfo`);
+            const response = await axiosInstance.get(`/${username}/userinfo`);
             setFullname(response.data.fullname);
         } catch (error) {
             console.error('Error fetching fullname:', error);

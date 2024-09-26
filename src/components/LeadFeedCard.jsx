@@ -9,7 +9,7 @@ function LeadFeedCard({ lead, onPick }) {
     const token = localStorage.getItem('token');
     const handlePick = async () => {
         try {
-            await axiosInstance.delete(`http://localhost:2999/data/lead_feeds/${lead.lf_id}`);
+            await axiosInstance.delete(`/data/lead_feeds/${lead.lf_id}`);
             onPick(lead.lf_id); // Mengupdate state di parent component
         } catch (error) {
             console.error('Failed to pick lead:', error);

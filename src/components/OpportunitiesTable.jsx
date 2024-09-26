@@ -28,7 +28,7 @@ export default function OpportunitiesTable() {
     useEffect(() => {
         const fetchAllOpportunities = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/opportunities`, {
+                const res = await axiosInstance.get(`/${username}/data/opportunities`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
@@ -61,7 +61,7 @@ export default function OpportunitiesTable() {
 
     const processRowUpdate = async (newRow, oldRow) => {
         try {
-            const response = await axiosInstance.put(`http://localhost:2999/${username}/data/opportunities/${newRow.opportunity_id}`, newRow);
+            const response = await axiosInstance.put(`/${username}/data/opportunities/${newRow.opportunity_id}`, newRow);
             // Update the local state with the updated row data
             setOpportunities((prevOpportunities) =>
                 prevOpportunities.map((row) => (row.opportunity_id === newRow.opportunity_id ? { ...newRow, id: newRow.opportunity_id } : row))
@@ -106,10 +106,10 @@ export default function OpportunitiesTable() {
             try {
                 await Promise.all(rowSelectionModel.map(async (opportunityId) => {
                     console.log('Check opportunityId retrieved: '+opportunityId); // test passed
-                    await axiosInstance.delete(`http://localhost:2999/${username}/data/opportunities/${opportunityId}`);
+                    await axiosInstance.delete(`/${username}/data/opportunities/${opportunityId}`);
                 }));
                 // Refresh the opportunities data after deletion
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/opportunities`);
+                const res = await axiosInstance.get(`/${username}/data/opportunities`);
                 // Add id property for DataGrid
                 const opportunitiesWithId = res.data.map(opportunity => ({ ...opportunity, id: opportunity.opportunity_id }));
                 setOpportunities(opportunitiesWithId);
@@ -128,14 +128,14 @@ export default function OpportunitiesTable() {
         if (rowSelectionModel.length > 0) {
             try {
                 await Promise.all(rowSelectionModel.map(async (opportunityId) => {
-                    await axiosInstance.post(`http://localhost:2999/${username}/data/projects`, {
+                    await axiosInstance.post(`/${username}/data/projects`, {
                         opportunity_id: opportunityId,
                         
                     });
                 }));
     
                 // Refresh the opportunities data after upgrading
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/opportunities`, {
+                const res = await axiosInstance.get(`/${username}/data/opportunities`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }

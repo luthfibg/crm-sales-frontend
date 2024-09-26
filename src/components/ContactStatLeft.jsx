@@ -14,9 +14,9 @@ export default function ContactStatLeft() {
 
     const fetchLeadFeeds = async () => {
         try {
-            const response = await axiosInstance.get('http://localhost:2999/data/lead_feeds');
+            const response = await axiosInstance.get('/data/lead_feeds');
             const leadData = await Promise.all(response.data.map(async (lead) => {
-                const customerResponse = await axiosInstance.get(`http://localhost:2999/data/customer_accs/${lead.customer_id}`);
+                const customerResponse = await axiosInstance.get(`/data/customer_accs/${lead.customer_id}`);
                 return {
                     ...lead,
                     customer_name: `${customerResponse.data.customer_fname} ${customerResponse.data.customer_lname}`
@@ -30,13 +30,13 @@ export default function ContactStatLeft() {
 
     const fetchOppFeeds = async () => {
         try {
-            const response = await axiosInstance.get('http://localhost:2999/data/opp_feeds', {
+            const response = await axiosInstance.get('/data/opp_feeds', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
             const opportunityData = await Promise.all(response.data.map(async (opportunity) => {
-                const customerResponse = await axiosInstance.get(`http://localhost:2999/data/customer_accs/${opportunity.customer_id}`, {
+                const customerResponse = await axiosInstance.get(`/data/customer_accs/${opportunity.customer_id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

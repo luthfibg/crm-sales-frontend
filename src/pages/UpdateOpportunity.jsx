@@ -32,7 +32,7 @@ const UpdateOpportunity = () => {
     useEffect(() => {
         const fetchOpportunity = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/opportunities/${opportunityId}`);
+                const res = await axiosInstance.get(`/${username}/data/opportunities/${opportunityId}`);
                 if (res.data.length > 0) {
                     setOpportunity(res.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -61,7 +61,7 @@ const UpdateOpportunity = () => {
         e.preventDefault();
         console.log(opportunity)
         try {
-            await axiosInstance.put(`http://localhost:2999/${username}/data/opportunity-manual-update/${opportunityId}`, opportunity);
+            await axiosInstance.put(`/${username}/data/opportunity-manual-update/${opportunityId}`, opportunity);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

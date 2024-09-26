@@ -67,7 +67,7 @@ const UpdateContact = () => {
     const handleOnclickSave = async (e) => {
         e.preventDefault();
         try {
-            await axiosInstance.put(`http://localhost:2999/${username}/data/contacts/${contactId}`, contact);
+            await axiosInstance.put(`/${username}/data/contacts/${contactId}`, contact);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

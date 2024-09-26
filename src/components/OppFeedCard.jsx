@@ -9,7 +9,7 @@ function OppFeedCard({ opportunity, onPick }) {
     const token = localStorage.getItem('token');
     const handlePick = async () => {
         try {
-            await axiosInstance.delete(`http://localhost:2999/data/opp_feeds/${opportunity.of_id}`, {
+            await axiosInstance.delete(`/opp_feeds/${opportunity.of_id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

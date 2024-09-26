@@ -20,7 +20,7 @@ export default function ManageProducts() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axiosInstance.get("http://localhost:2999/data/products");
+                const response = await axiosInstance.get("/data/products");
                 setProducts(response.data);
             } catch (err) {
                 console.error("Failed to fetch products", err);
@@ -28,7 +28,7 @@ export default function ManageProducts() {
         };
         const fetchProductsSale = async () => {
             try {
-                const response = await axiosInstance.get("http://localhost:2999/data/products_sale");
+                const response = await axiosInstance.get("/data/products_sale");
                 setProductsSale(response.data);
             } catch (err) {
                 console.error("Failed to fetch products sale", err);
@@ -48,7 +48,7 @@ export default function ManageProducts() {
 
         try {
             console.log('Sending product to backend:', product);
-            const response = await axiosInstance.post("http://localhost:2999/data/products_sale", { product_id: product.product_id }, {
+            const response = await axiosInstance.post("/data/products_sale", { product_id: product.product_id }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}` // Token otorisasi
                 }
@@ -67,7 +67,7 @@ export default function ManageProducts() {
         setProductsSale(updatedProductsSale);
 
         try {
-            await axiosInstance.delete(`http://localhost:2999/data/products_sale/${product.product_id}`);
+            await axiosInstance.delete(`/data/products_sale/${product.product_id}`);
             console.log(product.product_id);
             setSnackbar({ open: true, message: 'Product deleted from sale list!', severity: 'success' });
         } catch (err) {

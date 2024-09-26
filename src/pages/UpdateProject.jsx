@@ -31,7 +31,7 @@ const UpdateProject = () => {
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/projects/${projectId}`);
+                const res = await axiosInstance.get(`/${username}/data/projects/${projectId}`);
                 if (res.data.length > 0) {
                     setProject(res.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -64,7 +64,7 @@ const UpdateProject = () => {
         e.preventDefault();
         console.log(project)
         try {
-            await axiosInstance.put(`http://localhost:2999/${username}/data/project-manual-update/${projectId}`, project);
+            await axiosInstance.put(`/${username}/data/project-manual-update/${projectId}`, project);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);
