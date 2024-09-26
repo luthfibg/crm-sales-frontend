@@ -353,14 +353,14 @@ export default function LeadsTable() {
                 </span>
             </CRMTooltip>
 
-            <CRMTooltip title="Tampilkan seluruh lead" placement="top" arrow>
+            {/* <CRMTooltip title="Tampilkan seluruh lead" placement="top" arrow>
                 <IconButton
                 sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                 size='small'
                 color='primary'>
                     <FormatListNumberedRtlOutlinedIcon fontSize='small' />
                 </IconButton>
-            </CRMTooltip>
+            </CRMTooltip> */}
         </Stack>
         </>
     );

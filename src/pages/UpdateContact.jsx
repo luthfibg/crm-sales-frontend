@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import '../styles/formCustom.css';
 import axiosInstance from "../axiosConfig";
+import Alert from "@mui/material/Alert";
 
 const UpdateContact = () => {
     const navigate = useNavigate();
@@ -30,15 +31,14 @@ const UpdateContact = () => {
     useEffect(() => {
         const fetchContact = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts/${contactId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
+                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts/${contactId}`);
                 if (res.data.length > 0) {
                     setContact(res.data[0]); // Ambil elemen pertama dari array
                 } else {
+                    // Jika kontak tidak ditemukan
                     console.error("Contact not found");
+                    // Jika kontak belum memiliki sales
+                    callAlertUnsalesed();
                 }
             } catch (err) {
                 console.error(err);
@@ -55,6 +55,10 @@ const UpdateContact = () => {
         { value:'idle', label:'Idle' },
         { value:'done', label:'Done' }
     ];
+
+    const callAlertUnsalesed = () => {
+        <Alert severity="warning">Kontak ini belum memiliki sales.</Alert>
+    }
 
     const handleChange = (e) => {
         setContact((prev) => ({ ...prev, [e.target.name]: e.target.value }));

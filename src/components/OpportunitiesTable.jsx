@@ -244,14 +244,14 @@ export default function OpportunitiesTable() {
                 </span>
             </CRMTooltip>
 
-            <CRMTooltip title="Tampilkan seluruh peluang" placement="top" arrow>
+            {/* <CRMTooltip title="Tampilkan seluruh peluang" placement="top" arrow>
                 <IconButton
                 sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                 size='small'
                 color='primary'>
                     <FormatListNumberedRtlOutlinedIcon fontSize='small' />
                 </IconButton>
-            </CRMTooltip>
+            </CRMTooltip> */}
         </Stack>
         </>
     );

@@ -58,7 +58,7 @@ export default function Dashboard() {
                         Daftar Lead <i>(Leads)</i>
                     </Typography>
                 </Box>
-                <LeadValueGraph/>
+                {/* <LeadValueGraph/> */}
                 {/* <LeadDigitalStats/> */}
                 <LeadsTable/>
                 <Divider orientation='horizontal' flexItem />
