@@ -228,14 +228,14 @@ export default function ProjectsTable() {
                 </span>
             </CRMTooltip>
 
-            <CRMTooltip title="Tampilkan seluruh proyek" placement="top" arrow>
+            {/* <CRMTooltip title="Tampilkan seluruh proyek" placement="top" arrow>
                 <IconButton
                 sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                 size='small'
                 color='primary'>
                     <FormatListNumberedRtlOutlinedIcon fontSize='small' />
                 </IconButton>
-            </CRMTooltip>
+            </CRMTooltip> */}
         </Stack>
         <Stack 
         direction="row"
@@ -249,7 +249,7 @@ export default function ProjectsTable() {
             borderRadius: '0.2rem',
         }}>
             <Button variant='contained' onClick={handlePrint}>Cetak Halaman Ini</Button>
-            <Button variant='contained' onClick={handleOpenReport}>Cetak Laporan</Button>
+            {/* <Button variant='contained' onClick={handleOpenReport}>Cetak Laporan</Button> */}
         </Stack>
         </>
     );

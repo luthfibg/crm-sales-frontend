@@ -230,7 +230,7 @@ export default function ContactsTable() {
                 </IconButton>
                 </span>
             </CRMTooltip>
-            <CRMTooltip title="Tampilkan seluruh kontak" placement="top" arrow>
+            {/* <CRMTooltip title="Tampilkan seluruh kontak" placement="top" arrow>
                 <IconButton
                 sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
                 size='small'
@@ -238,7 +238,7 @@ export default function ContactsTable() {
                 cursor={'pointer'}>
                     <FormatListNumberedRtlOutlinedIcon fontSize='small'/>
                 </IconButton>
-            </CRMTooltip>
+            </CRMTooltip> */}
         </Stack>
         </>
     )

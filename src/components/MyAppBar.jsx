@@ -125,7 +125,7 @@ function MyAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => page === 'Monitor' ? goToMonitor() : goToProducts()}>
-                  <Typography textAlign="center" sx={{ textTransform:'none' }}>{page}</Typography>
+                  <Typography color={'black'} textAlign="center" sx={{ textTransform:'none', color: 'black' }}>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>

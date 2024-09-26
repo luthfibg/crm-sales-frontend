@@ -187,7 +187,7 @@ export default function ContactStatRight() {
                                 <Typography sx={{ 
                                     fontSize: 10,
                                     '@media(min-width: 1200px)': { fontSize: 12 },
-                                }} color="primary.light" textAlign={'center'}>Top RFM Score</Typography>
+                                }} color="primary.light" textAlign={'center'}></Typography>
                             </CardContent>
                             <CardActions>
 
