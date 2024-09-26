@@ -74,7 +74,7 @@ export default function WishleadModal({ open, onClose }) {
   React.useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
+        const response = await axiosInstance.get(`/${username}/data/contacts`);
         setContacts(response.data);
       } catch (error) {
         console.error('Error fetching contacts:', error);
@@ -90,7 +90,7 @@ export default function WishleadModal({ open, onClose }) {
         const selectedContactObj = contacts.find(contact => contact.contact_name === selectedContact);
         localStorage.setItem('selectedPerson', JSON.stringify(selectedContactObj));
 
-        const response = await axiosInstance.post('http://localhost:2999/data/wishlist_from_modal', {
+        const response = await axiosInstance.post('/data/wishlist_from_modal', {
             contact_name: selectedContactObj.contact_name,
         });
 

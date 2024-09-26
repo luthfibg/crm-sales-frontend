@@ -69,7 +69,7 @@ const UpdateLead = () => {
     useEffect(() => {
         const fetchLead = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/leads/${leadId}`);
+                const res = await axiosInstance.get(`/${username}/data/leads/${leadId}`);
                 if (res.data.length > 0) {
                     setLead(res.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -89,7 +89,7 @@ const UpdateLead = () => {
     const handleOnclickSave = async e => {
         e.preventDefault();
         try {
-            await axiosInstance.put(`http://localhost:2999/${username}/data/lead-manual-update/${leadId}`, lead);
+            await axiosInstance.put(`/${username}/data/lead-manual-update/${leadId}`, lead);
             navigate(`/${username}`);    
         } catch (err) {
             console.log(err);

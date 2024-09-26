@@ -72,7 +72,7 @@ const AddLead = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
+                const res = await axiosInstance.get(`/${username}/data/contacts`);
                 setContact(res.data);
                 console.log('Contacts Data:', res.data);
             } catch (err) {
@@ -81,7 +81,7 @@ const AddLead = () => {
         };
         const fetchProducts = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/data/products_sale`);
+                const res = await axiosInstance.get(`/data/products_sale`);
                 setProduct(res.data);
             } catch (err) {
                 console.log(err);
@@ -135,7 +135,7 @@ const AddLead = () => {
         }
         try {
             await updateContactStatus(contact_id, 'lead');
-            await axiosInstance.post(`http://localhost:2999/${username}/data/leads`, lead);
+            await axiosInstance.post(`/${username}/data/leads`, lead);
 
              // Hapus data dari localStorage setelah penyimpanan berhasil
             localStorage.removeItem('selectedPerson');

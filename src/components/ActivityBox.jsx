@@ -13,7 +13,7 @@ export default function ActivityBox() {
 
     const fetchActivities = async () => {
         try {
-            const response = await axiosInstance.get(`http://localhost:2999/${username}/data/activities`);
+            const response = await axiosInstance.get(`/${username}/data/activities`);
             setActivities(response.data);
         } catch (err) {
             console.error("Failed to fetch activities", err);

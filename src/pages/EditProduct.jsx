@@ -77,7 +77,7 @@ export default function EditProduct() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axiosInstance.get(`http://localhost:2999/data/products/${productId}`);
+                const response = await axiosInstance.get(`/data/products/${productId}`);
                 if (response.data.length > 0) {
                     setProduct(response.data[0]); // Ambil elemen pertama dari array
                 } else {
@@ -93,7 +93,7 @@ export default function EditProduct() {
     const handleOnclickSave = async (e) => {
         e.preventDefault();
         try {
-            await axiosInstance.put(`http://localhost:2999/data/products/${productId}`, product);
+            await axiosInstance.put(`/data/products/${productId}`, product);
             navigate(`/${username}`);
         } catch (err) {
             console.log(err);

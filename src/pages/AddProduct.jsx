@@ -91,7 +91,7 @@ export default function AddProduct() {
             }
     
             // Send the form data to the backend
-            const response = await axiosInstance.post("http://localhost:2999/data/products", formData, {
+            const response = await axiosInstance.post("/data/products", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

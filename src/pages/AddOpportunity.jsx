@@ -33,7 +33,7 @@ const AddOpportunity = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
+                const res = await axiosInstance.get(`/${username}/data/contacts`);
                 setContact(res.data);
             } catch (err) {
                 console.log(err);
@@ -81,7 +81,7 @@ const AddOpportunity = () => {
         console.log(opportunity)
         try {
             await updateContactStatus(contact_id, 'opportunity');
-            await axiosInstance.post(`http://localhost:2999/${username}/data/opportunities`, opportunity);
+            await axiosInstance.post(`/${username}/data/opportunities`, opportunity);
 
              // Hapus data dari localStorage setelah penyimpanan berhasil
              localStorage.removeItem('selectedPerson');

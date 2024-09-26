@@ -42,7 +42,7 @@ export default function ProductCard({ product, onToggle, onRemove, initialDispla
 
     const handleRemoveProduct = async () => {
         try {
-            await axiosInstance.delete(`http://localhost:2999/data/products/${product.product_id}`);
+            await axiosInstance.delete(`/data/products/${product.product_id}`);
             console.log('Product deleted successfully');
             onRemove(product);
             window.location.reload();
