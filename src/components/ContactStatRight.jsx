@@ -30,7 +30,7 @@ export default function ContactStatRight() {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
+                const response = await axiosInstance.get(`https://crm-sales-backend-production.up.railway.app/${username}/data/contacts`);
                 const data = response.data;
                 setContactData(data);
                 setTotalContacts(data.length); // Set total contacts

@@ -31,7 +31,7 @@ const UpdateContact = () => {
     useEffect(() => {
         const fetchContact = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts/${contactId}`);
+                const res = await axiosInstance.get(`/${username}/data/contacts/${contactId}`);
                 if (res.data.length > 0) {
                     setContact(res.data[0]); // Ambil elemen pertama dari array
                 } else {
