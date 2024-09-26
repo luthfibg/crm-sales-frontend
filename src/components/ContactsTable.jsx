@@ -31,7 +31,7 @@ export default function ContactsTable() {
     useEffect(() => {
         const fetchAllContacts = async () => {
             try {
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
+                const res = await axiosInstance.get(`/${username}/data/contacts`);
                 const sortedContacts = sortContactsByStatus(res.data);
                 setContacts(sortedContacts);
             } catch (err) {
