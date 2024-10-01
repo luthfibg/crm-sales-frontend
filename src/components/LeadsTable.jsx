@@ -244,6 +244,7 @@ export default function LeadsTable() {
             console.log(err);
         }
     };
+    
 
     return (
         <>
