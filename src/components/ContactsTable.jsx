@@ -127,12 +127,12 @@ export default function ContactsTable() {
                     if (selectedContact) {
                         const contactId = selectedContact.contact_id;
                         console.log("Attempting to delete contact with ID:", contactId); // Log setiap contactId
-                        await axiosInstance.delete(`http://localhost:2999/${username}/data/contacts/${contactId}`);
+                        await axiosInstance.delete(`/${username}/data/contacts/${contactId}`);
                     }
                 }));
     
                 // Refresh data setelah penghapusan
-                const res = await axiosInstance.get(`http://localhost:2999/${username}/data/contacts`);
+                const res = await axiosInstance.get(`/${username}/data/contacts`);
                 const sortedContacts = sortContactsByStatus(res.data);
                 setContacts(sortedContacts);
                 // window.location.reload();
