@@ -11,7 +11,7 @@ axiosInstance.interceptors.request.use(
         const token = localStorage.getItem('token'); // Ambil token dari localStorage
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`; // Tambahkan token ke header Authorization
-            config.headers['Cache-Control'] = 'no-cache'; // Nonaktifkan cache
+            // config.headers['Cache-Control'] = 'no-cache'; // Nonaktifkan cache
 
         }
         return config;

@@ -28,7 +28,7 @@ const Register = () => {
         e.preventDefault();
         console.log('Sales data being registered:', sales); // logging sales sended
         try {
-            const response = await axios.post("/register", sales);
+            const response = await axios.post("https://crm-sales-backend-production.up.railway.app/register", sales);
             console.log(response.data.message);
             navigate('/:username');
         } catch (err) {
