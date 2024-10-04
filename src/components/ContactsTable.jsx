@@ -29,6 +29,7 @@ export default function ContactsTable() {
     const username = localStorage.getItem('username');
 
     useEffect(() => {
+
         const fetchAllContacts = async () => {
             try {
                 const res = await axiosInstance.get(`/${username}/data/contacts`);
