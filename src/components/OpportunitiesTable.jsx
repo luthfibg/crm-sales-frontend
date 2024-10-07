@@ -252,7 +252,7 @@ export default function OpportunitiesTable() {
                 onClick={handleViewOpportunity}
                 size='small'
                 color='primary'>
-                    <FormatListNumberedRtlOutlinedIcon fontSize='small' />
+                    <OpenInNew fontSize='small' />
                 </IconButton>
             </CRMTooltip>
             
