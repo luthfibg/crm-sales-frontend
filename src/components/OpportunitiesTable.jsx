@@ -228,10 +228,13 @@ export default function OpportunitiesTable() {
                 </IconButton>
             </CRMTooltip>
 
-            <CRMTooltip title="Tambahkan peluang baru" placement="top" arrow>
+            <CRMTooltip title="Untuk menambahkan peluang baru, silahkan konversi lead" placement="top" arrow>
                 <span>
                     <IconButton 
-                    sx={{ textTransform: 'none' }} 
+                    sx={{
+                        textTransform: 'none',
+                        ...customDisabledButton,
+                    }} 
                     color='primary'
                     onClick={() => navigate(`/${username}/add_opportunity`)}
                     cursor={'pointer'}

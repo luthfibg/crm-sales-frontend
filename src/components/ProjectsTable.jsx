@@ -196,10 +196,13 @@ export default function ProjectsTable() {
                 </IconButton>
             </CRMTooltip>
 
-            <CRMTooltip title="Tambahkan proyek baru manual" placement="top" arrow>
+            <CRMTooltip title="Untuk menambahkan project baru, silahkan konversi peluang" placement="top" arrow>
                 <span>
                     <IconButton 
-                    sx={{ textTransform: 'none' }} 
+                    sx={{
+                        textTransform: 'none',
+                        ...customDisabledButton,
+                    }} 
                     color='primary'
                     onClick={() => navigate(`/${username}/add_project`)}
                     cursor={'pointer'}

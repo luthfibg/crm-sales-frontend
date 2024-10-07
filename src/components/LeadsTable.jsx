@@ -353,7 +353,7 @@ export default function LeadsTable() {
 
             <CRMTooltip title="Detail lead" placement="top" arrow>
                 <IconButton
-                disabled={rowSelectionModel !== 1}
+                disabled={rowSelectionModel.length !== 1}
                 sx={{
                     textTransform: 'none',
                     height: '2rem',
