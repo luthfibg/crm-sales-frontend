@@ -240,7 +240,12 @@ export default function ContactsTable() {
             <CRMTooltip title="Edit kontak. Anda hanya boleh memilih 1 kontak untuk diedit" placement="top" arrow>
                 <span>
                 <IconButton
-                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                sx={{ 
+                    textTransform: 'none',
+                    height: '2rem',
+                    width: '2rem',
+                    ...customDisabledButton,
+                }}
                 size='small'
                 disabled={rowSelectionModel.length !== 1}
                 color='primary'
@@ -253,7 +258,11 @@ export default function ContactsTable() {
             <CRMTooltip title="Hapus kontak. Pilih 1 atau lebih kontak untuk dihapus. Ingat: Kontak yang dihapus tidak dapat dikembalikan." placement="top" arrow>
                 <span>
                 <IconButton
-                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                sx={{ textTransform: 'none',
+                    height: '2rem',
+                    width: '2rem',
+                    ...customDisabledButton,
+                }}
                 size='small'
                 disabled={rowSelectionModel.length < 1}
                 color='error'

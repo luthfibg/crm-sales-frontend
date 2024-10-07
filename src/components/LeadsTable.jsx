@@ -4,7 +4,7 @@ import WishleadModal from './WishleadModal';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
+import OpenInNew from '@mui/icons-material/OpenInNewOutlined';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Divider, IconButton, Stack, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ import Clear from '@mui/icons-material/Clear';
 import OnlinePrediction from '@mui/icons-material/OnlinePrediction';
 import '../styles/init.css';
 import axiosInstance from '../axiosConfig';
+import { customDisabledButton } from '../utils/disabledButton';
 
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -179,6 +180,28 @@ export default function LeadsTable() {
         console.error('Error processing row update:', error);
     };
 
+    const handleViewLead = () => {
+        if (rowSelectionModel.length === 1) {
+            const selectedLeadId = rowSelectionModel[0]; // Gunakan langsung lead_id dari rowSelectionModel
+            console.log("Selected lead ID:", selectedLeadId);
+    
+            // Cari lead berdasarkan lead_id di array leads
+            const selectedLead = leads.find(lead => lead.lead_id === selectedLeadId);
+    
+            if (!selectedLead) {
+                console.error("Selected lead not found");
+                return;
+            }
+            if (!username) {
+                console.error('Username is null or undefined');
+                return; // Jangan lanjut jika username tidak ada
+            }
+    
+            // Arahkan ke halaman detail lead dengan lead_id yang sesuai
+            navigate(`/${username}/view_lead/${selectedLead.lead_id}`);
+        }
+    }
+
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
             const selectedLeadId = rowSelectionModel[0]; // Gunakan langsung lead_id dari rowSelectionModel
@@ -305,7 +328,10 @@ export default function LeadsTable() {
 
             <CRMTooltip title="Upgrade Ke Opportunity" placement="top" arrow>
                 <IconButton 
-                sx={{ textTransform: 'none' }} 
+                sx={{
+                    textTransform: 'none',
+                    ...customDisabledButton,
+                }} 
                 color='primary'
                 onClick={handleUpgradeLeads}
                 cursor={'pointer'}
@@ -324,11 +350,31 @@ export default function LeadsTable() {
                 </IconButton>
             </CRMTooltip>
             <WishleadModal open={openModal} onClose={handleWishlistSaved} />    
+
+            <CRMTooltip title="Detail lead" placement="top" arrow>
+                <IconButton
+                disabled={rowSelectionModel !== 1}
+                sx={{
+                    textTransform: 'none',
+                    height: '2rem',
+                    width: '2rem',
+                    ...customDisabledButton,
+                }}
+                onClick={handleViewLead}
+                size='small'
+                color='primary'>
+                    <OpenInNew fontSize='small' />
+                </IconButton>
+            </CRMTooltip>
             
             <CRMTooltip title="Edit lead. Anda hanya dapat memilih 1 lead untuk diedit" placement="top" arrow>
                 <span>
                 <IconButton
-                    sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                    sx={{ textTransform: 'none',
+                        height: '2rem',
+                        width: '2rem',
+                        ...customDisabledButton,
+                    }}
                     size='small'
                     variant="outlined"
                     disabled={rowSelectionModel.length !== 1}
@@ -343,7 +389,11 @@ export default function LeadsTable() {
             <CRMTooltip title="Hapus lead. Pilih 1 atau lebih lead untuk dihapus. Ingat: Lead yang dihapus tidak dapat dikembalikan." placement="top" arrow>
                 <span>
                 <IconButton
-                    sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                    sx={{ textTransform: 'none',
+                        height: '2rem',
+                        width: '2rem',
+                        ...customDisabledButton,
+                    }}
                     size='small'
                     variant="outlined"
                     color="error"
@@ -353,15 +403,6 @@ export default function LeadsTable() {
                 </IconButton>
                 </span>
             </CRMTooltip>
-
-            {/* <CRMTooltip title="Tampilkan seluruh lead" placement="top" arrow>
-                <IconButton
-                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-                size='small'
-                color='primary'>
-                    <FormatListNumberedRtlOutlinedIcon fontSize='small' />
-                </IconButton>
-            </CRMTooltip> */}
         </Stack>
         </>
     );
