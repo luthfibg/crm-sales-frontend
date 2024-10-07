@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
+import OpenInNew from '@mui/icons-material/OpenInNewOutlined';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, IconButton, Stack, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import '../styles/init.css';
 import darkTheme from '../styles/darkTheme';
 import axiosInstance from '../axiosConfig';
+import { customDisabledButton } from '../utils/disabledButton';
   
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -95,6 +96,21 @@ export default function ContactsTable() {
             </Tooltip>
         )},
     ];
+
+    const handleViewContact = () => {
+        if (rowSelectionModel.length === 1) {
+            const selectedRowIndex = rowSelectionModel[0]; // rowSelectionModel starts from 1, so we subtract 1 to get the correct index
+            const contactId = selectedRowIndex; // Extract contact_id
+    
+            const username = localStorage.getItem('username'); // Get username from local storage (user login session)
+            if (!username) {
+                console.error('Username is null or undefined');
+                return; // Do not navigate if username is not available
+            }
+            // Navigate to view contact route with contact_id
+            navigate(`/${username}/view_contact/${contactId}`);
+        }
+    }
 
     const handleEditClick = () => {
         if (rowSelectionModel.length === 1) {
@@ -205,6 +221,22 @@ export default function ContactsTable() {
                     <AddIcon fontSize='small'/>
                 </IconButton>
             </CRMTooltip>
+            <CRMTooltip title="Detail Kontak" placement="top" arrow>
+                <IconButton
+                sx={{ 
+                    textTransform: 'none',
+                    height: '2rem',
+                    width: '2rem',
+                    ...customDisabledButton,
+                }}
+                disabled={rowSelectionModel.length !== 1}
+                onClick={handleViewContact}
+                size='small'
+                color='primary'
+                cursor={'pointer'}>
+                    <OpenInNew fontSize='small'/>
+                </IconButton>
+            </CRMTooltip>
             <CRMTooltip title="Edit kontak. Anda hanya boleh memilih 1 kontak untuk diedit" placement="top" arrow>
                 <span>
                 <IconButton
@@ -231,15 +263,7 @@ export default function ContactsTable() {
                 </IconButton>
                 </span>
             </CRMTooltip>
-            {/* <CRMTooltip title="Tampilkan seluruh kontak" placement="top" arrow>
-                <IconButton
-                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-                size='small'
-                color='primary'
-                cursor={'pointer'}>
-                    <FormatListNumberedRtlOutlinedIcon fontSize='small'/>
-                </IconButton>
-            </CRMTooltip> */}
+            
         </Stack>
         </>
     )
