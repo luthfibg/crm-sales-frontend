@@ -20,6 +20,9 @@ import './styles/scrollable.css';
 import ProtectedRoute from './components/AuthCheck';
 import EditProduct from './pages/EditProduct';
 import ViewContact from './pages/ViewContact';
+import ViewLead from './pages/ViewLead';
+import ViewOpportunity from './pages/ViewOpportunity';
+import ViewProject from './pages/ViewProject';
 
 function App() {
   

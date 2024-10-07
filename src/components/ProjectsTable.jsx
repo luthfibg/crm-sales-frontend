@@ -221,7 +221,7 @@ export default function ProjectsTable() {
                 onClick={handleViewProject}
                 size='small'
                 color='primary'>
-                    <FormatListNumberedRtlOutlinedIcon fontSize='small' />
+                    <OpenInNew fontSize='small' />
                 </IconButton>
             </CRMTooltip>
             
