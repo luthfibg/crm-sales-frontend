@@ -55,7 +55,7 @@ const darkTheme = createTheme({
     text: {
         primary:'#000',
         secondary:'#303030',
-        disabled:'#333',
+        disabled:'#9e9e9e',
         contrastText:'#afafaf'
     }
   },

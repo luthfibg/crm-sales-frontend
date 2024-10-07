@@ -19,6 +19,7 @@ import AddProduct from './pages/AddProduct';
 import './styles/scrollable.css';
 import ProtectedRoute from './components/AuthCheck';
 import EditProduct from './pages/EditProduct';
+import ViewContact from './pages/ViewContact';
 
 function App() {
   
@@ -38,6 +39,7 @@ function App() {
           <Route path="/:username/update_lead/:leadId" element={<ProtectedRoute><UpdateLead/></ProtectedRoute>}/>
           <Route path="/:username/update_opportunity/:opportunityId" element={<ProtectedRoute><UpdateOpportunity/></ProtectedRoute>}/>
           <Route path="/:username/update_project/:projectId" element={<ProtectedRoute><UpdateProject/></ProtectedRoute>}/>
+          <Route path="/:username/view_contact/:contactId" element={<ProtectedRoute><ViewContact/></ProtectedRoute>}/>
           <Route path="/edit_product/:productId" element={<ProtectedRoute><EditProduct/></ProtectedRoute>}/>
           <Route path="/" element={<Opening/>}/>
           <Route path="/register" element={<Register/>}/>
