@@ -5,7 +5,7 @@ const ViewContact = () => {
 
     const contactId = useParams()
   return (
-    <div>ViewContact {$(contactId)}</div>
+    <div>ViewContact {String(contactId)}</div>
   )
 }
 
