@@ -40,6 +40,9 @@ function App() {
           <Route path="/:username/update_opportunity/:opportunityId" element={<ProtectedRoute><UpdateOpportunity/></ProtectedRoute>}/>
           <Route path="/:username/update_project/:projectId" element={<ProtectedRoute><UpdateProject/></ProtectedRoute>}/>
           <Route path="/:username/view_contact/:contactId" element={<ProtectedRoute><ViewContact/></ProtectedRoute>}/>
+          <Route path="/:username/view_lead/:leadId" element={<ProtectedRoute><ViewLead/></ProtectedRoute>}/>
+          <Route path="/:username/view_opportunity/:opportunityId" element={<ProtectedRoute><ViewOpportunity/></ProtectedRoute>}/>
+          <Route path="/:username/view_project/:projectId" element={<ProtectedRoute><ViewProject/></ProtectedRoute>}/>
           <Route path="/edit_product/:productId" element={<ProtectedRoute><EditProduct/></ProtectedRoute>}/>
           <Route path="/" element={<Opening/>}/>
           <Route path="/register" element={<Register/>}/>

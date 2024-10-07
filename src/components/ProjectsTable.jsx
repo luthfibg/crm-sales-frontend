@@ -6,9 +6,10 @@ import darkTheme from '../styles/darkTheme';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
+import OpenInNew from '@mui/icons-material/OpenInNewOutlined';
 import Done from '@mui/icons-material/Done';
 import axiosInstance from '../axiosConfig';
+import { customDisabledButton } from '../utils/disabledButton';
 
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -74,6 +75,12 @@ export default function ProjectsTable() {
 
     const handleProcessRowUpdateError = (error) => {
         console.error('Error processing row update:', error);
+    };
+
+    const handleViewProject = () => {
+        if (rowSelectionModel.length === 1) {
+            navigate(`/${username}/view_project/${rowSelectionModel[0]}`);
+        }
     };
 
     const handleEditClick = () => {
@@ -177,7 +184,10 @@ export default function ProjectsTable() {
 
             <CRMTooltip title="Selesaikan proyek" placement="top" arrow>
                 <IconButton 
-                sx={{ textTransform: 'none' }} 
+                sx={{
+                    textTransform: 'none',
+                    ...customDisabledButton,
+                }}
                 color='primary'
                 onClick={handleFinishProject}
                 cursor={'pointer'}
@@ -198,11 +208,32 @@ export default function ProjectsTable() {
                     </IconButton>
                 </span>
             </CRMTooltip>
+
+            <CRMTooltip title="Detail proyek" placement="top" arrow>
+                <IconButton
+                disabled={rowSelectionModel.length !== 1}
+                sx={{
+                    textTransform: 'none',
+                    height: '2rem',
+                    width: '2rem',
+                    ...customDisabledButton,
+                }}
+                onClick={handleViewProject}
+                size='small'
+                color='primary'>
+                    <FormatListNumberedRtlOutlinedIcon fontSize='small' />
+                </IconButton>
+            </CRMTooltip>
             
             <CRMTooltip title="Edit peluang. Anda hanya dapat memilih 1 peluang untuk diedit" placement="top" arrow>
                 <span>
                 <IconButton
-                    sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                    sx={{
+                        textTransform: 'none',
+                        height: '2rem',
+                        width: '2rem',
+                        ...customDisabledButton,
+                    }}
                     size='small'
                     variant="outlined"
                     disabled={rowSelectionModel.length !== 1}
@@ -217,7 +248,12 @@ export default function ProjectsTable() {
             <CRMTooltip title="Hapus proyek. Pilih 1 atau lebih proyek untuk dihapus. Ingat: Proyek yang dihapus tidak dapat dikembalikan." placement="top" arrow>
                 <span>
                 <IconButton
-                    sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                    sx={{
+                        textTransform: 'none',
+                        height: '2rem',
+                        width: '2rem',
+                        ...customDisabledButton,
+                    }}
                     size='small'
                     variant="outlined"
                     color="error"
@@ -227,15 +263,6 @@ export default function ProjectsTable() {
                 </IconButton>
                 </span>
             </CRMTooltip>
-
-            {/* <CRMTooltip title="Tampilkan seluruh proyek" placement="top" arrow>
-                <IconButton
-                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-                size='small'
-                color='primary'>
-                    <FormatListNumberedRtlOutlinedIcon fontSize='small' />
-                </IconButton>
-            </CRMTooltip> */}
         </Stack>
         <Stack 
         direction="row"

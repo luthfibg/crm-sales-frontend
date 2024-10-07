@@ -6,9 +6,10 @@ import darkTheme from '../styles/darkTheme';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
+import OpenInNew from '@mui/icons-material/OpenInNewOutlined';
 import UpgradeOutlined from '@mui/icons-material/UpgradeOutlined';
 import axiosInstance from '../axiosConfig';
+import { customDisabledButton } from '../utils/disabledButton';
 
 const CRMTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -77,6 +78,28 @@ export default function OpportunitiesTable() {
 
     const handleProcessRowUpdateError = (error) => {
         console.error('Error processing row update:', error);
+    };
+
+    const handleViewOpportunity = () => {
+        if (rowSelectionModel.length === 1) {
+            const selectedOpportunityId = rowSelectionModel[0]; // Gunakan langsung opportunity_id dari rowSelectionModel
+            console.log("Selected opportunity ID:", selectedOpportunityId);
+    
+            // Cari opportunity berdasarkan opportunity_id di array opportunities
+            const selectedOpportunity = opportunities.find(opportunity => opportunity.opportunity_id === selectedOpportunityId);
+    
+            if (!selectedOpportunity) {
+                console.error("Selected opportunity not found");
+                return;
+            }    
+            if (!username) {
+                console.error('Username is null or undefined');
+                return; // Jangan lanjut jika username tidak ada
+            }
+    
+            // Arahkan ke halaman view opportunity dengan opportunity_id yang sesuai
+            navigate(`/${username}/view_opportunity/${selectedOpportunity.opportunity_id}`);
+        }
     };
 
     const handleEditClick = () => {
@@ -193,7 +216,10 @@ export default function OpportunitiesTable() {
 
             <CRMTooltip title="Upgrade Ke Project" placement="top" arrow>
                 <IconButton 
-                sx={{ textTransform: 'none' }} 
+                sx={{
+                    textTransform: 'none',
+                    ...customDisabledButton,
+                }}
                 color='primary'
                 onClick={handleUpgradeOpportunity}
                 cursor={'pointer'}
@@ -214,11 +240,31 @@ export default function OpportunitiesTable() {
                     </IconButton>
                 </span>
             </CRMTooltip>
+
+            <CRMTooltip title="Detail peluang" placement="top" arrow>
+                <IconButton
+                disabled={rowSelectionModel.length !== 1}
+                sx={{ textTransform: 'none',
+                    height: '2rem',
+                    width: '2rem',
+                    ...customDisabledButton,
+                }}
+                onClick={handleViewOpportunity}
+                size='small'
+                color='primary'>
+                    <FormatListNumberedRtlOutlinedIcon fontSize='small' />
+                </IconButton>
+            </CRMTooltip>
             
             <CRMTooltip title="Edit peluang. Anda hanya dapat memilih 1 peluang untuk diedit" placement="top" arrow>
                 <span>
                 <IconButton
-                    sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                    sx={{
+                        textTransform: 'none',
+                        height: '2rem',
+                        width: '2rem',
+                        ...customDisabledButton,
+                    }}
                     size='small'
                     variant="outlined"
                     disabled={rowSelectionModel.length !== 1}
@@ -233,7 +279,12 @@ export default function OpportunitiesTable() {
             <CRMTooltip title="Hapus peluang. Pilih 1 atau lebih peluang untuk dihapus. Ingat: Peluang yang dihapus tidak dapat dikembalikan." placement="top" arrow>
                 <span>
                 <IconButton
-                    sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
+                    sx={{
+                        textTransform: 'none',
+                        height: '2rem',
+                        width: '2rem',
+                        ...customDisabledButton,
+                    }}
                     size='small'
                     variant="outlined"
                     color="error"
@@ -243,15 +294,6 @@ export default function OpportunitiesTable() {
                 </IconButton>
                 </span>
             </CRMTooltip>
-
-            {/* <CRMTooltip title="Tampilkan seluruh peluang" placement="top" arrow>
-                <IconButton
-                sx={{ textTransform: 'none', height: '2rem', width: '2rem' }}
-                size='small'
-                color='primary'>
-                    <FormatListNumberedRtlOutlinedIcon fontSize='small' />
-                </IconButton>
-            </CRMTooltip> */}
         </Stack>
         </>
     );
