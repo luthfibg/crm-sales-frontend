@@ -108,8 +108,7 @@ const ViewOpportunity = () => {
                     <Box>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
-                                name="purchase agreement"
-                                sx={{ display: 'inline' }}
+                                name="purchase_agreement"
                                 checked={requirements.purchase_agreement}
                                 onChange={handleCheckboxChange}
                             />
@@ -118,7 +117,6 @@ const ViewOpportunity = () => {
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
                                 name="down_payment"
-                                sx={{ display: 'inline' }}
                                 checked={requirements.down_payment}
                                 onChange={handleCheckboxChange}
                             />
