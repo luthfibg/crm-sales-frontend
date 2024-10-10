@@ -116,6 +116,12 @@ const ViewOpportunity = () => {
       }
     };
 
+    const handleCloseSnackbar = () => {
+      setOpenSnackbarWarning(false); // Tutup snackbar peringatan
+      setOpenSnackbarSuccess(false); // Tutup snackbar berhasil
+    };
+
+
   return (
     <>
     <MyAppBar/>
@@ -180,7 +186,7 @@ const ViewOpportunity = () => {
                         </Stack>
                         {/* Tombol submit untuk mengirim data ke backend */}
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
-                            <Button type="submit" sx={{ m: '0.5rem' }} onClick={handleClick}>Simpan</Button>
+                            <Button type="submit" sx={{ m: '0.5rem' }} onClick={(e) => handleSaveReqs(e)}>Simpan</Button>
                         </Stack>
                         {/* Snackbar Warning */}
                         <Snackbar
