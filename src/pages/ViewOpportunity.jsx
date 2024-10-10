@@ -57,6 +57,21 @@ const ViewOpportunity = () => {
         }
     }, [requirements.purchase_agreement, requirements.down_payment, requirements.execution_schedule, requirements.installation_requirements]);
     
+    useEffect(() => {
+      const fetchRequirements = async () => {
+          try {
+              const res = await axiosInstance.get(`/${username}/data/project-reqs/${opportunityId}`);
+              if (res.data) {
+                  setRequirements(res.data);  // Memuat data terbaru ke state requirements
+              }
+          } catch (err) {
+              console.error('Error fetching latest project requirements:', err);
+          }
+      };
+  
+      fetchRequirements();  // Panggil fungsi fetch saat halaman pertama kali dimuat
+    }, [username]); // Gunakan username atau id lainnya untuk mendapatkan data yang sesuai
+
 
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
@@ -66,22 +81,39 @@ const ViewOpportunity = () => {
         }));
     };
 
-    const handleClick = () => {
-        if (requirements.conversion) {
-            handleSaveReqs();
-        } else {
-            setOpenSnackbarWarning(true);
-        }
-    }
+    // needed to perform conversion later
 
-    const handleSaveReqs = () => {
-        console.log(requirements);
-        setOpenSnackbarSuccess(true); // Tampilkan snackbar berhasil
-    }
+    // const handleClick = (e) => {
+    //     if (requirements.conversion) {
+    //         handleSaveReqs(e);
+    //     } else {
+    //         setOpenSnackbarWarning(true);
+    //     }
+    // }
 
-    const handleCloseSnackbar = () => {
-        setOpenSnackbarWarning(false); // Tutup snackbar peringatan
-        setOpenSnackbarSuccess(false); // Tutup snackbar berhasil
+    const handleSaveReqs = async (e) => {
+      e.preventDefault();
+
+      try {
+          // Kirim data ke server
+          await axiosInstance.post(`/${username}/data/project-reqs`, {
+              opportunity_id: opportunity.opportunity_id,
+              ...requirements,
+          });
+          
+          // Ambil data terbaru setelah disimpan
+          const res = await axiosInstance.get(`/${username}/data/project-reqs/latest`); // endpoint ini mengembalikan data terbaru
+          
+          // Perbarui state requirements berdasarkan data yang diambil
+          setRequirements(res.data);
+  
+          // Tampilkan snackbar sukses
+          setOpenSnackbarSuccess(true); 
+          window.location.reload();
+      } catch (err) {
+          console.error('Error saving project requirements:', err);
+          // Tampilkan error handling (misalnya snackbar error)
+      }
     };
 
   return (
