@@ -25,9 +25,9 @@ const ViewOpportunity = () => {
     useEffect(() => {
         const fetchOpportunity = async () => {
             try {
-                const res = await axiosInstance.get(`/${username}/data/opportunities/${leadId}`);
+                const res = await axiosInstance.get(`/${username}/data/opportunities/${opportunityId}`);
                 if (res.data.length > 0) {
-                    setLead(res.data[0]);
+                    setOpportunity(res.data[0]);
                 } else {
                     console.error("Opportunity not found");
                 }
