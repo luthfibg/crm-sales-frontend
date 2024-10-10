@@ -6,7 +6,6 @@ import ContactsTable from '../components/ContactsTable';
 import LeadsTable from '../components/LeadsTable';
 import darkTheme from '../styles/darkTheme';
 import ContactStats from '../components/ContactStats';
-import LeadValueGraph from '../components/LeadValueGraph';
 import InterStats from '../components/InterStats';
 import OpportunitiesTable from '../components/OpportunitiesTable';
 import ProjectsTable from '../components/ProjectsTable';
