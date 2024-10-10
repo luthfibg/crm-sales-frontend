@@ -192,7 +192,9 @@ const ViewLead = () => {
                                 checked={requirements.conversion}
                                 onChange={()=>{}}
                             />
-                            <Typography variant="body2">Siap Dikonversi</Typography>
+                            <Typography variant="body2">
+                              <Chip label="Siap Dikonversi" color="primary" variant='outlined' />
+                            </Typography>
                         </Stack>
                         {/* Tombol submit untuk mengirim data ke backend */}
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
