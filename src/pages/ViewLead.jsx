@@ -18,11 +18,12 @@ const ViewLead = () => {
         products_wants: false,
         needed_for: false,
         budget_availability: false,
-        when_purchase: false,
-        any_other_vendor: false,
+        purchase_plan: false,
+        consideration_vendor: false,
         conversion: false,
     });
 
+    //  Dapatkan data lead untuk detail lead
     useEffect(() => {
         const fetchLead = async () => {
             try {
@@ -42,10 +43,10 @@ const ViewLead = () => {
     
     // UseEffect terpisah untuk update conversion
     useEffect(() => {
-        const { products_wants, needed_for, budget_availability, when_purchase } = requirements;
+        const { products_wants, needed_for, budget_availability, purchase_plan } = requirements;
         
         // Update conversion ketika keempat checkbox tersebut tercentang
-        if (products_wants && needed_for && budget_availability && when_purchase) {
+        if (products_wants && needed_for && budget_availability && purchase_plan) {
             setRequirements((prevState) => ({
                 ...prevState,
                 conversion: true,
@@ -56,9 +57,24 @@ const ViewLead = () => {
                 conversion: false,
             }));
         }
-    }, [requirements.products_wants, requirements.needed_for, requirements.budget_availability, requirements.when_purchase]);
+    }, [requirements.products_wants, requirements.needed_for, requirements.budget_availability, requirements.purchase_plan]);
     
 
+    useEffect(() => {
+        const fetchRequirements = async () => {
+            try {
+                const res = await axiosInstance.get(`/${username}/data/opportunity-reqs/${leadId}`);
+                if (res.data) {
+                    setRequirements(res.data);  // Memuat data terbaru ke state requirements
+                }
+            } catch (err) {
+                console.error('Error fetching latest opportunity requirements:', err);
+            }
+        };
+    
+        fetchRequirements();  // Panggil fungsi fetch saat halaman pertama kali dimuat
+    }, [username]); // Gunakan username atau id lainnya untuk mendapatkan data yang sesuai
+    
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
         setRequirements((prev) => ({
@@ -67,18 +83,39 @@ const ViewLead = () => {
         }));
     };
 
-    const handleClick = () => {
-        if (requirements.conversion) {
-            handleSaveReqs();
-        } else {
-            setOpenSnackbarWarning(true);
-        }
-    }
+    // const handleClick = (e) => {
+    //     if (requirements.conversion) {
+    //         handleSaveReqs(e);
+    //     } else {
+    //         setOpenSnackbarWarning(true);
+    //     }
+    // }
 
-    const handleSaveReqs = () => {
-        console.log(requirements);
-        setOpenSnackbarSuccess(true); // Tampilkan snackbar berhasil
-    }
+    const handleSaveReqs = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Kirim data ke server
+            await axiosInstance.post(`/${username}/data/opportunity-reqs`, {
+                lead_id: lead.lead_id,
+                ...requirements,
+            });
+            
+            // Ambil data terbaru setelah disimpan
+            const res = await axiosInstance.get(`/${username}/data/opportunity-reqs/latest`); // endpoint ini mengembalikan data terbaru
+            
+            // Perbarui state requirements berdasarkan data yang diambil
+            setRequirements(res.data);
+    
+            // Tampilkan snackbar sukses
+            setOpenSnackbarSuccess(true); 
+            window.location.reload();
+        } catch (err) {
+            console.error('Error saving opportunity requirements:', err);
+            // Tampilkan error handling (misalnya snackbar error)
+        }
+    };
+    
 
     const handleCloseSnackbar = () => {
         setOpenSnackbarWarning(false); // Tutup snackbar peringatan
@@ -135,16 +172,16 @@ const ViewLead = () => {
                         </Stack>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
-                                name="when_purchase"
-                                checked={requirements.when_purchase}
+                                name="purchase_plan"
+                                checked={requirements.purchase_plan}
                                 onChange={handleCheckboxChange}
                             />
                             <Typography variant="body2">Rencana Pembelian</Typography>
                         </Stack>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
-                                name="any_other_vendor"
-                                checked={requirements.any_other_vendor}
+                                name="consideration_vendor"
+                                checked={requirements.consideration_vendor}
                                 onChange={handleCheckboxChange}
                             />
                             <Typography variant="body2">Vendor Lain</Typography>
@@ -159,7 +196,7 @@ const ViewLead = () => {
                         </Stack>
                         {/* Tombol submit untuk mengirim data ke backend */}
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
-                            <Button type="submit" sx={{ m: '0.5rem' }} onClick={handleClick}>Simpan</Button>
+                            <Button type="submit" sx={{ m: '0.5rem' }} onClick={(e) => handleSaveReqs(e)}>Simpan</Button>
                         </Stack>
                         {/* Snackbar Warning */}
                         <Snackbar
@@ -168,7 +205,7 @@ const ViewLead = () => {
                             onClose={handleCloseSnackbar}
                         >
                             <Alert onClose={handleCloseSnackbar} severity="warning">
-                                Anda perlu memastikan lead memenuhi kriteria untuk dikonversi
+                                Centang semua checkbox terlebih dahulu sebelum menyimpan!
                             </Alert>
                         </Snackbar>
 
@@ -179,7 +216,7 @@ const ViewLead = () => {
                             onClose={handleCloseSnackbar}
                         >
                             <Alert onClose={handleCloseSnackbar} severity="success">
-                                Kriteria telah terpenuhi dan berhasil disimpan
+                                Data berhasil disimpan!
                             </Alert>
                         </Snackbar>
                     </Box>
