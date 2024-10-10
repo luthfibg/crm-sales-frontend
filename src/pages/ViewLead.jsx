@@ -168,7 +168,7 @@ const ViewLead = () => {
                             onClose={handleCloseSnackbar}
                         >
                             <Alert onClose={handleCloseSnackbar} severity="warning">
-                                Centang semua checkbox terlebih dahulu sebelum menyimpan!
+                                Anda perlu memastikan lead memenuhi kriteria untuk dikonversi
                             </Alert>
                         </Snackbar>
 
@@ -179,7 +179,7 @@ const ViewLead = () => {
                             onClose={handleCloseSnackbar}
                         >
                             <Alert onClose={handleCloseSnackbar} severity="success">
-                                Data berhasil disimpan!
+                                Kriteria telah terpenuhi dan berhasil disimpan
                             </Alert>
                         </Snackbar>
                     </Box>
