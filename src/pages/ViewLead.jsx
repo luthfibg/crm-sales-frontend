@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import MyAppBar from '../components/MyAppBar';
 import ArrowBackIos from '@mui/icons-material/ArrowBackIosOutlined';
-import { Typography, Box, Button, Container, Grid, Paper, Checkbox, Table, TableBody, TableCell, Stack, Chip } from '@mui/material';
+import { Typography, Box, Button, Container, Grid, Paper, Checkbox, Table, TableBody, TableCell, Stack, Chip, css } from '@mui/material';
 import axiosInstance from '../axiosConfig';
 import { Snackbar, Alert } from "@mui/material";
 import '../styles/tableCustom.css';
-
+import LeadRadarChart from '../components/ui/LeadRadarChart';
 
 const ViewLead = () => {
     const {leadId} = useParams();
@@ -23,7 +23,6 @@ const ViewLead = () => {
         conversion: false,
     });
 
-    //  Dapatkan data lead untuk detail lead
     useEffect(() => {
         const fetchLead = async () => {
             try {
@@ -141,9 +140,9 @@ const ViewLead = () => {
                 <ArrowBackIos fontSize='small'/>
                 <Typography ml={1} fontSize={'0.8rem'}>Kembali ke dashboard</Typography>
             </Button>
-            <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }} width={'100%'} height={'auto'} sx={{ mt:'1rem', mr:'0rem' }}>
+            <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }} width={'100%'} height={'auto'} sx={{ mt:'1rem', mr:'0rem', pb:'2rem' }}>
                 <Grid item xs={4} sm={2} md={2} lg={3} sx={{ p: '0px', border: 'none' }}>
-                <Paper sx={{ pt:'0.5rem' }}>
+                <Paper sx={{ pt:'0.5rem', height: '30rem' }}>
                     <Typography variant='body1' m={2}>Lead Conversion</Typography>
                     <Box>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
@@ -153,7 +152,7 @@ const ViewLead = () => {
                                 checked={requirements.products_wants}
                                 onChange={handleCheckboxChange}
                             />
-                            <Typography variant="body2" sx={{ display: 'inline' }}>Produk yang diinginkan</Typography>
+                            <Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2" sx={{ display: 'inline' }}>Produk yang diinginkan</Typography>
                         </Stack>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
@@ -162,7 +161,7 @@ const ViewLead = () => {
                                 checked={requirements.needed_for}
                                 onChange={handleCheckboxChange}
                             />
-                            <Typography variant="body2" sx={{ display: 'inline' }}>Kebutuhan</Typography>
+                            <Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2" sx={{ display: 'inline' }}>Kebutuhan</Typography>
                         </Stack>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
@@ -170,7 +169,7 @@ const ViewLead = () => {
                                 checked={requirements.budget_availability}
                                 onChange={handleCheckboxChange}
                             />
-                            <Typography variant="body2">Ketersediaan Anggaran</Typography>
+                            <Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Ketersediaan Anggaran</Typography>
                         </Stack>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
@@ -178,7 +177,7 @@ const ViewLead = () => {
                                 checked={requirements.purchase_plan}
                                 onChange={handleCheckboxChange}
                             />
-                            <Typography variant="body2">Rencana Pembelian</Typography>
+                            <Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Rencana Pembelian</Typography>
                         </Stack>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
@@ -186,7 +185,7 @@ const ViewLead = () => {
                                 checked={requirements.consideration_vendor}
                                 onChange={handleCheckboxChange}
                             />
-                            <Typography variant="body2">Vendor Lain</Typography>
+                            <Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Vendor Lain</Typography>
                         </Stack>
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
                             <Checkbox
@@ -194,9 +193,7 @@ const ViewLead = () => {
                                 checked={requirements.conversion}
                                 onChange={()=>{}}
                             />
-                            <Typography variant="body2">
-                              <Chip label="Siap Dikonversi" color="primary" variant='outlined' />
-                            </Typography>
+                            <Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Siap Dikonversi</Typography>
                         </Stack>
                         {/* Tombol submit untuk mengirim data ke backend */}
                         <Stack spacing={0} direction={'row'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
@@ -226,8 +223,8 @@ const ViewLead = () => {
                     </Box>
                 </Paper>
                 </Grid>
-                <Grid item xs={4} sm={6} md={8} lg={10} sx={{ p: '0px', border: 'none' }}>
-                    <Paper sx={{ pt:'0.5rem' }}>
+                <Grid item xs={4} sm={6} md={7} lg={9} sx={{ p: '0px', border: 'none' }}>
+                    <Paper sx={{ pt:'0.5rem', height:'26rem' }}>
                         <Typography variant='body1' m={2}>Lead Detail</Typography>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
@@ -235,32 +232,32 @@ const ViewLead = () => {
                                     <TableBody>
                                         {lead.lead_title && (
                                             <tr className='table-row'>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> Lead Title:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> {lead.lead_title}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> Lead Title:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> {lead.lead_title}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.sales_name && (
                                             <tr className='table-row'>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> Sales Name:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> {lead.sales_name}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> Sales Name:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> {lead.sales_name}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.contact_name && (
                                             <tr className='table-row'>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> Contact Name:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> {lead.contact_name}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> Contact Name:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> {lead.contact_name}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.contact_institution && (
                                             <tr className='table-row'>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> Contact Institution:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> {lead.contact_institution}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> Contact Institution:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> {lead.contact_institution}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.trade_value && (
                                             <tr className='table-row'>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> Trade Value:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2"> {lead.trade_value}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> Trade Value:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2"> {lead.trade_value}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {/* Tambahkan kolom lainnya sesuai kebutuhan */}
@@ -273,44 +270,44 @@ const ViewLead = () => {
                                     <TableBody>
                                         {lead.lead_status && (
                                             <tr className='table-row'>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">Lead Status:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">{lead.lead_status}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Lead Status:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.lead_status}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.response_time && (
                                             <tr>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">Response Time:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">{lead.response_time}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Response Time:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.response_time}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.interaction_level && (
                                             <tr>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">Interaction Level:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">{lead.interaction_level}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Interaction Level:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.interaction_level}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.source && (
                                             <tr>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">Source:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">{lead.source}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Source:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.source}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {(lead.converted === 1 || lead.converted === 0) && (
                                             <tr>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">Converted:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">{lead.converted === 1 ? <Chip label="Yes" color="success" size="small" /> : <Chip label="No" color="error" size="small" />}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Converted:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.converted === 1 ? <Chip label="Yes" color="success" size="small" /> : <Chip label="No" color="error" size="small" />}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.unqualified_reason && (
                                             <tr>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">Unqualified Reason:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">{lead.unqualified_reason}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Unqualified Reason:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.unqualified_reason}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {lead.notes && (
                                             <tr>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">Notes:</Typography></TableCell>
-                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography variant="body2">{lead.notes}</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Notes:</Typography></TableCell>
+                                                <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.notes}</Typography></TableCell>
                                             </tr>
                                         )}
                                         {/* Tambahkan kolom lainnya sesuai kebutuhan */}
@@ -319,10 +316,16 @@ const ViewLead = () => {
                             </Grid>
                         </Grid>
                     </Paper>
+                    <Paper sx={{ mt: '1rem', p: '0.5rem' }}>
+                        <Button variant='contained' color='primary' size='small'>Konversi Lead</Button>
+                    </Paper>
                 </Grid>
-                <Grid item xs={4} sm={8} md={2} lg={3} sx={{ p: '0px', border: 'none' }}>
-                    <Paper sx={{ pt:'0.5rem' }}>
-                        <Typography variant='body1' m={2}>Lead Statistic</Typography>
+                <Grid item xs={4} sm={8} md={3} lg={4} sx={{ p: '0px', border: 'none' }}>
+                    <Paper sx={{ pt: '0.5rem', px: '0.5rem', height: '30rem', display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'center' }}>
+                        <Typography variant='body1' m={2} sx={{ textAlign: 'center' }}>Lead Statistic</Typography>
+                        <div style={{ width: '95%', height: '50%' }}>
+                            <LeadRadarChart lead={lead} />
+                        </div>
                     </Paper>
                 </Grid>
             </Grid>
