@@ -274,7 +274,7 @@ const ViewLead = () => {
                                                 <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.lead_status}</Typography></TableCell>
                                             </tr>
                                         )}
-                                        {lead.response_time && (
+                                        {(lead.response_time === 0 || lead.response_time) && (
                                             <tr>
                                                 <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">Response Time:</Typography></TableCell>
                                                 <TableCell sx={{ borderBottom: '0.1rem solid #ddd' }}><Typography fontSize={{ xs: '0.6rem', md: '0.8rem' }} variant="body2">{lead.response_time}</Typography></TableCell>
